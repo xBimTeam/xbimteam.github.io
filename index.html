@@ -112,7 +112,7 @@
 
 <h1>What is it?</h1>
 
-<p>The xBIM Tookit (eXtensible Building Information Modelling) is an open-source, software development BIM toolkit that 
+<p>The xBIM Toolkit (eXtensible Building Information Modelling) is an open-source, software development BIM toolkit that 
 supports the BuildingSmart Data Model (aka the <a href="http://en.wikipedia.org/wiki/Industry_Foundation_Classes">Industry Foundation Classes IFC</a>).</p>
 
 <p>xBIM allows developers to read, create and view <a href="http://en.wikipedia.org/wiki/Building_information_modeling">Building Information (BIM)</a> Models in the IFC format. 
@@ -125,17 +125,19 @@ bi-directional translation between IFC and COBie formats</p>
 You can also use our development feeds as listed at the bottom of this page. Have a look at <a href="quick-start.html">this quick guide</a> to get up to speed
 with basic xBIM functions.</p>
 
-<p><a href="https://github.com/xBimTeam/XbimEssentials">XbimEssentials</a> is a software library to be used for the creation of complex applications, other repositories under the <a href="https://github.com/xBimTeam">XbimTeam</a> page include a number of example applications to demonstrate its capabilities</p>
+<p>Two core libraries <a href="https://github.com/xBimTeam/XbimEssentials">xBIM Essentials</a> and <a href="https://github.com/xBimTeam/XbimGeometry">xBIM Geometry</a> are to be used 
+for the creation of complex applications, other repositories under the <a href="https://github.com/xBimTeam">XbimTeam</a> page include a number of example applications to 
+demonstrate its capabilities:</p>
 
 <ul>
-<li><a href="https://github.com/xBimTeam/XbimWindowsUI">XbimXplorer</a> - a Windows WPF sample application that can open and render 3D IFC models (and native XBIM models ) as well as displaying semantic data.</li>
+<li><a href="https://github.com/xBimTeam/XbimWindowsUI">XbimXplorer</a> - a Windows WPF sample application that can open and render 3D IFC models (and native xBIM models ) as well as displaying semantic data.</li>
 <li><a href="https://github.com/xBimTeam/XbimWebUI">XbimWebUI</a> - a web application that can open and render 3D IFC models. </li>
 <li><a href="https://github.com/xBimTeam/XbimUtilities">XbimUtilities</a> - a set of sample console applications to perform bulk functions on IFC files.</li>
 <li><a href="https://github.com/xBimTeam/XbimExchange">XbimExchange </a> - Project containing libraries and sample application demonstrating various approaches to work with COBie. This includes <a href="https://github.com/xBimTeam/XbimExchange/tree/master/Xbim.COBie">Xbim.Cobie</a> which represents spreadsheet view of the COBie model, <a href="https://github.com/xBimTeam/XbimExchange/tree/master/Xbim.COBieLite">implementation</a> of <a href="https://www.nibs.org/?page=bsa_cobielite">CobieLite</a>,  <a href="https://github.com/xBimTeam/XbimExchange/tree/master/Xbim.COBieLiteUK">Xbim.CobieLiteUK</a> which is XML model inspired by CobieLite but more rigorous and memory efficient and <a href="https://github.com/xBimTeam/XbimEssentials/tree/master/Xbim.CobieExpress">CobieExpress</a> as an EXPRESS based model representing COBie. <a href="https://github.com/xBimTeam/XbimExchange">XbimExchange </a> contains sample code for conversions between IFC and various implementations of COBie.</li>
-<li><a href="https://github.com/xBimTeam/XbimSamples">HelloWall</a> - a sample console application demonstrating how to undertake simple IFC creation with Xbim.</li>
+<li><a href="https://github.com/xBimTeam/XbimSamples">HelloWall</a> - a sample console application demonstrating how to undertake simple IFC creation with xBIM.</li>
 </ul>
 
-<p>Please note: all the applications are provided to demonstrate how to use the Xbim library, they are not intended for use in uncontrolled production environments.</p>
+<p>Please note: all the applications except for <a href="https://github.com/xBimTeam/XbimWebUI">xBIM WebUI</a> are provided to demonstrate how to use the xBIM library, they are not intended for use in uncontrolled production environments.</p>
 
 <h2>Licence</h2>
 
@@ -146,9 +148,9 @@ the licence agreements.</p>
 
 <h2>Compilation</h2>
 
-<p>The toolkit uses the Nuget technology for the management of several required packages as well as for distributing the libraries.
+<p>The toolkit uses the NuGet technology for the management of several required packages as well as for distributing the libraries.
 If you wish to use the development versions of xBIM make sure to add our NuGet feeds for the master and develop branches of the solution.
-Nuget can download all the required dependencies for you if you have the correct package source configuration.</p>
+NuGet can download all the required dependencies for you if you have the correct package source configuration.</p>
 
 <p>If you use Visual Studio 2015+ add the following package sources:
 * https://www.myget.org/F/xbim-develop/api/v3/index.json
@@ -164,10 +166,6 @@ Nuget can download all the required dependencies for you if you have the correct
 <h2>Support &amp; Help</h2>
 
 <p>Please use the community features of <a href="https://github.com/xBimTeam">GitHub</a> to ask any questions and raise issues.</p>
-
-<h2>Getting Involved</h2>
-
-<p>If you'd like to get involved and contribute to this project, please contact the Project Coordinator @SteveLockley.</p>
 
     </div>
 	    

@@ -1,11 +1,25 @@
-﻿@-ms-viewport       { width: device-width; }
-@-ms-viewport       { width: device-width; }
-@-o-viewport        { width: device-width; }
-@viewport           { width: device-width; }
+﻿@-ms-viewport {
+    width: device-width;
+}
 
-body
-{
+@-ms-viewport {
+    width: device-width;
+}
+
+@-o-viewport {
+    width: device-width;
+}
+
+@viewport {
+    width: device-width;
+}
+
+body {
     margin-bottom: 5em;
+}
+
+.container {
+    padding-top: 10px;
 }
 
 .banner {
@@ -16,29 +30,29 @@ body
 
 @media (max-width : 768px) {
     .banner {
-    display: none;
-}
+        display: none;
+    }
 }
 
-.banner h1{
+.banner h1 {
     font-size: 60px;
 }
 
-.architecture{
-    background-image:url("../img/architecture.jpg"); 
-    background-size: cover; 
-    color: white; 
+.architecture {
+    background-image: url("../img/architecture.jpg");
+    background-size: cover;
+    color: white;
     text-shadow: 3px 3px 5px #222;
 }
 
-.architecture small{
-    color: white; 
-}
+    .architecture small {
+        color: white;
+    }
 
-.navbar{
+.navbar {
     margin-bottom: 0;
 }
 
-.step .number{
+.step .number {
     color: red;
 }
