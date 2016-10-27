@@ -1,0 +1,194 @@
+/*
+    This file is generated from ColorCode. Any changes will be lost.
+*/
+.plainText{
+  color: Black;
+  background-color: White;
+}
+
+.htmlServerSideScript{
+  background-color: Yellow;
+}
+
+.htmlComment{
+  color: Green;
+}
+
+.htmlTagDelimiter{
+  color: Blue;
+}
+
+.htmlElementName{
+  color: #A31515;
+}
+
+.htmlAttributeName{
+  color: Red;
+}
+
+.htmlAttributeValue{
+  color: Blue;
+}
+
+.htmlOperator{
+  color: Blue;
+}
+
+.comment{
+  color: Green;
+}
+
+.xmlDocTag{
+  color: Gray;
+}
+
+.xmlDocComment{
+  color: Green;
+}
+
+.string{
+  color: #A31515;
+}
+
+.stringCSharpVerbatim{
+  color: #A31515;
+}
+
+.keyword{
+  color: Blue;
+}
+
+.preprocessorKeyword{
+  color: Blue;
+}
+
+.htmlEntity{
+  color: Red;
+}
+
+.xmlAttribute{
+  color: Red;
+}
+
+.xmlAttributeQuotes{
+  color: Black;
+}
+
+.xmlAttributeValue{
+  color: Blue;
+}
+
+.xmlCDataSection{
+  color: Gray;
+}
+
+.xmlComment{
+  color: Green;
+}
+
+.xmlDelimiter{
+  color: Blue;
+}
+
+.xmlName{
+  color: #A31515;
+}
+
+.className{
+  color: MediumTurquoise;
+}
+
+.cssSelector{
+  color: #A31515;
+}
+
+.cssPropertyName{
+  color: Red;
+}
+
+.cssPropertyValue{
+  color: Blue;
+}
+
+.sqlSystemFunction{
+  color: Magenta;
+}
+
+.powershellAttribute{
+  color: PowderBlue;
+}
+
+.powershellOperator{
+  color: Gray;
+}
+
+.powershellType{
+  color: Teal;
+}
+
+.powershellVariable{
+  color: OrangeRed;
+}
+
+.type{
+  color: Teal;
+}
+
+.typeVariable{
+  color: Teal;
+   font-style: italic;
+}
+
+.namespace{
+  color: Navy;
+}
+
+.constructor{
+  color: Purple;
+}
+
+.predefined{
+  color: Navy;
+}
+
+.pseudoKeyword{
+  color: Navy;
+}
+
+.stringEscape{
+  color: Gray;
+}
+
+.controlKeyword{
+  color: Blue;
+}
+
+.number{
+}
+
+.operator{
+}
+
+.delimiter{
+}
+
+.markdownHeader{
+   font-weight: bold;
+}
+
+.markdownCode{
+  color: Teal;
+}
+
+.markdownListItem{
+   font-weight: bold;
+}
+
+.italic{
+   font-style: italic;
+}
+
+.bold{
+   font-weight: bold;
+}
+

@@ -21,6 +21,7 @@
     <![endif]-->
 
     <!-- Custom styles for this template -->
+    <link href="css/codestyles.css" rel="stylesheet">
     <link href="css/site.css" rel="stylesheet">
 
     <script src="js/jquery.min.js"></script>
@@ -61,6 +62,9 @@
 			<a href="examples/creating-wexbim-file.html">Creating wexBIM file</a>
 		</li>
         <li>
+			<a href="examples/federating-models.html">Federating Models</a>
+		</li>
+        <li>
 			<a href="examples/insert-copy-function.html">Insert Copy Function</a>
 		</li>
     </ul>
@@ -97,12 +101,6 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-	<div class="banner architecture">
-		<h1>
-		    The xBIM Toolkit <br />
-		    <small>eXtensible Building Information Modelling </small>
-		</h1>
-	</div>
 
 		<div class="container">
 
@@ -115,28 +113,26 @@
 <p>As the very first thing you should create credentials which will be used to keep <a href="http://www.buildingsmart-tech.org/ifc/IFC4/final/html/link/ifcownerhistory.htm">owner history</a> 
 of all entities right in IFC world. </p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">var</span> editor = <span style="color:Blue;">new</span> XbimEditorCredentials
+<div class="csharp"><pre><code><span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
 {
-    ApplicationDevelopersName = <span style="color:#A31515;">&quot;You&quot;</span>,
-    ApplicationFullName = <span style="color:#A31515;">&quot;Your app&quot;</span>,
-    ApplicationIdentifier = <span style="color:#A31515;">&quot;Your app ID&quot;</span>,
-    ApplicationVersion = <span style="color:#A31515;">&quot;4.0&quot;</span>,
-    <span style="color:Green;">//your user</span>
-    EditorsFamilyName = <span style="color:#A31515;">&quot;Santini Aichel&quot;</span>,
-    EditorsGivenName = <span style="color:#A31515;">&quot;Johann Blasius&quot;</span>,
-    EditorsOrganisationName = <span style="color:#A31515;">&quot;Independent Architecture&quot;</span>
+    ApplicationDevelopersName = <span class="string">&quot;You&quot;</span>,
+    ApplicationFullName = <span class="string">&quot;Your app&quot;</span>,
+    ApplicationIdentifier = <span class="string">&quot;Your app ID&quot;</span>,
+    ApplicationVersion = <span class="string">&quot;4.0&quot;</span>,
+    <span class="comment">//your user</span>
+    EditorsFamilyName = <span class="string">&quot;Santini Aichel&quot;</span>,
+    EditorsGivenName = <span class="string">&quot;Johann Blasius&quot;</span>,
+    EditorsOrganisationName = <span class="string">&quot;Independent Architecture&quot;</span>
 };
-</pre></div>
+</code></pre></div>
 
 <p>All implementations of <code>IModel</code> in xBIM are <code>IDisposable</code> so you should always use them inside of <code>using</code> statement like this:</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> model = IfcStore.Open(fileName, editor, <span style="color:Blue;">true</span>))
+<div class="csharp"><pre><code><span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName, editor, <span class="keyword">true</span>))
 {
-    <span style="color:Green;">//...do something with the model</span>
+    <span class="comment">//...do something with the model</span>
 }
-</pre></div>
+</code></pre></div>
 
 <p><code>IfcStore.Open()</code> is smart  enough to recognize the file format <em>(</em>.ifc, <em>.ifczip, *.xml)</em> and IFC version <em>(IFC2x3, IFC4)</em>. Using this static function it also decides
 if in-memory model should be used or if Esent database should be used to store the data. You can use additional parameter to say what you want explicitly. You
@@ -146,24 +142,22 @@ can also pass in a delegate which will report a progress. </p>
 because we don't know what you need and model needs to know these two things from the very beginning. Also make sure you use the right schema namespaces for the
 model you created as you can't mix data from multiple schemas in a single model.</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> model = IfcStore.Create(editor, IfcSchemaVersion.Ifc4, XbimStoreType.InMemoryModel))
+<div class="csharp"><pre><code><span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Create(editor, <span class="type">IfcSchemaVersion</span>.Ifc4, <span class="type">XbimStoreType</span>.InMemoryModel))
 {
-    <span style="color:Green;">//...do something with the model</span>
+    <span class="comment">//...do something with the model</span>
 }
-</pre></div>
+</code></pre></div>
 
 <p>If you are going to create or modify anything in the model you have to use transactions. These should also be used inside of <code>using</code> statement
 so they have a proper scope for eventual roll-back operation in case something happens. You have to commit transaction explicitly to keep the changes.
 Transactions can't be nested so there has always be just one transaction at the time.</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> txn = model.BeginTransaction(<span style="color:#A31515;">&quot;Hello Wall&quot;</span>))
+<div class="csharp"><pre><code><span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Hello Wall&quot;</span>))
 {
-    <span style="color:Green;">//....do something in the scope of this transaction</span>
+    <span class="comment">//....do something in the scope of this transaction</span>
     txn.Commit()
 }
-</pre></div>
+</code></pre></div>
 
 <p>All operations related to entities are accessible through <code>IModel.Instances</code>. That is your point of access to get, change and create new
 entities in the model. To create any new object you use this templated function. You always have to specify a non-abstract type to create. This is
@@ -172,19 +166,17 @@ Every model is schema specific so it is either IFC2x3 or IFC4 or other specific 
 and will tell you what it is but when you want to create data make sure you don't mess up your <code>using</code> statements. If you try to create IFC4 entity
 with model initialized to IFC2x3 it will throw a runtime exception. </p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">var</span> newWall = mode.Instances.New&lt;IfcWall&gt;();
-</pre></div>
+<div class="csharp"><pre><code><span class="keyword">var</span> newWall = mode.Instances.New&lt;<span class="type">IfcWall</span>&gt;();
+</code></pre></div>
 
 <p>It isn't possible to create new entities in any other way than with this function. You will see in the code above that this function takes optional 
 typed object initializer to set up values of the object. It is not necessary to use them but I personally like it because I can see the structure of
 the resulting entity. To find an entity you want you will use following functions:</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">var</span> firstWall = mode.Instances.FirtsOrDefault&lt;IfcWall&gt;();
-<span style="color:Blue;">var</span> allWalls = model.Instances.OfType&lt;IfcWall&gt;();
-<span style="color:Blue;">var</span> specificWall = model.Instances.Where&lt;IfcWall&gt;(w =&gt; w.Name == <span style="color:#A31515;">&quot;Brick wall&quot;</span>);
-</pre></div>
+<div class="csharp"><pre><code><span class="keyword">var</span> firstWall = mode.Instances.FirtsOrDefault&lt;<span class="type">IfcWall</span>&gt;();
+<span class="keyword">var</span> allWalls = model.Instances.OfType&lt;<span class="type">IfcWall</span>&gt;();
+<span class="keyword">var</span> specificWall = model.Instances.Where&lt;<span class="type">IfcWall</span>&gt;(w =&gt; w.Name == <span class="string">&quot;Brick wall&quot;</span>);
+</code></pre></div>
 
 <p>You can see that all these functions are templated so they use type of the object as the first level filter. If you know the type you want you should
 always specify it to increase a performance. For all search queries you can also use interfaces to retrieve entities. We have implemented <strong>IFC4 interfaces
@@ -192,52 +184,51 @@ on IFC2x3 entities</strong> which means you can query IFC2x3 and IFC4 with a <st
 
 <p>Using all these basic bits and pieces your first simple code might look like this. Because it uses <code>Xbim.Ifc4.Interfaces</code> this code will work both for IFC2x3 and IFC4.</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">using</span> Xbim.Ifc;
-<span style="color:Blue;">using</span> Xbim.Ifc4.Interfaces;
+<div class="csharp"><pre><code><span class="keyword">using</span> <span class="type">Xbim</span>.Ifc;
+<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.Interfaces;
 
-<span style="color:Blue;">namespace</span> BasicExamples
+<span class="keyword">namespace</span> <span class="type">BasicExamples</span>
 {
-    <span style="color:Blue;">class</span> QuickStart
+    <span class="keyword">class</span> <span class="type">QuickStart</span>
     {
-        <span style="color:Blue;">public</span> <span style="color:Blue;">static</span> <span style="color:Blue;">void</span> Start()
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="type">Start</span>()
         {
-            <span style="color:Blue;">const</span> <span style="color:Blue;">string</span> fileName = <span style="color:#A31515;">&quot;SampleHouse.ifc&quot;</span>;
-            <span style="color:Blue;">var</span> editor = <span style="color:Blue;">new</span> XbimEditorCredentials
+            <span class="keyword">const</span> <span class="keyword">string</span> fileName = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
+            <span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
             {
-                ApplicationDevelopersName = <span style="color:#A31515;">&quot;You&quot;</span>,
-                ApplicationFullName = <span style="color:#A31515;">&quot;Your app&quot;</span>,
-                ApplicationIdentifier = <span style="color:#A31515;">&quot;Your app ID&quot;</span>,
-                ApplicationVersion = <span style="color:#A31515;">&quot;4.0&quot;</span>,
-                <span style="color:Green;">//your user</span>
-                EditorsFamilyName = <span style="color:#A31515;">&quot;Santini Aichel&quot;</span>,
-                EditorsGivenName = <span style="color:#A31515;">&quot;Johann Blasius&quot;</span>,
-                EditorsOrganisationName = <span style="color:#A31515;">&quot;Independent Architecture&quot;</span>
+                ApplicationDevelopersName = <span class="string">&quot;You&quot;</span>,
+                ApplicationFullName = <span class="string">&quot;Your app&quot;</span>,
+                ApplicationIdentifier = <span class="string">&quot;Your app ID&quot;</span>,
+                ApplicationVersion = <span class="string">&quot;4.0&quot;</span>,
+                <span class="comment">//your user</span>
+                EditorsFamilyName = <span class="string">&quot;Santini Aichel&quot;</span>,
+                EditorsGivenName = <span class="string">&quot;Johann Blasius&quot;</span>,
+                EditorsOrganisationName = <span class="string">&quot;Independent Architecture&quot;</span>
             };
-            <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> model = IfcStore.Open(fileName, editor, <span style="color:Blue;">true</span>))
+            <span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName, editor, <span class="keyword">true</span>))
             {
-                <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> txn = model.BeginTransaction(<span style="color:#A31515;">&quot;Quick start transaction&quot;</span>))
+                <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Quick start transaction&quot;</span>))
                 {
-                    <span style="color:Green;">//get all walls in the model</span>
-                    <span style="color:Blue;">var</span> walls = model.Instances.OfType&lt;IIfcWall&gt;();
+                    <span class="comment">//get all walls in the model</span>
+                    <span class="keyword">var</span> walls = model.Instances.OfType&lt;<span class="type">IIfcWall</span>&gt;();
 
-                    <span style="color:Green;">//iterate over all the walls and change them</span>
-                    <span style="color:Blue;">foreach</span> (<span style="color:Blue;">var</span> wall <span style="color:Blue;">in</span> walls)
+                    <span class="comment">//iterate over all the walls and change them</span>
+                    <span class="keyword">foreach</span> (<span class="keyword">var</span> wall <span class="keyword">in</span> walls)
                     {
-                        wall.Name = <span style="color:#A31515;">&quot;Iterated wall: &quot;</span> + wall.Name;
+                        wall.Name = <span class="string">&quot;Iterated wall: &quot;</span> + wall.Name;
                     }
 
-                    <span style="color:Green;">//commit your changes</span>
+                    <span class="comment">//commit your changes</span>
                     txn.Commit();
                 }
 
-                <span style="color:Green;">//save your changed model</span>
-                model.SaveAs(<span style="color:#A31515;">&quot;SampleHouse_Modified.ifc&quot;</span>);
+                <span class="comment">//save your changed model</span>
+                model.SaveAs(<span class="string">&quot;SampleHouse_Modified.ifc&quot;</span>);
             }
         }
     }
 }
-</pre></div>
+</code></pre></div>
 
     </div>
 	    

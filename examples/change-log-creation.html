@@ -21,6 +21,7 @@
     <![endif]-->
 
     <!-- Custom styles for this template -->
+    <link href="../css/codestyles.css" rel="stylesheet">
     <link href="../css/site.css" rel="stylesheet">
 
     <script src="../js/jquery.min.js"></script>
@@ -61,6 +62,9 @@
 			<a href="../examples/creating-wexbim-file.html">Creating wexBIM file</a>
 		</li>
         <li>
+			<a href="../examples/federating-models.html">Federating Models</a>
+		</li>
+        <li>
 			<a href="../examples/insert-copy-function.html">Insert Copy Function</a>
 		</li>
     </ul>
@@ -97,12 +101,6 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-	<div class="banner architecture">
-		<h1>
-		    The xBIM Toolkit <br />
-		    <small>eXtensible Building Information Modelling </small>
-		</h1>
-	</div>
 
 		<div class="container">
 
@@ -117,83 +115,81 @@ there is a single point where all changes are happening and we can do something 
 either back-log or forward-log. To simplify this task we implemented a <code>Xbim.IO.Delta.TransactionLog</code> class. In the following example
 we will have a look on how to use it.</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> model = IfcStore.Open(<span style="color:#A31515;">&quot;4walls1floorSite.ifc&quot;</span>))
+<div class="csharp"><pre><code><span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(<span class="string">&quot;4walls1floorSite.ifc&quot;</span>))
 {
-    <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> txn = model.BeginTransaction(<span style="color:#A31515;">&quot;Modification&quot;</span>))
+    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Modification&quot;</span>))
     {
-        Console.WriteLine(<span style="color:#A31515;">@&quot;Changing existing entity:&quot;</span>);
-        Console.WriteLine(<span style="color:#A31515;">@&quot;=========================&quot;</span>);
-        <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> log = <span style="color:Blue;">new</span> TransactionLog(txn))
+        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Changing existing entity:&quot;</span>);
+        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;=========================&quot;</span>);
+        <span class="keyword">using</span> (<span class="keyword">var</span> log = <span class="keyword">new</span> <span class="type">TransactionLog</span>(txn))
         {
-            <span style="color:Green;">//change to existing wall</span>
-            <span style="color:Blue;">var</span> wall = model.Instances.FirstOrDefault&lt;IfcWall&gt;();
-            wall.Name = <span style="color:#A31515;">&quot;Unexpected name&quot;</span>;
-            wall.GlobalId = Guid.NewGuid().ToPart21();
-            wall.Description = <span style="color:#A31515;">&quot;New and more descriptive description&quot;</span>;
+            <span class="comment">//change to existing wall</span>
+            <span class="keyword">var</span> wall = model.Instances.FirstOrDefault&lt;<span class="type">IfcWall</span>&gt;();
+            wall.Name = <span class="string">&quot;Unexpected name&quot;</span>;
+            wall.GlobalId = <span class="type">Guid</span>.NewGuid().ToPart21();
+            wall.Description = <span class="string">&quot;New and more descriptive description&quot;</span>;
 
-            <span style="color:Green;">//print all changes caused by this</span>
-            PrintChanges(log);
+            <span class="comment">//print all changes caused by this</span>
+            <span class="type">PrintChanges</span>(log);
             txn.Commit();
         }
-        Console.WriteLine();
+        <span class="type">Console</span>.WriteLine();
     }
 
-    <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> txn = model.BeginTransaction(<span style="color:#A31515;">&quot;New&quot;</span>))
+    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;New&quot;</span>))
     {
-        Console.WriteLine(<span style="color:#A31515;">@&quot;Creating new entity:&quot;</span>);
-        Console.WriteLine(<span style="color:#A31515;">@&quot;====================&quot;</span>);
-        <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> log = <span style="color:Blue;">new</span> TransactionLog(txn))
+        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Creating new entity:&quot;</span>);
+        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;====================&quot;</span>);
+        <span class="keyword">using</span> (<span class="keyword">var</span> log = <span class="keyword">new</span> <span class="type">TransactionLog</span>(txn))
         {
-            model.Instances.New&lt;IfcWall&gt;(w =&gt;
+            model.Instances.New&lt;<span class="type">IfcWall</span>&gt;(w =&gt;
             {
-                w.Name = <span style="color:#A31515;">&quot;Beautiful wall&quot;</span>;
-                w.Description = <span style="color:#A31515;">&quot;One of the best walls in the world&quot;</span>;
-                w.GlobalId = Guid.NewGuid().ToPart21();
+                w.Name = <span class="string">&quot;Beautiful wall&quot;</span>;
+                w.Description = <span class="string">&quot;One of the best walls in the world&quot;</span>;
+                w.GlobalId = <span class="type">Guid</span>.NewGuid().ToPart21();
             });
 
-            <span style="color:Green;">//print all changes caused by this</span>
-            PrintChanges(log);
+            <span class="comment">//print all changes caused by this</span>
+            <span class="type">PrintChanges</span>(log);
             txn.Commit();
         }
-        Console.WriteLine();
+        <span class="type">Console</span>.WriteLine();
     }
 
-    <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> txn = model.BeginTransaction(<span style="color:#A31515;">&quot;Delete&quot;</span>))
+    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Delete&quot;</span>))
     {
-        Console.WriteLine(<span style="color:#A31515;">@&quot;Deleting existing entity:&quot;</span>);
-        Console.WriteLine(<span style="color:#A31515;">@&quot;=========================&quot;</span>);
-        <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> log = <span style="color:Blue;">new</span> TransactionLog(txn))
+        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Deleting existing entity:&quot;</span>);
+        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;=========================&quot;</span>);
+        <span class="keyword">using</span> (<span class="keyword">var</span> log = <span class="keyword">new</span> <span class="type">TransactionLog</span>(txn))
         {
-            <span style="color:Blue;">var</span> wall = model.Instances.FirstOrDefault&lt;IfcWall&gt;(w =&gt; w.Representation != <span style="color:Blue;">null</span>);
+            <span class="keyword">var</span> wall = model.Instances.FirstOrDefault&lt;<span class="type">IfcWall</span>&gt;(w =&gt; w.Representation != <span class="keyword">null</span>);
             model.Delete(wall);
 
-            <span style="color:Green;">//print all changes caused by this</span>
-            PrintChanges(log);
+            <span class="comment">//print all changes caused by this</span>
+            <span class="type">PrintChanges</span>(log);
             txn.Commit();
         }
-        Console.WriteLine();
+        <span class="type">Console</span>.WriteLine();
     }
 }
-</pre></div>
+</code></pre></div>
 
 <p>Previous code uses this simple function to report changes on the objects:</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">private</span> <span style="color:Blue;">static</span> <span style="color:Blue;">void</span> PrintChanges(TransactionLog log)
+<div class="csharp"><pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="type">PrintChanges</span>(<span class="type">TransactionLog</span> log)
 {
-    <span style="color:Blue;">foreach</span> (<span style="color:Blue;">var</span> change <span style="color:Blue;">in</span> log.Changes)
+    <span class="keyword">foreach</span> (<span class="keyword">var</span> change <span class="keyword">in</span> log.Changes)
     {
-        Console.WriteLine(<span style="color:#A31515;">@&quot;Entity: #{0}={1}, Change: {2}&quot;</span>, change.Entity.EntityLabel, change.Entity.GetType().Name, change.ChangeType);
-        Console.WriteLine(<span style="color:#A31515;">@&quot;    Original entity: {0}&quot;</span>, change.OriginalEntity);
-        Console.WriteLine(<span style="color:#A31515;">@&quot;    Current entity: {0}&quot;</span>, change.CurrentEntity);
-        <span style="color:Blue;">if</span> (change.ChangeType != ChangeType.Modified) <span style="color:Blue;">continue</span>;
+        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Entity: #{0}={1}, Change: {2}&quot;</span>, change.Entity.EntityLabel, change.Entity.GetType().Name, change.ChangeType);
+        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;    Original entity: {0}&quot;</span>, change.OriginalEntity);
+        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;    Current entity: {0}&quot;</span>, change.CurrentEntity);
+        <span class="keyword">if</span> (change.ChangeType != <span class="type">ChangeType</span>.Modified) <span class="keyword">continue</span>;
 
-        <span style="color:Blue;">foreach</span> (<span style="color:Blue;">var</span> prop <span style="color:Blue;">in</span> change.ChangedProperties)
-            Console.WriteLine(<span style="color:#A31515;">@&quot;        Property &#39;{0}&#39; changed from {1} to {2}&quot;</span>, prop.Name, prop.OriginalValue, prop.CurrentValue);
+        <span class="keyword">foreach</span> (<span class="keyword">var</span> prop <span class="keyword">in</span> change.ChangedProperties)
+            <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;        Property &#39;{0}&#39; changed from {1} to {2}&quot;</span>, prop.Name, prop.OriginalValue, prop.CurrentValue);
     }
 }
-</pre></div>
+</code></pre></div>
 
     </div>
 	    

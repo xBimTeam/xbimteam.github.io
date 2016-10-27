@@ -21,6 +21,7 @@
     <![endif]-->
 
     <!-- Custom styles for this template -->
+    <link href="../css/codestyles.css" rel="stylesheet">
     <link href="../css/site.css" rel="stylesheet">
 
     <script src="../js/jquery.min.js"></script>
@@ -61,6 +62,9 @@
 			<a href="../examples/creating-wexbim-file.html">Creating wexBIM file</a>
 		</li>
         <li>
+			<a href="../examples/federating-models.html">Federating Models</a>
+		</li>
+        <li>
 			<a href="../examples/insert-copy-function.html">Insert Copy Function</a>
 		</li>
     </ul>
@@ -97,12 +101,6 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-	<div class="banner architecture">
-		<h1>
-		    The xBIM Toolkit <br />
-		    <small>eXtensible Building Information Modelling </small>
-		</h1>
-	</div>
 
 		<div class="container">
 
@@ -119,9 +117,8 @@ the data island or you want to merge it so it blends into existing data without 
 choose what you want and to copy it over into an empty model. This is obviously potentially complex and complicated task as well but it is easier to keep 
 things under your control at least. The core function which is now member of <code>IModel</code> interface is <code>InsertCopy()</code>:</p>
 
-<div style="color:Black;background-color:White;"><pre>
-T InsertCopy&lt;T&gt;(T toCopy, XbimInstanceHandleMap mappings, PropertyTranformDelegate propTransform, <span style="color:Blue;">bool</span> includeInverses, <span style="color:Blue;">bool</span> keepLabels);
-</pre></div>
+<div class="csharp"><pre><code><span class="type">T</span> <span class="type">InsertCopy</span>&lt;<span class="type">T</span>&gt;(<span class="type">T</span> toCopy, <span class="type">XbimInstanceHandleMap</span> mappings, <span class="type">PropertyTranformDelegate</span> propTransform, <span class="keyword">bool</span> includeInverses, <span class="keyword">bool</span> keepLabels);
+</code></pre></div>
 
 <p>Just as a brief description of all arguments are:</p>
 
@@ -139,88 +136,86 @@ even if you just try to copy over a single wall. To use it properly you will nee
 will leave out all the geometry and placement and will only allow inverse relations describing type of the product and its properties. Geometry takes typically about 90% of the file
 so if you are not interested in graphics or analyses based on geometry you can use this to create very small IFC file containing just descriptive data.</p>
 
-<div style="color:Black;background-color:White;"><pre>
-PropertyTranformDelegate semanticFilter = (property, parentObject) =&gt;
+<div class="csharp"><pre><code><span class="type">PropertyTranformDelegate</span> semanticFilter = (property, parentObject) =&gt;
 {
-    <span style="color:Green;">//leave out geometry and placement</span>
-    <span style="color:Blue;">if</span> (parentObject <span style="color:Blue;">is</span> IIfcProduct &amp;&amp;
-        (property.PropertyInfo.Name == nameof(IIfcProduct.Representation) ||
-        property.PropertyInfo.Name == nameof(IIfcProduct.ObjectPlacement)))
-        <span style="color:Blue;">return</span> <span style="color:Blue;">null</span>;
+    <span class="comment">//leave out geometry and placement</span>
+    <span class="keyword">if</span> (parentObject <span class="keyword">is</span> <span class="type">IIfcProduct</span> &amp;&amp;
+        (property.PropertyInfo.Name == nameof(<span class="type">IIfcProduct</span>.Representation) ||
+        property.PropertyInfo.Name == nameof(<span class="type">IIfcProduct</span>.ObjectPlacement)))
+        <span class="keyword">return</span> <span class="keyword">null</span>;
 
-    <span style="color:Green;">//leave out mapped geometry</span>
-    <span style="color:Blue;">if</span> (parentObject <span style="color:Blue;">is</span> IIfcTypeProduct &amp;&amp; 
-        property.PropertyInfo.Name == nameof(IIfcTypeProduct.RepresentationMaps))
-        <span style="color:Blue;">return</span> <span style="color:Blue;">null</span>;
+    <span class="comment">//leave out mapped geometry</span>
+    <span class="keyword">if</span> (parentObject <span class="keyword">is</span> <span class="type">IIfcTypeProduct</span> &amp;&amp; 
+        property.PropertyInfo.Name == nameof(<span class="type">IIfcTypeProduct</span>.RepresentationMaps))
+        <span class="keyword">return</span> <span class="keyword">null</span>;
 
-    <span style="color:Green;">//only bring over IsDefinedBy and IsTypedBy inverse relationships which will take over all properties and types</span>
-    <span style="color:Blue;">if</span> (property.EntityAttribute.Order &lt; 0 &amp;&amp; !(
-        property.PropertyInfo.Name == nameof(IIfcProduct.IsDefinedBy) ||
-        property.PropertyInfo.Name == nameof(IIfcProduct.IsTypedBy)
+    <span class="comment">//only bring over IsDefinedBy and IsTypedBy inverse relationships which will take over all properties and types</span>
+    <span class="keyword">if</span> (property.EntityAttribute.Order &lt; 0 &amp;&amp; !(
+        property.PropertyInfo.Name == nameof(<span class="type">IIfcProduct</span>.IsDefinedBy) ||
+        property.PropertyInfo.Name == nameof(<span class="type">IIfcProduct</span>.IsTypedBy)
         ))
-        <span style="color:Blue;">return</span> <span style="color:Blue;">null</span>;
+        <span class="keyword">return</span> <span class="keyword">null</span>;
 
-    <span style="color:Blue;">return</span> property.PropertyInfo.GetValue(parentObject, <span style="color:Blue;">null</span>);
+    <span class="keyword">return</span> property.PropertyInfo.GetValue(parentObject, <span class="keyword">null</span>);
 };
-</pre></div>
+</code></pre></div>
 
 <p><code>PropertyTranformDelegate</code> takes two arguments where first is <code>ExpressMetaProperty</code> and second is an <code>object</code> which represents <code>IPersistEntity</code>.
 <code>ExpressMetaProperty</code> is a cached object which is part of our own reflection meta model which we use for some data operations.
 The delegate is used in other code which uses C# reflection to inspect the data and copy values over. If you don't specify a delegate <code>InsertCopy()</code>
 will use all properties in the entity and copy them over. </p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">using</span> Xbim.Common;
-<span style="color:Blue;">using</span> Xbim.Ifc;
-<span style="color:Blue;">using</span> Xbim.Ifc4.Interfaces;
+<div class="csharp"><pre><code><span class="keyword">using</span> <span class="type">Xbim</span>.Common;
+<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc;
+<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.Interfaces;
 
-<span style="color:Blue;">namespace</span> BasicExamples
+<span class="keyword">namespace</span> <span class="type">BasicExamples</span>
 {
-    <span style="color:Blue;">class</span> InsertCopy
+    <span class="keyword">class</span> <span class="type">InsertCopy</span>
     {
-        <span style="color:Blue;">public</span> <span style="color:Blue;">void</span> CopyWallsOver()
+        <span class="keyword">public</span> <span class="keyword">void</span> <span class="type">CopyWallsOver</span>()
         {
-            <span style="color:Blue;">const</span> <span style="color:Blue;">string</span> original = <span style="color:#A31515;">&quot;SampleHouse.ifc&quot;</span>;
-            <span style="color:Blue;">const</span> <span style="color:Blue;">string</span> inserted = <span style="color:#A31515;">&quot;SampleHouseWalls.ifc&quot;</span>;
+            <span class="keyword">const</span> <span class="keyword">string</span> original = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
+            <span class="keyword">const</span> <span class="keyword">string</span> inserted = <span class="string">&quot;SampleHouseWalls.ifc&quot;</span>;
 
-            PropertyTranformDelegate semanticFilter = (property, parentObject) =&gt;
+            <span class="type">PropertyTranformDelegate</span> semanticFilter = (property, parentObject) =&gt;
             {
-                <span style="color:Green;">//leave out geometry and placement</span>
-                <span style="color:Blue;">if</span> (parentObject <span style="color:Blue;">is</span> IIfcProduct &amp;&amp;
-                    (property.PropertyInfo.Name == nameof(IIfcProduct.Representation) ||
-                    property.PropertyInfo.Name == nameof(IIfcProduct.ObjectPlacement)))
-                    <span style="color:Blue;">return</span> <span style="color:Blue;">null</span>;
+                <span class="comment">//leave out geometry and placement</span>
+                <span class="keyword">if</span> (parentObject <span class="keyword">is</span> <span class="type">IIfcProduct</span> &amp;&amp;
+                    (property.PropertyInfo.Name == nameof(<span class="type">IIfcProduct</span>.Representation) ||
+                    property.PropertyInfo.Name == nameof(<span class="type">IIfcProduct</span>.ObjectPlacement)))
+                    <span class="keyword">return</span> <span class="keyword">null</span>;
 
-               <span style="color:Green;">//leave out mapped geometry</span>
-               <span style="color:Blue;">if</span> (parentObject <span style="color:Blue;">is</span> IIfcTypeProduct &amp;&amp; 
-                    property.PropertyInfo.Name == nameof(IIfcTypeProduct.RepresentationMaps))
-                    <span style="color:Blue;">return</span> <span style="color:Blue;">null</span>;
+               <span class="comment">//leave out mapped geometry</span>
+               <span class="keyword">if</span> (parentObject <span class="keyword">is</span> <span class="type">IIfcTypeProduct</span> &amp;&amp; 
+                    property.PropertyInfo.Name == nameof(<span class="type">IIfcTypeProduct</span>.RepresentationMaps))
+                    <span class="keyword">return</span> <span class="keyword">null</span>;
 
 
 
-                <span style="color:Green;">//only bring over IsDefinedBy and IsTypedBy inverse relationships which will take over all properties and types</span>
-                <span style="color:Blue;">if</span> (property.EntityAttribute.Order &lt; 0 &amp;&amp; !(
-                    property.PropertyInfo.Name == nameof(IIfcProduct.IsDefinedBy) ||
-                    property.PropertyInfo.Name == nameof(IIfcProduct.IsTypedBy)
+                <span class="comment">//only bring over IsDefinedBy and IsTypedBy inverse relationships which will take over all properties and types</span>
+                <span class="keyword">if</span> (property.EntityAttribute.Order &lt; 0 &amp;&amp; !(
+                    property.PropertyInfo.Name == nameof(<span class="type">IIfcProduct</span>.IsDefinedBy) ||
+                    property.PropertyInfo.Name == nameof(<span class="type">IIfcProduct</span>.IsTypedBy)
                     ))
-                    <span style="color:Blue;">return</span> <span style="color:Blue;">null</span>;
+                    <span class="keyword">return</span> <span class="keyword">null</span>;
 
-                <span style="color:Blue;">return</span> property.PropertyInfo.GetValue(parentObject, <span style="color:Blue;">null</span>);
+                <span class="keyword">return</span> property.PropertyInfo.GetValue(parentObject, <span class="keyword">null</span>);
             };
 
-            <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> model = IfcStore.Open(original))
+            <span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(original))
             {
-                <span style="color:Blue;">var</span> walls = model.Instances.OfType&lt;IIfcWall&gt;();
-                <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> iModel = IfcStore.Create(model.IfcSchemaVersion, XbimStoreType.InMemoryModel))
+                <span class="keyword">var</span> walls = model.Instances.OfType&lt;<span class="type">IIfcWall</span>&gt;();
+                <span class="keyword">using</span> (<span class="keyword">var</span> iModel = <span class="type">IfcStore</span>.Create(model.IfcSchemaVersion, <span class="type">XbimStoreType</span>.InMemoryModel))
                 {
-                    <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> txn = iModel.BeginTransaction(<span style="color:#A31515;">&quot;Insert copy&quot;</span>))
+                    <span class="keyword">using</span> (<span class="keyword">var</span> txn = iModel.BeginTransaction(<span class="string">&quot;Insert copy&quot;</span>))
                     {
-                        <span style="color:Green;">//single map should be used for all insertions between two models</span>
-                        <span style="color:Blue;">var</span> map = <span style="color:Blue;">new</span> XbimInstanceHandleMap(model, iModel);
+                        <span class="comment">//single map should be used for all insertions between two models</span>
+                        <span class="keyword">var</span> map = <span class="keyword">new</span> <span class="type">XbimInstanceHandleMap</span>(model, iModel);
 
-                        <span style="color:Blue;">foreach</span> (<span style="color:Blue;">var</span> wall <span style="color:Blue;">in</span> walls)
+                        <span class="keyword">foreach</span> (<span class="keyword">var</span> wall <span class="keyword">in</span> walls)
                         {
-                            iModel.InsertCopy(wall, map, semanticFilter, <span style="color:Blue;">true</span>, <span style="color:Blue;">false</span>);
+                            iModel.InsertCopy(wall, map, semanticFilter, <span class="keyword">true</span>, <span class="keyword">false</span>);
                         }
 
                         txn.Commit();
@@ -232,7 +227,7 @@ will use all properties in the entity and copy them over. </p>
         }
     }
 }
-</pre></div>
+</code></pre></div>
 
     </div>
 	    

@@ -21,6 +21,7 @@
     <![endif]-->
 
     <!-- Custom styles for this template -->
+    <link href="../css/codestyles.css" rel="stylesheet">
     <link href="../css/site.css" rel="stylesheet">
 
     <script src="../js/jquery.min.js"></script>
@@ -61,6 +62,9 @@
 			<a href="../examples/creating-wexbim-file.html">Creating wexBIM file</a>
 		</li>
         <li>
+			<a href="../examples/federating-models.html">Federating Models</a>
+		</li>
+        <li>
 			<a href="../examples/insert-copy-function.html">Insert Copy Function</a>
 		</li>
     </ul>
@@ -97,12 +101,6 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-	<div class="banner architecture">
-		<h1>
-		    The xBIM Toolkit <br />
-		    <small>eXtensible Building Information Modelling </small>
-		</h1>
-	</div>
 
 		<div class="container">
 
@@ -125,39 +123,36 @@ makes it easier to handle one of the many aspects needed to create compliant IFC
 so there are no additional restrictions apart from <code>WHERE</code> rules and required properties. You should always set editor credentials and fill it in with initials of your application
 and your current user.</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">var</span> editor = <span style="color:Blue;">new</span> XbimEditorCredentials
+<div class="csharp"><pre><code><span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
 {
-    ApplicationDevelopersName = <span style="color:#A31515;">&quot;xBIM Team&quot;</span>,
-    ApplicationFullName = <span style="color:#A31515;">&quot;xBIM Toolkit&quot;</span>,
-    ApplicationIdentifier = <span style="color:#A31515;">&quot;xBIM&quot;</span>,
-    ApplicationVersion = <span style="color:#A31515;">&quot;4.0&quot;</span>,
-    EditorsFamilyName = <span style="color:#A31515;">&quot;Santini Aichel&quot;</span>,
-    EditorsGivenName = <span style="color:#A31515;">&quot;Johann Blasius&quot;</span>,
-    EditorsOrganisationName = <span style="color:#A31515;">&quot;Independent Architecture&quot;</span>
+    ApplicationDevelopersName = <span class="string">&quot;xBIM Team&quot;</span>,
+    ApplicationFullName = <span class="string">&quot;xBIM Toolkit&quot;</span>,
+    ApplicationIdentifier = <span class="string">&quot;xBIM&quot;</span>,
+    ApplicationVersion = <span class="string">&quot;4.0&quot;</span>,
+    EditorsFamilyName = <span class="string">&quot;Santini Aichel&quot;</span>,
+    EditorsGivenName = <span class="string">&quot;Johann Blasius&quot;</span>,
+    EditorsOrganisationName = <span class="string">&quot;Independent Architecture&quot;</span>
 };
-</pre></div>
+</code></pre></div>
 
 <p>All implementations of <code>IModel</code> in xBIM are <code>IDisposable</code> so you should always use them inside of <code>using</code> statement like this</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> model = IfcStore.Create(editor, IfcSchemaVersion.Ifc4, XbimStoreType.InMemoryModel))
+<div class="csharp"><pre><code><span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Create(editor, <span class="type">IfcSchemaVersion</span>.Ifc4, <span class="type">XbimStoreType</span>.InMemoryModel))
 {
-    <span style="color:Green;">//...do something with the model</span>
+    <span class="comment">//...do something with the model</span>
 }
-</pre></div>
+</code></pre></div>
 
 <p>If you are going to create or modify anything in the model you have to use transactions. These should also be used inside of <code>using</code> statement
 so they have a proper scope for eventual roll-back operation in case something happens. You have to commit transaction explicitly to keep the changes.
 Transactions can't be nested so there has always be just one transaction at the time.</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> txn = model.BeginTransaction(<span style="color:#A31515;">&quot;Hello Wall&quot;</span>))
+<div class="csharp"><pre><code><span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Hello Wall&quot;</span>))
 {
-    <span style="color:Green;">//....do something in the scope of this transaction</span>
+    <span class="comment">//....do something in the scope of this transaction</span>
     txn.Commit()
 }
-</pre></div>
+</code></pre></div>
 
 <p>All operations related to entities are accessible through <code>IModel.Instances</code>. That is your point of access to get, change and create new
 entities in the model. To create any new object you use this templated function. You always have to specify a non-abstract type to create. This is
@@ -166,9 +161,8 @@ Every model is schema specific so it is either IFC2x3 or IFC4 or other specific 
 and will tell you what it is but when you want to create data make sure you don't mess up your <code>using</code> statements. If you try to create IFC4 entity
 with model initialized to IFC2x3 it will throw a runtime exception. </p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">var</span> newWall = mode.Instances.New&lt;IfcWall&gt;();
-</pre></div>
+<div class="csharp"><pre><code><span class="keyword">var</span> newWall = mode.Instances.New&lt;<span class="type">IfcWall</span>&gt;();
+</code></pre></div>
 
 <p>It isn't possible to create new entities in any other way than with this function. You will see in the code above that this function takes optional 
 typed object initializer to set up values of the object. It is not necessary to use them but I personally like it because I can see the structure of
@@ -177,54 +171,53 @@ the resulting entity.</p>
 <p>Using all these basic pieces we can build the first wall.
 This wall doesn't have any geometry so most of IFC viewers won't show you anything. But this is just a basic example. Here is the complete code:</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">var</span> editor = <span style="color:Blue;">new</span> XbimEditorCredentials
+<div class="csharp"><pre><code><span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
 {
-    ApplicationDevelopersName = <span style="color:#A31515;">&quot;xBIM Team&quot;</span>,
-    ApplicationFullName = <span style="color:#A31515;">&quot;xBIM Toolkit&quot;</span>,
-    ApplicationIdentifier = <span style="color:#A31515;">&quot;xBIM&quot;</span>,
-    ApplicationVersion = <span style="color:#A31515;">&quot;4.0&quot;</span>,
-    EditorsFamilyName = <span style="color:#A31515;">&quot;Santini Aichel&quot;</span>,
-    EditorsGivenName = <span style="color:#A31515;">&quot;Johann Blasius&quot;</span>,
-    EditorsOrganisationName = <span style="color:#A31515;">&quot;Independent Architecture&quot;</span>
+    ApplicationDevelopersName = <span class="string">&quot;xBIM Team&quot;</span>,
+    ApplicationFullName = <span class="string">&quot;xBIM Toolkit&quot;</span>,
+    ApplicationIdentifier = <span class="string">&quot;xBIM&quot;</span>,
+    ApplicationVersion = <span class="string">&quot;4.0&quot;</span>,
+    EditorsFamilyName = <span class="string">&quot;Santini Aichel&quot;</span>,
+    EditorsGivenName = <span class="string">&quot;Johann Blasius&quot;</span>,
+    EditorsOrganisationName = <span class="string">&quot;Independent Architecture&quot;</span>
 };
-<span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> model = IfcStore.Create(editor, IfcSchemaVersion.Ifc4, XbimStoreType.InMemoryModel))
+<span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Create(editor, <span class="type">IfcSchemaVersion</span>.Ifc4, <span class="type">XbimStoreType</span>.InMemoryModel))
 {
-    <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> txn = model.BeginTransaction(<span style="color:#A31515;">&quot;Hello Wall&quot;</span>))
+    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Hello Wall&quot;</span>))
     {
-        <span style="color:Green;">//there should always be one project in the model</span>
-        <span style="color:Blue;">var</span> project = model.Instances.New&lt;IfcProject&gt;(p =&gt; p.Name = <span style="color:#A31515;">&quot;Basic Creation&quot;</span>);
-        <span style="color:Green;">//our shortcut to define basic default units</span>
-        project.Initialize(ProjectUnits.SIUnitsUK);
+        <span class="comment">//there should always be one project in the model</span>
+        <span class="keyword">var</span> project = model.Instances.New&lt;<span class="type">IfcProject</span>&gt;(p =&gt; p.Name = <span class="string">&quot;Basic Creation&quot;</span>);
+        <span class="comment">//our shortcut to define basic default units</span>
+        project.Initialize(<span class="type">ProjectUnits</span>.S<span class="type">IUnitsUK</span>);
 
-        <span style="color:Green;">//create simple object and use lambda initializer to set the name</span>
-        <span style="color:Blue;">var</span> wall = model.Instances.New&lt;IfcWall&gt;(w =&gt; w.Name = <span style="color:#A31515;">&quot;The very first wall&quot;</span>);
+        <span class="comment">//create simple object and use lambda initializer to set the name</span>
+        <span class="keyword">var</span> wall = model.Instances.New&lt;<span class="type">IfcWall</span>&gt;(w =&gt; w.Name = <span class="string">&quot;The very first wall&quot;</span>);
 
-        <span style="color:Green;">//set a few basic properties</span>
-        model.Instances.New&lt;IfcRelDefinesByProperties&gt;(rel =&gt; {
+        <span class="comment">//set a few basic properties</span>
+        model.Instances.New&lt;<span class="type">IfcRelDefinesByProperties</span>&gt;(rel =&gt; {
             rel.RelatedObjects.Add(wall);
-            rel.RelatingPropertyDefinition = model.Instances.New&lt;IfcPropertySet&gt;(pset =&gt; {
-                pset.Name = <span style="color:#A31515;">&quot;Basic set of properties&quot;</span>;
-                pset.HasProperties.AddRange(<span style="color:Blue;">new</span>[] {
-                    model.Instances.New&lt;IfcPropertySingleValue&gt;(p =&gt; 
+            rel.RelatingPropertyDefinition = model.Instances.New&lt;<span class="type">IfcPropertySet</span>&gt;(pset =&gt; {
+                pset.Name = <span class="string">&quot;Basic set of properties&quot;</span>;
+                pset.HasProperties.AddRange(<span class="keyword">new</span>[] {
+                    model.Instances.New&lt;<span class="type">IfcPropertySingleValue</span>&gt;(p =&gt; 
                     {
-                        p.Name = <span style="color:#A31515;">&quot;Text property&quot;</span>;
-                        p.NominalValue = <span style="color:Blue;">new</span> IfcText(<span style="color:#A31515;">&quot;Any arbitrary text you like&quot;</span>);
+                        p.Name = <span class="string">&quot;Text property&quot;</span>;
+                        p.NominalValue = <span class="keyword">new</span> <span class="type">IfcText</span>(<span class="string">&quot;Any arbitrary text you like&quot;</span>);
                     }),
-                    model.Instances.New&lt;IfcPropertySingleValue&gt;(p =&gt; 
+                    model.Instances.New&lt;<span class="type">IfcPropertySingleValue</span>&gt;(p =&gt; 
                     {
-                        p.Name = <span style="color:#A31515;">&quot;Length property&quot;</span>;
-                        p.NominalValue = <span style="color:Blue;">new</span> IfcLengthMeasure(56.0);
+                        p.Name = <span class="string">&quot;Length property&quot;</span>;
+                        p.NominalValue = <span class="keyword">new</span> <span class="type">IfcLengthMeasure</span>(56.0);
                     }),
-                    model.Instances.New&lt;IfcPropertySingleValue&gt;(p =&gt; 
+                    model.Instances.New&lt;<span class="type">IfcPropertySingleValue</span>&gt;(p =&gt; 
                     {
-                        p.Name = <span style="color:#A31515;">&quot;Number property&quot;</span>;
-                        p.NominalValue = <span style="color:Blue;">new</span> IfcNumericMeasure(789.2);
+                        p.Name = <span class="string">&quot;Number property&quot;</span>;
+                        p.NominalValue = <span class="keyword">new</span> <span class="type">IfcNumericMeasure</span>(789.2);
                     }),
-                    model.Instances.New&lt;IfcPropertySingleValue&gt;(p =&gt; 
+                    model.Instances.New&lt;<span class="type">IfcPropertySingleValue</span>&gt;(p =&gt; 
                     {
-                        p.Name = <span style="color:#A31515;">&quot;Logical property&quot;</span>;
-                        p.NominalValue = <span style="color:Blue;">new</span> IfcLogical(<span style="color:Blue;">true</span>);
+                        p.Name = <span class="string">&quot;Logical property&quot;</span>;
+                        p.NominalValue = <span class="keyword">new</span> <span class="type">IfcLogical</span>(<span class="keyword">true</span>);
                     })
                 });
             });
@@ -232,19 +225,18 @@ This wall doesn't have any geometry so most of IFC viewers won't show you anythi
 
         txn.Commit();
     }
-    model.SaveAs(<span style="color:#A31515;">&quot;BasicWall.ifc&quot;</span>);
+    model.SaveAs(<span class="string">&quot;BasicWall.ifc&quot;</span>);
 }
-</pre></div>
+</code></pre></div>
 
 <h2>Retrieve</h2>
 
 <p>Retrieving data from the model is very easy and it uses <code>IModel.Instances</code> again to access all entities we need.</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">var</span> firstWall = mode.Instances.FirtsOrDefault&lt;IfcWall&gt;();
-<span style="color:Blue;">var</span> allWalls = model.Instances.OfType&lt;IfcWall&gt;();
-<span style="color:Blue;">var</span> specificWall = model.Instances.Where&lt;IfcWall&gt;(w =&gt; w.Name == <span style="color:#A31515;">&quot;Brick wall&quot;</span>);
-</pre></div>
+<div class="csharp"><pre><code><span class="keyword">var</span> firstWall = mode.Instances.FirtsOrDefault&lt;<span class="type">IfcWall</span>&gt;();
+<span class="keyword">var</span> allWalls = model.Instances.OfType&lt;<span class="type">IfcWall</span>&gt;();
+<span class="keyword">var</span> specificWall = model.Instances.Where&lt;<span class="type">IfcWall</span>&gt;(w =&gt; w.Name == <span class="string">&quot;Brick wall&quot;</span>);
+</code></pre></div>
 
 <p>You can see that all these functions are templated so they use type of the object as the first level filter. If you know the type you want you should
 always specify it to increase a performance. For all search queries you can also use interfaces to retrieve entities. We have implemented <strong>IFC4 interfaces
@@ -252,39 +244,37 @@ on IFC2x3 entities</strong> which means you can query IFC2x3 and IFC4 with a <st
 
 <p>Following example only needs these usings:</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">using</span> System;
-<span style="color:Blue;">using</span> System.Linq;
-<span style="color:Blue;">using</span> Xbim.Ifc;
-<span style="color:Blue;">using</span> Xbim.Ifc4.Interfaces;
-</pre></div>
+<div class="csharp"><pre><code><span class="keyword">using</span> <span class="type">System</span>;
+<span class="keyword">using</span> <span class="type">System</span>.Linq;
+<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc;
+<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.Interfaces;
+</code></pre></div>
 
 <p>If you are interested in the structure of the entities we recommend you to have a look at IFC documentation <a href="http://www.buildingsmart-tech.org/ifc/">here</a>.</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">const</span> <span style="color:Blue;">string</span> fileName = <span style="color:#A31515;">&quot;SampleHouse.ifc&quot;</span>;
-<span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> model = IfcStore.Open(fileName))
+<div class="csharp"><pre><code><span class="keyword">const</span> <span class="keyword">string</span> fileName = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
+<span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName))
 {
-    <span style="color:Green;">//get all doors in the model (using IFC4 interface of IfcDoor this will work both for IFC2x3 and IFC4)</span>
-    <span style="color:Blue;">var</span> allDoors = model.Instances.OfType&lt;IIfcDoor&gt;();
+    <span class="comment">//get all doors in the model (using IFC4 interface of IfcDoor this will work both for IFC2x3 and IFC4)</span>
+    <span class="keyword">var</span> allDoors = model.Instances.OfType&lt;<span class="type">IIfcDoor</span>&gt;();
 
-    <span style="color:Green;">//get only doors with defined IIfcTypeObject</span>
-    <span style="color:Blue;">var</span> someDoors = model.Instances.Where&lt;IIfcDoor&gt;(d =&gt; d.IsTypedBy.Any());
+    <span class="comment">//get only doors with defined IIfcTypeObject</span>
+    <span class="keyword">var</span> someDoors = model.Instances.Where&lt;<span class="type">IIfcDoor</span>&gt;(d =&gt; d.IsTypedBy.Any());
 
-    <span style="color:Green;">//get one single door </span>
-    <span style="color:Blue;">var</span> id = <span style="color:#A31515;">&quot;2AswZfru1AdAiKfEdrNPnu&quot;</span>;
-    <span style="color:Blue;">var</span> theDoor = model.Instances.FirstOrDefault&lt;IIfcDoor&gt;(d =&gt; d.GlobalId == id);
-    Console.WriteLine($<span style="color:#A31515;">&quot;Door ID: {theDoor.GlobalId}, Name: {theDoor.Name}&quot;</span>);
+    <span class="comment">//get one single door </span>
+    <span class="keyword">var</span> id = <span class="string">&quot;2AswZfru1AdAiKfEdrNPnu&quot;</span>;
+    <span class="keyword">var</span> theDoor = model.Instances.FirstOrDefault&lt;<span class="type">IIfcDoor</span>&gt;(d =&gt; d.GlobalId == id);
+    <span class="type">Console</span>.WriteLine($<span class="string">&quot;Door ID: {theDoor.GlobalId}, Name: {theDoor.Name}&quot;</span>);
 
-    <span style="color:Green;">//get all single-value properties of the door</span>
-    <span style="color:Blue;">var</span> properties = theDoor.IsDefinedBy
-        .Where(r =&gt; r.RelatingPropertyDefinition <span style="color:Blue;">is</span> IIfcPropertySet)
-        .SelectMany(r =&gt; ((IIfcPropertySet)r.RelatingPropertyDefinition).HasProperties)
-        .OfType&lt;IIfcPropertySingleValue&gt;();
-    <span style="color:Blue;">foreach</span> (<span style="color:Blue;">var</span> property <span style="color:Blue;">in</span> properties)
-        Console.WriteLine($<span style="color:#A31515;">&quot;Property: {property.Name}, Value: {property.NominalValue}&quot;</span>);
+    <span class="comment">//get all single-value properties of the door</span>
+    <span class="keyword">var</span> properties = theDoor.IsDefinedBy
+        .Where(r =&gt; r.RelatingPropertyDefinition <span class="keyword">is</span> <span class="type">IIfcPropertySet</span>)
+        .SelectMany(r =&gt; ((<span class="type">IIfcPropertySet</span>)r.RelatingPropertyDefinition).HasProperties)
+        .OfType&lt;<span class="type">IIfcPropertySingleValue</span>&gt;();
+    <span class="keyword">foreach</span> (<span class="keyword">var</span> property <span class="keyword">in</span> properties)
+        <span class="type">Console</span>.WriteLine($<span class="string">&quot;Property: {property.Name}, Value: {property.NominalValue}&quot;</span>);
 }
-</pre></div>
+</code></pre></div>
 
 <p>This will write to console:</p>
 
@@ -311,60 +301,59 @@ Property: Phase Created, Value: New Construction
 <p>Update is similar to the previous two. Notice the transaction has to be open and should be enclosed in <code>using</code> statements
 or model will throw an exception at the moment you create or change any object.</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">const</span> <span style="color:Blue;">string</span> fileName = <span style="color:#A31515;">&quot;SampleHouse.ifc&quot;</span>;
-<span style="color:Blue;">var</span> editor = <span style="color:Blue;">new</span> XbimEditorCredentials
+<div class="csharp"><pre><code><span class="keyword">const</span> <span class="keyword">string</span> fileName = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
+<span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
 {
-    ApplicationDevelopersName = <span style="color:#A31515;">&quot;xBIM Team&quot;</span>,
-    ApplicationFullName = <span style="color:#A31515;">&quot;xBIM Toolkit&quot;</span>,
-    ApplicationIdentifier = <span style="color:#A31515;">&quot;xBIM&quot;</span>,
-    ApplicationVersion = <span style="color:#A31515;">&quot;4.0&quot;</span>,
-    EditorsFamilyName = <span style="color:#A31515;">&quot;Santini Aichel&quot;</span>,
-    EditorsGivenName = <span style="color:#A31515;">&quot;Johann Blasius&quot;</span>,
-    EditorsOrganisationName = <span style="color:#A31515;">&quot;Independent Architecture&quot;</span>
+    ApplicationDevelopersName = <span class="string">&quot;xBIM Team&quot;</span>,
+    ApplicationFullName = <span class="string">&quot;xBIM Toolkit&quot;</span>,
+    ApplicationIdentifier = <span class="string">&quot;xBIM&quot;</span>,
+    ApplicationVersion = <span class="string">&quot;4.0&quot;</span>,
+    EditorsFamilyName = <span class="string">&quot;Santini Aichel&quot;</span>,
+    EditorsGivenName = <span class="string">&quot;Johann Blasius&quot;</span>,
+    EditorsOrganisationName = <span class="string">&quot;Independent Architecture&quot;</span>
 };
 
-<span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> model = IfcStore.Open(fileName, editor, <span style="color:Blue;">true</span>))
+<span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName, editor, <span class="keyword">true</span>))
 {
-    <span style="color:Green;">//get existing door from the model</span>
-    <span style="color:Blue;">var</span> id = <span style="color:#A31515;">&quot;3cUkl32yn9qRSPvBJVyWYp&quot;</span>;
-    <span style="color:Blue;">var</span> theDoor = model.Instances.FirstOrDefault&lt;IfcDoor&gt;(d =&gt; d.GlobalId == id);
+    <span class="comment">//get existing door from the model</span>
+    <span class="keyword">var</span> id = <span class="string">&quot;3cUkl32yn9qRSPvBJVyWYp&quot;</span>;
+    <span class="keyword">var</span> theDoor = model.Instances.FirstOrDefault&lt;<span class="type">IfcDoor</span>&gt;(d =&gt; d.GlobalId == id);
 
-    <span style="color:Green;">//open transaction for changes</span>
-    <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> txn = model.BeginTransaction(<span style="color:#A31515;">&quot;Doors modification&quot;</span>))
+    <span class="comment">//open transaction for changes</span>
+    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Doors modification&quot;</span>))
     {
-        <span style="color:Green;">//create new property set with two properties</span>
-        <span style="color:Blue;">var</span> pSetRel = model.Instances.New&lt;IfcRelDefinesByProperties&gt;(r =&gt;
+        <span class="comment">//create new property set with two properties</span>
+        <span class="keyword">var</span> pSetRel = model.Instances.New&lt;<span class="type">IfcRelDefinesByProperties</span>&gt;(r =&gt;
         {
-            r.GlobalId = Guid.NewGuid();
-            r.RelatingPropertyDefinition = model.Instances.New&lt;IfcPropertySet&gt;(pSet =&gt;
+            r.GlobalId = <span class="type">Guid</span>.NewGuid();
+            r.RelatingPropertyDefinition = model.Instances.New&lt;<span class="type">IfcPropertySet</span>&gt;(pSet =&gt;
             {
-                pSet.Name = <span style="color:#A31515;">&quot;New property set&quot;</span>;
-                <span style="color:Green;">//all collections are always initialized</span>
-                pSet.HasProperties.Add(model.Instances.New&lt;IfcPropertySingleValue&gt;(p =&gt;
+                pSet.Name = <span class="string">&quot;New property set&quot;</span>;
+                <span class="comment">//all collections are always initialized</span>
+                pSet.HasProperties.Add(model.Instances.New&lt;<span class="type">IfcPropertySingleValue</span>&gt;(p =&gt;
                 {
-                    p.Name = <span style="color:#A31515;">&quot;First property&quot;</span>;
-                    p.NominalValue = <span style="color:Blue;">new</span> IfcLabel(<span style="color:#A31515;">&quot;First value&quot;</span>);
+                    p.Name = <span class="string">&quot;First property&quot;</span>;
+                    p.NominalValue = <span class="keyword">new</span> <span class="type">IfcLabel</span>(<span class="string">&quot;First value&quot;</span>);
                 }));
-                pSet.HasProperties.Add(model.Instances.New&lt;IfcPropertySingleValue&gt;(p =&gt;
+                pSet.HasProperties.Add(model.Instances.New&lt;<span class="type">IfcPropertySingleValue</span>&gt;(p =&gt;
                 {
-                    p.Name = <span style="color:#A31515;">&quot;Second property&quot;</span>;
-                    p.NominalValue = <span style="color:Blue;">new</span> IfcLengthMeasure(156.5);
+                    p.Name = <span class="string">&quot;Second property&quot;</span>;
+                    p.NominalValue = <span class="keyword">new</span> <span class="type">IfcLengthMeasure</span>(156.5);
                 }));
             });
         });
 
-        <span style="color:Green;">//change the name of the door</span>
-        theDoor.Name += <span style="color:#A31515;">&quot;_checked&quot;</span>;
-        <span style="color:Green;">//add properties to the door</span>
+        <span class="comment">//change the name of the door</span>
+        theDoor.Name += <span class="string">&quot;_checked&quot;</span>;
+        <span class="comment">//add properties to the door</span>
         pSetRel.RelatedObjects.Add(theDoor);
 
-        <span style="color:Green;">//commit changes</span>
+        <span class="comment">//commit changes</span>
         txn.Commit();
     }
 
 }
-</pre></div>
+</code></pre></div>
 
 <h2>Delete</h2>
 
@@ -373,24 +362,23 @@ The reason why this is complicated is that IFC data model is very complex and it
 that no object in the model is referencing the object you delete so the model stays consistent. But it doesn't automatically delete any objects referenced from it or 
 referring to it. There are choices to be made by programmer or user. However, low level infrastructure for delete can be used very simply:</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> model = IfcStore.Open(fileName))
+<div class="csharp"><pre><code><span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName))
 {
-    <span style="color:Green;">//get existing door from the model</span>
-    <span style="color:Blue;">var</span> id = <span style="color:#A31515;">&quot;3cUkl32yn9qRSPvBJVyWYp&quot;</span>;  <span style="color:Green;">//use some existing ID from your model</span>
-    <span style="color:Blue;">var</span> theDoor = model.Instances.FirstOrDefault&lt;IIfcDoor&gt;(d =&gt; d.GlobalId == id);
+    <span class="comment">//get existing door from the model</span>
+    <span class="keyword">var</span> id = <span class="string">&quot;3cUkl32yn9qRSPvBJVyWYp&quot;</span>;  <span class="comment">//use some existing ID from your model</span>
+    <span class="keyword">var</span> theDoor = model.Instances.FirstOrDefault&lt;<span class="type">IIfcDoor</span>&gt;(d =&gt; d.GlobalId == id);
 
-    <span style="color:Green;">//open transaction for changes</span>
-    <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> txn = model.BeginTransaction(<span style="color:#A31515;">&quot;Delete the door&quot;</span>))
+    <span class="comment">//open transaction for changes</span>
+    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Delete the door&quot;</span>))
     {
-        <span style="color:Green;">//delete the door</span>
+        <span class="comment">//delete the door</span>
         model.Delete(theDoor);
-        <span style="color:Green;">//commit changes</span>
+        <span class="comment">//commit changes</span>
         txn.Commit();
     }
 
 }
-</pre></div>
+</code></pre></div>
 
     </div>
 	    

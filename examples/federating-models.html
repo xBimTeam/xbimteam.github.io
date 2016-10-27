@@ -104,19 +104,17 @@
 
 		<div class="container">
 
-<h1>Fast upgrade track to IFC version agnostic solution</h1>
-
-<p>So you invested your time into xBIM 3 and we broke your code. Sorry for that. We believe you will like all the goodies coming with xBIM 4 (like <strong>ability to work with IFC2x3 like if it was IFC4</strong>). 
-To learn more about what is new in xBIM 4 read <a href="../xbim-4/xbim-4-release-notes.html">this</a>. If you already have an idea about what has happened in xBIM and you just want simple guidelines for fast 
-upgrade here is how we did it most of the refactoring of our own code depending on xBIM Essentials:</p>
+<h1>Federation of multiple models</h1>
 
 <ul>
-<li>If you want to make your code IFC schema independent remove all <code>using</code> statements referring to IFC. Change names of all classes from <code>IfcNameOfTheClass</code> to interfaces <code>IIfcNameOfTheClass</code>. </li>
-<li>Let your IDE to help you to resolve all the references to <code>Xbim.Ifc4.xxx</code> namespaces. Make sure you don't reference IFC2x3 namespaces. There are interfaces as well but these won't work for IFC4.</li>
-<li>Try to remove reference to <code>Xbim.Ifc2x3.dll</code> and make sure your solution doesn't complain about missing references in using statements. Put it back than.</li>
-<li>Replace all <code>XbimModel</code> references with <code>IfcStore</code>. It should have most of the functions you were used to in <code>XbimModel</code> but can use all combinations of storage, IFC versions and physical formats.</li>
-<li>Run all your tests to make sure all works as expected!</li>
+<li>Overlaying multiple models to behave like a one</li>
+<li>Uniform access to the data as if it was a single model</li>
+<li>Read-only. To modify the content of the model you have to work with the specific model</li>
+<li>Not constrained to a single schema (federate IFC2x3 + IFC4 → query it as IFC4 interfaces)</li>
+<li>IFC federation can be stored as an IFC file (in IfcStore)</li>
 </ul>
+
+<p>//TODO: put in a sample code...</p>
 
     </div>
 	    

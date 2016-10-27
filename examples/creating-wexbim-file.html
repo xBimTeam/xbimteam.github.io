@@ -21,6 +21,7 @@
     <![endif]-->
 
     <!-- Custom styles for this template -->
+    <link href="../css/codestyles.css" rel="stylesheet">
     <link href="../css/site.css" rel="stylesheet">
 
     <script src="../js/jquery.min.js"></script>
@@ -61,6 +62,9 @@
 			<a href="../examples/creating-wexbim-file.html">Creating wexBIM file</a>
 		</li>
         <li>
+			<a href="../examples/federating-models.html">Federating Models</a>
+		</li>
+        <li>
 			<a href="../examples/insert-copy-function.html">Insert Copy Function</a>
 		</li>
     </ul>
@@ -97,12 +101,6 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-	<div class="banner architecture">
-		<h1>
-		    The xBIM Toolkit <br />
-		    <small>eXtensible Building Information Modelling </small>
-		</h1>
-	</div>
 
 		<div class="container">
 
@@ -114,27 +112,26 @@ You will need <a href="https://www.nuget.org/packages/Xbim.Essentials/">xBIM Ess
 Here is very simple code to be used for a conversion of complete IFC file into wexBIM file. Because xBIM is a Toolkit there are ways how to customize/filter
 the wexBIM file for advanced deployments but that is far more complicated than this simple conversion:</p>
 
-<div style="color:Black;background-color:White;"><pre>
-<span style="color:Blue;">using</span> System.IO;
-<span style="color:Blue;">using</span> Xbim.Ifc;
-<span style="color:Blue;">using</span> Xbim.ModelGeometry.Scene;
+<div class="csharp"><pre><code><span class="keyword">using</span> <span class="type">System</span>.I<span class="type">O</span>;
+<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc;
+<span class="keyword">using</span> <span class="type">Xbim</span>.ModelGeometry.Scene;
 
-<span style="color:Blue;">namespace</span> CreateWexBIM
+<span class="keyword">namespace</span> <span class="type">CreateWexBIM</span>
 {
-    <span style="color:Blue;">class</span> Program
+    <span class="keyword">class</span> <span class="type">Program</span>
     {
-        <span style="color:Blue;">public</span> <span style="color:Blue;">static</span> <span style="color:Blue;">void</span> Main()
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="type">Main</span>()
         {
-            <span style="color:Blue;">const</span> <span style="color:Blue;">string</span> fileName = <span style="color:#A31515;">&quot;SampleHouse.ifc&quot;</span>;
-            <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> model = IfcStore.Open(fileName))
+            <span class="keyword">const</span> <span class="keyword">string</span> fileName = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
+            <span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName))
             {
-                <span style="color:Blue;">var</span> context = <span style="color:Blue;">new</span> Xbim3DModelContext(model);
+                <span class="keyword">var</span> context = <span class="keyword">new</span> <span class="type">Xbim3DModelContext</span>(model);
                 context.CreateContext();
 
-                <span style="color:Blue;">var</span> wexBimFilename = Path.ChangeExtension(fileName, <span style="color:#A31515;">&quot;wexBIM&quot;</span>);
-                <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> wexBiMfile = File.Create(wexBimFilename))
+                <span class="keyword">var</span> wexBimFilename = <span class="type">Path</span>.ChangeExtension(fileName, <span class="string">&quot;wexBIM&quot;</span>);
+                <span class="keyword">using</span> (<span class="keyword">var</span> wexBiMfile = <span class="type">File</span>.Create(wexBimFilename))
                 {
-                    <span style="color:Blue;">using</span> (<span style="color:Blue;">var</span> wexBimBinaryWriter = <span style="color:Blue;">new</span> BinaryWriter(wexBiMfile))
+                    <span class="keyword">using</span> (<span class="keyword">var</span> wexBimBinaryWriter = <span class="keyword">new</span> <span class="type">BinaryWriter</span>(wexBiMfile))
                     {
                         model.SaveAsWexBim(wexBimBinaryWriter);
                         wexBimBinaryWriter.Close();
@@ -145,7 +142,7 @@ the wexBIM file for advanced deployments but that is far more complicated than t
         }
     }
 }
-</pre></div>
+</code></pre></div>
 
     </div>
 	    
