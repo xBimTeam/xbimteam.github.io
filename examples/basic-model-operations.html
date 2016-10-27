@@ -67,6 +67,9 @@
         <li>
 			<a href="../examples/insert-copy-function.html">Insert Copy Function</a>
 		</li>
+        <li>
+			<a href="../examples/proper-wall-in-3d.html">Proper Wall in 3D</a>
+		</li>
     </ul>
 
 		</li>
@@ -202,22 +205,22 @@ This wall doesn't have any geometry so most of IFC viewers won't show you anythi
                     model.Instances.New&lt;<span class="type">IfcPropertySingleValue</span>&gt;(p =&gt; 
                     {
                         p.Name = <span class="string">&quot;Text property&quot;</span>;
-                        p.NominalValue = <span class="keyword">new</span> <span class="type">IfcText</span>(<span class="string">&quot;Any arbitrary text you like&quot;</span>);
+                        p.NominalValue = <span class="keyword">new</span> IfcText(<span class="string">&quot;Any arbitrary text you like&quot;</span>);
                     }),
                     model.Instances.New&lt;<span class="type">IfcPropertySingleValue</span>&gt;(p =&gt; 
                     {
                         p.Name = <span class="string">&quot;Length property&quot;</span>;
-                        p.NominalValue = <span class="keyword">new</span> <span class="type">IfcLengthMeasure</span>(56.0);
+                        p.NominalValue = <span class="keyword">new</span> IfcLengthMeasure(56.0);
                     }),
                     model.Instances.New&lt;<span class="type">IfcPropertySingleValue</span>&gt;(p =&gt; 
                     {
                         p.Name = <span class="string">&quot;Number property&quot;</span>;
-                        p.NominalValue = <span class="keyword">new</span> <span class="type">IfcNumericMeasure</span>(789.2);
+                        p.NominalValue = <span class="keyword">new</span> IfcNumericMeasure(789.2);
                     }),
                     model.Instances.New&lt;<span class="type">IfcPropertySingleValue</span>&gt;(p =&gt; 
                     {
                         p.Name = <span class="string">&quot;Logical property&quot;</span>;
-                        p.NominalValue = <span class="keyword">new</span> <span class="type">IfcLogical</span>(<span class="keyword">true</span>);
+                        p.NominalValue = <span class="keyword">new</span> IfcLogical(<span class="keyword">true</span>);
                     })
                 });
             });
@@ -376,12 +379,12 @@ or model will throw an exception at the moment you create or change any object.<
                 pSet.HasProperties.Add(model.Instances.New&lt;<span class="type">IfcPropertySingleValue</span>&gt;(p =&gt;
                 {
                     p.Name = <span class="string">&quot;First property&quot;</span>;
-                    p.NominalValue = <span class="keyword">new</span> <span class="type">IfcLabel</span>(<span class="string">&quot;First value&quot;</span>);
+                    p.NominalValue = <span class="keyword">new</span> IfcLabel(<span class="string">&quot;First value&quot;</span>);
                 }));
                 pSet.HasProperties.Add(model.Instances.New&lt;<span class="type">IfcPropertySingleValue</span>&gt;(p =&gt;
                 {
                     p.Name = <span class="string">&quot;Second property&quot;</span>;
-                    p.NominalValue = <span class="keyword">new</span> <span class="type">IfcLengthMeasure</span>(156.5);
+                    p.NominalValue = <span class="keyword">new</span> IfcLengthMeasure(156.5);
                 }));
             });
         });

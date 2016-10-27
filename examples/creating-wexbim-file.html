@@ -67,6 +67,9 @@
         <li>
 			<a href="../examples/insert-copy-function.html">Insert Copy Function</a>
 		</li>
+        <li>
+			<a href="../examples/proper-wall-in-3d.html">Proper Wall in 3D</a>
+		</li>
     </ul>
 
 		</li>
@@ -120,18 +123,18 @@ the wexBIM file for advanced deployments but that is far more complicated than t
 {
     <span class="keyword">class</span> <span class="type">Program</span>
     {
-        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="type">Main</span>()
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> Main()
         {
             <span class="keyword">const</span> <span class="keyword">string</span> fileName = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
             <span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName))
             {
-                <span class="keyword">var</span> context = <span class="keyword">new</span> <span class="type">Xbim3DModelContext</span>(model);
+                <span class="keyword">var</span> context = <span class="keyword">new</span> Xbim3DModelContext(model);
                 context.CreateContext();
 
                 <span class="keyword">var</span> wexBimFilename = <span class="type">Path</span>.ChangeExtension(fileName, <span class="string">&quot;wexBIM&quot;</span>);
                 <span class="keyword">using</span> (<span class="keyword">var</span> wexBiMfile = <span class="type">File</span>.Create(wexBimFilename))
                 {
-                    <span class="keyword">using</span> (<span class="keyword">var</span> wexBimBinaryWriter = <span class="keyword">new</span> <span class="type">BinaryWriter</span>(wexBiMfile))
+                    <span class="keyword">using</span> (<span class="keyword">var</span> wexBimBinaryWriter = <span class="keyword">new</span> BinaryWriter(wexBiMfile))
                     {
                         model.SaveAsWexBim(wexBimBinaryWriter);
                         wexBimBinaryWriter.Close();

@@ -67,6 +67,9 @@
         <li>
 			<a href="../examples/insert-copy-function.html">Insert Copy Function</a>
 		</li>
+        <li>
+			<a href="../examples/proper-wall-in-3d.html">Proper Wall in 3D</a>
+		</li>
     </ul>
 
 		</li>
@@ -173,7 +176,7 @@ will use all properties in the entity and copy them over. </p>
 {
     <span class="keyword">class</span> <span class="type">InsertCopy</span>
     {
-        <span class="keyword">public</span> <span class="keyword">void</span> <span class="type">CopyWallsOver</span>()
+        <span class="keyword">public</span> <span class="keyword">void</span> CopyWallsOver()
         {
             <span class="keyword">const</span> <span class="keyword">string</span> original = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
             <span class="keyword">const</span> <span class="keyword">string</span> inserted = <span class="string">&quot;SampleHouseWalls.ifc&quot;</span>;
@@ -211,7 +214,7 @@ will use all properties in the entity and copy them over. </p>
                     <span class="keyword">using</span> (<span class="keyword">var</span> txn = iModel.BeginTransaction(<span class="string">&quot;Insert copy&quot;</span>))
                     {
                         <span class="comment">//single map should be used for all insertions between two models</span>
-                        <span class="keyword">var</span> map = <span class="keyword">new</span> <span class="type">XbimInstanceHandleMap</span>(model, iModel);
+                        <span class="keyword">var</span> map = <span class="keyword">new</span> XbimInstanceHandleMap(model, iModel);
 
                         <span class="keyword">foreach</span> (<span class="keyword">var</span> wall <span class="keyword">in</span> walls)
                         {

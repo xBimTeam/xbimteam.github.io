@@ -67,6 +67,9 @@
         <li>
 			<a href="../examples/insert-copy-function.html">Insert Copy Function</a>
 		</li>
+        <li>
+			<a href="../examples/proper-wall-in-3d.html">Proper Wall in 3D</a>
+		</li>
     </ul>
 
 		</li>
@@ -139,7 +142,7 @@ we will have a look on how to use it.</p>
 {
     <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Modification&quot;</span>))
     {
-        <span class="keyword">using</span> (<span class="keyword">var</span> log = <span class="keyword">new</span> <span class="type">TransactionLog</span>(txn))
+        <span class="keyword">using</span> (<span class="keyword">var</span> log = <span class="keyword">new</span> TransactionLog(txn))
         {
             <span class="comment">//change to existing wall</span>
             <span class="keyword">var</span> wall = model.Instances.FirstOrDefault&lt;<span class="type">IIfcWall</span>&gt;();
@@ -148,7 +151,7 @@ we will have a look on how to use it.</p>
             wall.Description = <span class="string">&quot;New and more descriptive description&quot;</span>;
 
             <span class="comment">//print all changes caused by this</span>
-            <span class="type">PrintChanges</span>(log);
+            PrintChanges(log);
             txn.Commit();
         }
         <span class="type">Console</span>.WriteLine();
@@ -158,7 +161,7 @@ we will have a look on how to use it.</p>
 
 <p>Previous code uses this simple function to report changes on the objects:</p>
 
-<div class="csharp"><pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="type">PrintChanges</span>(<span class="type">TransactionLog</span> log)
+<div class="csharp"><pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> PrintChanges(<span class="type">TransactionLog</span> log)
 {
     <span class="keyword">foreach</span> (<span class="keyword">var</span> change <span class="keyword">in</span> log.Changes)
     {
