@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="xBIM Toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
+    <meta name="author" content="xBIM Team">
     <link rel="icon" href="../img/favicon.ico">
 
     <title>xBIM</title>
@@ -115,55 +115,37 @@ there is a single point where all changes are happening and we can do something 
 either back-log or forward-log. To simplify this task we implemented a <code>Xbim.IO.Delta.TransactionLog</code> class. In the following example
 we will have a look on how to use it.</p>
 
-<div class="csharp"><pre><code><span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(<span class="string">&quot;4walls1floorSite.ifc&quot;</span>))
+<div class="csharp"><pre><code><span class="keyword">using</span> <span class="type">System</span>;
+<span class="keyword">using</span> <span class="type">Xbim</span>.Common;
+<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc;
+<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.Interfaces;
+<span class="keyword">using</span> <span class="type">Xbim</span>.IO.Delta;
+<span class="keyword">using</span> <span class="type">Xbim</span>.IO.Step21;
+</code></pre></div>
+
+<div class="csharp"><pre><code><span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
+{
+    ApplicationDevelopersName = <span class="string">&quot;You&quot;</span>,
+    ApplicationFullName = <span class="string">&quot;Your app&quot;</span>,
+    ApplicationIdentifier = <span class="string">&quot;Your app ID&quot;</span>,
+    ApplicationVersion = <span class="string">&quot;4.0&quot;</span>,
+    <span class="comment">//your user</span>
+    EditorsFamilyName = <span class="string">&quot;Santini Aichel&quot;</span>,
+    EditorsGivenName = <span class="string">&quot;Johann Blasius&quot;</span>,
+    EditorsOrganisationName = <span class="string">&quot;Independent Architecture&quot;</span>
+};
+
+<span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(<span class="string">&quot;SampleHouse.ifc&quot;</span>, editor, <span class="keyword">true</span>))
 {
     <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Modification&quot;</span>))
     {
-        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Changing existing entity:&quot;</span>);
-        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;=========================&quot;</span>);
         <span class="keyword">using</span> (<span class="keyword">var</span> log = <span class="keyword">new</span> <span class="type">TransactionLog</span>(txn))
         {
             <span class="comment">//change to existing wall</span>
-            <span class="keyword">var</span> wall = model.Instances.FirstOrDefault&lt;<span class="type">IfcWall</span>&gt;();
+            <span class="keyword">var</span> wall = model.Instances.FirstOrDefault&lt;<span class="type">IIfcWall</span>&gt;();
             wall.Name = <span class="string">&quot;Unexpected name&quot;</span>;
             wall.GlobalId = <span class="type">Guid</span>.NewGuid().ToPart21();
             wall.Description = <span class="string">&quot;New and more descriptive description&quot;</span>;
-
-            <span class="comment">//print all changes caused by this</span>
-            <span class="type">PrintChanges</span>(log);
-            txn.Commit();
-        }
-        <span class="type">Console</span>.WriteLine();
-    }
-
-    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;New&quot;</span>))
-    {
-        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Creating new entity:&quot;</span>);
-        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;====================&quot;</span>);
-        <span class="keyword">using</span> (<span class="keyword">var</span> log = <span class="keyword">new</span> <span class="type">TransactionLog</span>(txn))
-        {
-            model.Instances.New&lt;<span class="type">IfcWall</span>&gt;(w =&gt;
-            {
-                w.Name = <span class="string">&quot;Beautiful wall&quot;</span>;
-                w.Description = <span class="string">&quot;One of the best walls in the world&quot;</span>;
-                w.GlobalId = <span class="type">Guid</span>.NewGuid().ToPart21();
-            });
-
-            <span class="comment">//print all changes caused by this</span>
-            <span class="type">PrintChanges</span>(log);
-            txn.Commit();
-        }
-        <span class="type">Console</span>.WriteLine();
-    }
-
-    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Delete&quot;</span>))
-    {
-        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Deleting existing entity:&quot;</span>);
-        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;=========================&quot;</span>);
-        <span class="keyword">using</span> (<span class="keyword">var</span> log = <span class="keyword">new</span> <span class="type">TransactionLog</span>(txn))
-        {
-            <span class="keyword">var</span> wall = model.Instances.FirstOrDefault&lt;<span class="type">IfcWall</span>&gt;(w =&gt; w.Representation != <span class="keyword">null</span>);
-            model.Delete(wall);
 
             <span class="comment">//print all changes caused by this</span>
             <span class="type">PrintChanges</span>(log);
@@ -180,15 +162,39 @@ we will have a look on how to use it.</p>
 {
     <span class="keyword">foreach</span> (<span class="keyword">var</span> change <span class="keyword">in</span> log.Changes)
     {
-        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Entity: #{0}={1}, Change: {2}&quot;</span>, change.Entity.EntityLabel, change.Entity.GetType().Name, change.ChangeType);
-        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;    Original entity: {0}&quot;</span>, change.OriginalEntity);
-        <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;    Current entity: {0}&quot;</span>, change.CurrentEntity);
-        <span class="keyword">if</span> (change.ChangeType != <span class="type">ChangeType</span>.Modified) <span class="keyword">continue</span>;
-
-        <span class="keyword">foreach</span> (<span class="keyword">var</span> prop <span class="keyword">in</span> change.ChangedProperties)
-            <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;        Property &#39;{0}&#39; changed from {1} to {2}&quot;</span>, prop.Name, prop.OriginalValue, prop.CurrentValue);
+        <span class="keyword">switch</span> (change.ChangeType)
+        {
+            <span class="keyword">case</span> <span class="type">ChangeType</span>.New:
+                <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;New entity: {0}&quot;</span>, change.CurrentEntity);
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="type">ChangeType</span>.Deleted:
+                <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Deleted entity: {0}&quot;</span>, change.OriginalEntity);
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="type">ChangeType</span>.Modified:
+                <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Changed Entity: #{0}={1}&quot;</span>, change.Entity.EntityLabel, change.Entity.ExpressType.ExpressNameUpper);
+                <span class="keyword">foreach</span> (<span class="keyword">var</span> prop <span class="keyword">in</span> change.ChangedProperties)
+                    <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;        Property &#39;{0}&#39; changed from {1} to {2}&quot;</span>, prop.Name, prop.OriginalValue, prop.CurrentValue);
+                <span class="keyword">break</span>;
+            <span class="keyword">default</span>:
+                <span class="keyword">break</span>;
+        }
     }
 }
+</code></pre></div>
+
+<p>Resulting change log will look like this. It contains more changes because xBIM handles owner history automatically for you when you change or create any <code>IFCROOT</code> entity.</p>
+
+<div class="step"><pre><code>Changed Entity: <span class="number">#1229</span>=<span class="type">IFCWALL</span>
+        Property <span class="string">&#39;Name&#39;</span> changed from <span class="string">&#39;Basic Wall:Wall-Ext_102Bwk-75Ins-100LBlk-12P:285330&#39;</span> to <span class="string">&#39;Unexpected name&#39;</span>
+        Property <span class="string">&#39;OwnerHistory&#39;</span> changed from <span class="number">#42</span> to <span class="number">#83873</span>
+        Property <span class="string">&#39;GlobalId&#39;</span> changed from <span class="string">&#39;3cUkl32yn9qRSPvBJVyWw5&#39;</span> to <span class="string">&#39;0zxW3$9z95n8U_H9YOcyiE&#39;</span>
+        Property <span class="string">&#39;Description&#39;</span> changed from $ to <span class="string">&#39;New and more descriptive description&#39;</span>
+New entity: <span class="number">#83873</span>=<span class="type">IFCOWNERHISTORY</span>(<span class="number">#83876</span>,<span class="number">#83877</span>,$,.MODIFIED.,$,$,$,0);
+New entity: <span class="number">#83874</span>=<span class="type">IFCPERSON</span>($,<span class="string">&#39;Santini Aichel&#39;</span>,<span class="string">&#39;Johann Blasius&#39;</span>,$,$,$,$,$);
+New entity: <span class="number">#83875</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;Independent Architecture&#39;</span>,$,$,$);
+New entity: <span class="number">#83876</span>=<span class="type">IFCPERSONANDORGANIZATION</span>(<span class="number">#83874</span>,<span class="number">#83875</span>,$);
+New entity: <span class="number">#83878</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;You&#39;</span>,$,$,$);
+New entity: <span class="number">#83877</span>=<span class="type">IFCAPPLICATION</span>(<span class="number">#83878</span>,$,<span class="string">&#39;Your app&#39;</span>,<span class="string">&#39;Your app ID&#39;</span>);
 </code></pre></div>
 
     </div>

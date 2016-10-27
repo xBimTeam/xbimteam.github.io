@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="xBIM Toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
+    <meta name="author" content="xBIM Team">
     <link rel="icon" href="../img/favicon.ico">
 
     <title>xBIM</title>
@@ -188,7 +188,7 @@ This wall doesn't have any geometry so most of IFC viewers won't show you anythi
         <span class="comment">//there should always be one project in the model</span>
         <span class="keyword">var</span> project = model.Instances.New&lt;<span class="type">IfcProject</span>&gt;(p =&gt; p.Name = <span class="string">&quot;Basic Creation&quot;</span>);
         <span class="comment">//our shortcut to define basic default units</span>
-        project.Initialize(<span class="type">ProjectUnits</span>.S<span class="type">IUnitsUK</span>);
+        project.Initialize(<span class="type">ProjectUnits</span>.SIUnitsUK);
 
         <span class="comment">//create simple object and use lambda initializer to set the name</span>
         <span class="keyword">var</span> wall = model.Instances.New&lt;<span class="type">IfcWall</span>&gt;(w =&gt; w.Name = <span class="string">&quot;The very first wall&quot;</span>);
@@ -227,6 +227,49 @@ This wall doesn't have any geometry so most of IFC viewers won't show you anythi
     }
     model.SaveAs(<span class="string">&quot;BasicWall.ifc&quot;</span>);
 }
+</code></pre></div>
+
+<p>Resulting simple IFC will look like this:</p>
+
+<div class="step"><pre><code>ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION ((<span class="string">&#39;&#39;</span>), <span class="string">&#39;2;1&#39;</span>);
+FILE_NAME (<span class="string">&#39;&#39;</span>, <span class="string">&#39;2016-10-27T13:14:43&#39;</span>, (<span class="string">&#39;&#39;</span>), (<span class="string">&#39;&#39;</span>), <span class="string">&#39;Xbim File Processor version 3.2.0.0&#39;</span>, <span class="string">&#39;Xbim version 3.2.0.0&#39;</span>, <span class="string">&#39;&#39;</span>);
+FILE_SCHEMA ((<span class="string">&#39;IFC4&#39;</span>));
+ENDSEC;
+DATA;
+<span class="number">#1</span>=<span class="type">IFCPROJECT</span>(<span class="string">&#39;2t0OftVsP8UBH3rtAB$yJv&#39;</span>,<span class="number">#2</span>,<span class="string">&#39;Basic Creation&#39;</span>,$,$,$,$,(<span class="number">#20</span>,<span class="number">#23</span>),<span class="number">#8</span>);
+<span class="number">#2</span>=<span class="type">IFCOWNERHISTORY</span>(<span class="number">#5</span>,<span class="number">#6</span>,$,.ADDED.,$,$,$,0);
+<span class="number">#3</span>=<span class="type">IFCPERSON</span>($,<span class="string">&#39;Santini Aichel&#39;</span>,<span class="string">&#39;Johann Blasius&#39;</span>,$,$,$,$,$);
+<span class="number">#4</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;Independent Architecture&#39;</span>,$,$,$);
+<span class="number">#5</span>=<span class="type">IFCPERSONANDORGANIZATION</span>(<span class="number">#3</span>,<span class="number">#4</span>,$);
+<span class="number">#7</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;xBIM Team&#39;</span>,$,$,$);
+<span class="number">#6</span>=<span class="type">IFCAPPLICATION</span>(<span class="number">#7</span>,$,<span class="string">&#39;xBIM Toolkit&#39;</span>,<span class="string">&#39;xBIM&#39;</span>);
+<span class="number">#8</span>=<span class="type">IFCUNITASSIGNMENT</span>((<span class="number">#9</span>,<span class="number">#10</span>,<span class="number">#11</span>,<span class="number">#12</span>,<span class="number">#13</span>,<span class="number">#14</span>,<span class="number">#15</span>,<span class="number">#16</span>,<span class="number">#17</span>));
+<span class="number">#9</span>=<span class="type">IFCSIUNIT</span>(*,.LENGTHUNIT.,.MILLI.,.METRE.);
+<span class="number">#10</span>=<span class="type">IFCSIUNIT</span>(*,.AREAUNIT.,$,.SQUARE_METRE.);
+<span class="number">#11</span>=<span class="type">IFCSIUNIT</span>(*,.VOLUMEUNIT.,$,.CUBIC_METRE.);
+<span class="number">#12</span>=<span class="type">IFCSIUNIT</span>(*,.SOLIDANGLEUNIT.,$,.STERADIAN.);
+<span class="number">#13</span>=<span class="type">IFCSIUNIT</span>(*,.PLANEANGLEUNIT.,$,.RADIAN.);
+<span class="number">#14</span>=<span class="type">IFCSIUNIT</span>(*,.MASSUNIT.,$,.GRAM.);
+<span class="number">#15</span>=<span class="type">IFCSIUNIT</span>(*,.TIMEUNIT.,$,.SECOND.);
+<span class="number">#16</span>=<span class="type">IFCSIUNIT</span>(*,.THERMODYNAMICTEMPERATUREUNIT.,$,.DEGREE_CELSIUS.);
+<span class="number">#17</span>=<span class="type">IFCSIUNIT</span>(*,.LUMINOUSINTENSITYUNIT.,$,.LUMEN.);
+<span class="number">#18</span>=<span class="type">IFCCARTESIANPOINT</span>((0.,0.,0.));
+<span class="number">#19</span>=<span class="type">IFCAXIS</span>2PLACEMENT3D(<span class="number">#18</span>,$,$);
+<span class="number">#20</span>=<span class="type">IFCGEOMETRICREPRESENTATIONCONTEXT</span>(<span class="string">&#39;Building Model&#39;</span>,<span class="string">&#39;Model&#39;</span>,3,1.E-05,<span class="number">#19</span>,$);
+<span class="number">#21</span>=<span class="type">IFCCARTESIANPOINT</span>((0.,0.));
+<span class="number">#22</span>=<span class="type">IFCAXIS</span>2PLACEMENT2D(<span class="number">#21</span>,$);
+<span class="number">#23</span>=<span class="type">IFCGEOMETRICREPRESENTATIONCONTEXT</span>(<span class="string">&#39;Building Plan View&#39;</span>,<span class="string">&#39;Plan&#39;</span>,2,1.E-05,<span class="number">#22</span>,$);
+<span class="number">#24</span>=<span class="type">IFCWALL</span>(<span class="string">&#39;1YTVCro6L0$OJQL2X7wICY&#39;</span>,<span class="number">#2</span>,<span class="string">&#39;The very first wall&#39;</span>,$,$,$,$,$,$);
+<span class="number">#27</span>=<span class="type">IFCPROPERTYSINGLEVALUE</span>(<span class="string">&#39;Text property&#39;</span>,$,<span class="type">IFCTEXT</span>(<span class="string">&#39;Any arbitrary text you like&#39;</span>),$);
+<span class="number">#28</span>=<span class="type">IFCPROPERTYSINGLEVALUE</span>(<span class="string">&#39;Length property&#39;</span>,$,<span class="type">IFCLENGTHMEASURE</span>(56.),$);
+<span class="number">#29</span>=<span class="type">IFCPROPERTYSINGLEVALUE</span>(<span class="string">&#39;Number property&#39;</span>,$,<span class="type">IFCNUMERICMEASURE</span>(789.2),$);
+<span class="number">#30</span>=<span class="type">IFCPROPERTYSINGLEVALUE</span>(<span class="string">&#39;Logical property&#39;</span>,$,<span class="type">IFCLOGICAL</span>(.T.),$);
+<span class="number">#26</span>=<span class="type">IFCPROPERTYSET</span>(<span class="string">&#39;2u_olyjv13oRt0GvSVSxHS&#39;</span>,<span class="number">#2</span>,<span class="string">&#39;Basic set of properties&#39;</span>,$,(<span class="number">#27</span>,<span class="number">#28</span>,<span class="number">#29</span>,<span class="number">#30</span>));
+<span class="number">#25</span>=<span class="type">IFCRELDEFINESBYPROPERTIES</span>(<span class="string">&#39;3I5GuvWn95PRXcxoFGfJAL&#39;</span>,<span class="number">#2</span>,$,$,(<span class="number">#24</span>),<span class="number">#26</span>);
+ENDSEC;
+END-ISO-10303-21;
 </code></pre></div>
 
 <h2>Retrieve</h2>

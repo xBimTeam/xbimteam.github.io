@@ -38,3 +38,7 @@ body
 .navbar{
     margin-bottom: 0;
 }
+
+.step .number{
+    color: red;
+}

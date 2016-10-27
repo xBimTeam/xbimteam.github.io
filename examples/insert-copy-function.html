@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="xBIM Toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
+    <meta name="author" content="xBIM Team">
     <link rel="icon" href="../img/favicon.ico">
 
     <title>xBIM</title>
@@ -160,7 +160,7 @@ so if you are not interested in graphics or analyses based on geometry you can u
 };
 </code></pre></div>
 
-<p><code>PropertyTranformDelegate</code> takes two arguments where first is <code>ExpressMetaProperty</code> and second is an <code>object</code> which represents <code>IPersistEntity</code>.
+<p><code>PropertyTranformDelegate</code> takes two arguments where the first is <code>ExpressMetaProperty</code> and the second is an <code>object</code> which represents <code>IPersistEntity</code>.
 <code>ExpressMetaProperty</code> is a cached object which is part of our own reflection meta model which we use for some data operations.
 The delegate is used in other code which uses C# reflection to inspect the data and copy values over. If you don't specify a delegate <code>InsertCopy()</code>
 will use all properties in the entity and copy them over. </p>

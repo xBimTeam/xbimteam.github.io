@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="xBIM Toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
+    <meta name="author" content="xBIM Team">
     <link rel="icon" href="../img/favicon.ico">
 
     <title>xBIM</title>
@@ -114,7 +114,88 @@
 <li>IFC federation can be stored as an IFC file (in IfcStore)</li>
 </ul>
 
-<p>//TODO: put in a sample code...</p>
+<div class="csharp"><pre><code><span class="keyword">using</span> <span class="type">System</span>;
+<span class="keyword">using</span> <span class="type">Xbim</span>.Common.Step21;
+<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc;
+<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.Interfaces;
+
+<span class="keyword">namespace</span> <span class="type">BasicExamples</span>
+{
+    <span class="keyword">public</span> <span class="keyword">class</span> <span class="type">FederationExample</span>
+    {
+        <span class="keyword">public</span> <span class="keyword">void</span> <span class="type">CreateFederation</span>()
+        {
+            <span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
+            {
+                ApplicationDevelopersName = <span class="string">&quot;You&quot;</span>,
+                ApplicationFullName = <span class="string">&quot;Your app&quot;</span>,
+                ApplicationIdentifier = <span class="string">&quot;Your app ID&quot;</span>,
+                ApplicationVersion = <span class="string">&quot;4.0&quot;</span>,
+                <span class="comment">//your user</span>
+                EditorsFamilyName = <span class="string">&quot;Santini Aichel&quot;</span>,
+                EditorsGivenName = <span class="string">&quot;Johann Blasius&quot;</span>,
+                EditorsOrganisationName = <span class="string">&quot;Independent Architecture&quot;</span>
+            };
+            <span class="keyword">using</span> (<span class="keyword">var</span> federation = <span class="type">IfcStore</span>.Create(editor, <span class="type">IfcSchemaVersion</span>.Ifc4, <span class="type">XbimStoreType</span>.InMemoryModel))
+            {
+
+                federation.AddModelReference(<span class="string">&quot;SampleHouse.ifc&quot;</span>, <span class="string">&quot;Bob The Builder&quot;</span>, <span class="string">&quot;Original Constructor&quot;</span>); <span class="comment">//IFC4</span>
+                federation.AddModelReference(<span class="string">&quot;SampleHouseExtension.ifc&quot;</span>, <span class="string">&quot;Tyna&quot;</span>, <span class="string">&quot;Extensions Builder&quot;</span>); <span class="comment">//IFC2x3</span>
+
+                <span class="type">Console</span>.WriteLine($<span class="string">&quot;Model is federation: {federation.IsFederation}&quot;</span>);
+                <span class="type">Console</span>.WriteLine($<span class="string">&quot;Number of overall entities: {federation.FederatedInstances.Count}&quot;</span>);
+                <span class="type">Console</span>.WriteLine($<span class="string">&quot;Number of walls: {federation.FederatedInstances.CountOf&lt;IIfcWall&gt;()}&quot;</span>);
+                <span class="keyword">foreach</span> (<span class="keyword">var</span> refModel <span class="keyword">in</span> federation.ReferencedModels)
+                {
+                    <span class="type">Console</span>.WriteLine();
+                    <span class="type">Console</span>.WriteLine($<span class="string">&quot;    Referenced model: {refModel.Name}&quot;</span>);
+                    <span class="type">Console</span>.WriteLine($<span class="string">&quot;    Referenced model organization: {refModel.OwningOrganisation}&quot;</span>);
+                    <span class="type">Console</span>.WriteLine($<span class="string">&quot;    Number of walls: {refModel.Model.Instances.CountOf&lt;IIfcWall&gt;()}&quot;</span>);
+
+                }
+
+                <span class="comment">//you can save information about the federation for a future use</span>
+                federation.SaveAs(<span class="string">&quot;federation.ifc&quot;</span>);
+            }
+        }
+    }
+}
+
+</code></pre></div>
+
+<pre><code>Model is federation: True
+Number of overall entities: 50303
+Number of walls: 8
+
+    Referenced model: SampleHouse.ifc
+    Referenced model organization: Bob The Builder
+    Number of walls: 5
+
+    Referenced model: SampleHouseExtension.ifc
+    Referenced model organization: Tyna
+    Number of walls: 3
+</code></pre>
+
+<p>Federation settings saved as IFC file look like this. This convention is purely our invention so it won't work with other tools. But it will allows you
+to create federations in your system and reopen them again once needed.</p>
+
+<div class="step"><pre><code>ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION ((<span class="string">&#39;&#39;</span>), <span class="string">&#39;2;1&#39;</span>);
+FILE_NAME (<span class="string">&#39;&#39;</span>, <span class="string">&#39;2016-10-27T13:14:43&#39;</span>, (<span class="string">&#39;&#39;</span>), (<span class="string">&#39;&#39;</span>), <span class="string">&#39;Xbim File Processor version 3.2.0.0&#39;</span>, <span class="string">&#39;Xbim version 3.2.0.0&#39;</span>, <span class="string">&#39;&#39;</span>);
+FILE_SCHEMA ((<span class="string">&#39;IFC4&#39;</span>));
+ENDSEC;
+DATA;
+<span class="number">#1</span>=<span class="type">IFCACTORROLE</span>(.USERDEFINED.,<span class="string">&#39;Original Constructor&#39;</span>,$);
+<span class="number">#2</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;Bob The Builder&#39;</span>,$,(<span class="number">#1</span>),$);
+<span class="number">#3</span>=<span class="type">IFCDOCUMENTINFORMATION</span>(<span class="string">&#39;1&#39;</span>,<span class="string">&#39;SampleHouse.ifc&#39;</span>,$,$,$,<span class="string">&#39;XbimReferencedModel&#39;</span>,$,$,<span class="number">#2</span>,$,$,$,$,$,$,$,$);
+<span class="number">#4</span>=<span class="type">IFCACTORROLE</span>(.USERDEFINED.,<span class="string">&#39;Extensions Builder&#39;</span>,$);
+<span class="number">#5</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;Tyna&#39;</span>,$,(<span class="number">#4</span>),$);
+<span class="number">#6</span>=<span class="type">IFCDOCUMENTINFORMATION</span>(<span class="string">&#39;2&#39;</span>,<span class="string">&#39;SampleHouseExtension.ifc&#39;</span>,$,$,$,<span class="string">&#39;XbimReferencedModel&#39;</span>,$,$,<span class="number">#5</span>,$,$,$,$,$,$,$,$);
+ENDSEC;
+END-ISO-10303-21;
+
+</code></pre></div>
 
     </div>
 	    
