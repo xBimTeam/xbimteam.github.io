@@ -70,6 +70,9 @@
         <li>
 			<a href="../examples/proper-wall-in-3d.html">Proper Wall in 3D</a>
 		</li>
+        <li>
+			<a href="../examples/step-to-xml-and-back-again.html">STEP to XML and Back Again</a>
+		</li>
     </ul>
 
 		</li>
@@ -109,12 +112,12 @@
 
 <h1>Basic model operations</h1>
 
-<p>To get started the easiest way to get xBIM into your project is to use <a href="https://www.nuget.org/packages?q=xbim">NuGet</a>. To do anything you want with the data you only need 
-<a href="https://www.nuget.org/packages/Xbim.Essentials/">xBIM Essentials</a>. If you need anything to do with geometry (like visualization) you will also need 
-<a href="https://www.nuget.org/packages/Xbim.Geometry/">xBIM Geometry Engine</a>. There are many years of development behind xBIM and both these packages are mature and pretty much stable.</p>
+<p>To get started the easiest way to get xBIM into your project is to use <a target="_blank" href="https://www.nuget.org/packages?q=xbim">NuGet</a>. To do anything you want with the data you only need 
+<a target="_blank" href="https://www.nuget.org/packages/Xbim.Essentials/">xBIM Essentials</a>. If you need anything to do with geometry (like visualization) you will also need 
+<a target="_blank" href="https://www.nuget.org/packages/Xbim.Geometry/">xBIM Geometry Engine</a>. There are many years of development behind xBIM and both these packages are mature and pretty much stable.</p>
 
 <p>Now it's probably time to have a look at some very basic code examples representing how xBIM can be used. We will present four basic functions of persistent storage well known as 
-<a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> (Create, Retrieve, Update and Delete). Following examples usually work with IFC4 but you can also do the same
+<a target="_blank" href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> (Create, Retrieve, Update and Delete). Following examples usually work with IFC4 but you can also do the same
 with IFC2x3. Actually most of the code is IFC version agnostic as it uses IFC4 interfaces which work for IFC2x3 as well. Sample data used to develop these examples can be downloaded
 <a href="../data/SampleHouse.zip">here</a>.</p>
 
@@ -122,7 +125,7 @@ with IFC2x3. Actually most of the code is IFC version agnostic as it uses IFC4 i
 
 <p>Following example will create simple IFC model without any geometry. As you can see <code>IfcStore</code> takes a configuration object <code>XbimEditorCredentials</code> representing
 current application and user and uses it to maintain <code>OwnerHistory</code> of root entities. This is a requirement and
-makes it easier to handle one of the many aspects needed to create compliant IFC models. This IFC doesn't define any <a href="http://www.buildingsmart-tech.org/specifications/ifc-view-definition">Model View Definition (MVD)</a>
+makes it easier to handle one of the many aspects needed to create compliant IFC models. This IFC doesn't define any <a target="_blank" href="http://www.buildingsmart-tech.org/specifications/ifc-view-definition">Model View Definition (MVD)</a>
 so there are no additional restrictions apart from <code>WHERE</code> rules and required properties. You should always set editor credentials and fill it in with initials of your application
 and your current user.</p>
 
@@ -296,7 +299,7 @@ on IFC2x3 entities</strong> which means you can query IFC2x3 and IFC4 with a <st
 <span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.Interfaces;
 </code></pre></div>
 
-<p>If you are interested in the structure of the entities we recommend you to have a look at IFC documentation <a href="http://www.buildingsmart-tech.org/ifc/">here</a>.</p>
+<p>If you are interested in the structure of the entities we recommend you to have a look at IFC documentation <a target="_blank" href="http://www.buildingsmart-tech.org/ifc/">here</a>.</p>
 
 <div class="csharp"><pre><code><span class="keyword">const</span> <span class="keyword">string</span> fileName = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
 <span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName))

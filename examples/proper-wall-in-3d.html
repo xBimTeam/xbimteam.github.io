@@ -70,6 +70,9 @@
         <li>
 			<a href="../examples/proper-wall-in-3d.html">Proper Wall in 3D</a>
 		</li>
+        <li>
+			<a href="../examples/step-to-xml-and-back-again.html">STEP to XML and Back Again</a>
+		</li>
     </ul>
 
 		</li>
@@ -114,6 +117,7 @@
 <span class="keyword">using</span> <span class="type">Xbim</span>.Common;
 <span class="keyword">using</span> <span class="type">Xbim</span>.Common.Step21;
 <span class="keyword">using</span> <span class="type">Xbim</span>.Ifc;
+<span class="keyword">using</span> <span class="type">Xbim</span>.IO;
 <span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.ActorResource;
 <span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.DateTimeResource;
 <span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.ExternalReferenceResource;
@@ -131,10 +135,6 @@
 <span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.QuantityResource;
 <span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.RepresentationResource;
 <span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.SharedBldgElements;
-<span class="keyword">using</span> <span class="type">Xbim</span>.IO;
-
-
-<span class="comment">// we need this to use extension methods in VS 2005</span>
 
 
 <span class="keyword">namespace</span> <span class="type">HelloWall</span>
@@ -148,41 +148,41 @@
         {
             <span class="comment">//first create and initialise a model called Hello Wall</span>
             <span class="type">Console</span>.WriteLine(<span class="string">&quot;Initialising the IFC Project....&quot;</span>);
-            <span class="keyword">var</span> model = CreateandInitModel(<span class="string">&quot;HelloWall&quot;</span>);
-            <span class="keyword">if</span> (model != <span class="keyword">null</span>)
+            <span class="keyword">using</span> (<span class="keyword">var</span> model = CreateandInitModel(<span class="string">&quot;HelloWall&quot;</span>))
             {
-                <span class="type">IfcBuilding</span> building = CreateBuilding(model, <span class="string">&quot;Default Building&quot;</span>);
-
-
-                <span class="type">IfcWallStandardCase</span> wall = CreateWall(model, 4000, 300, 2400);
-                <span class="keyword">if</span> (wall != <span class="keyword">null</span>) AddPropertiesToWall(model, wall);
-                <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Add Wall&quot;</span>))
+                <span class="keyword">if</span> (model != <span class="keyword">null</span>)
                 {
-                    building.AddElement(wall);
-                    txn.Commit();
+                    <span class="type">IfcBuilding</span> building = CreateBuilding(model, <span class="string">&quot;Default Building&quot;</span>);
+                    <span class="type">IfcWallStandardCase</span> wall = CreateWall(model, 4000, 300, 2400);
+
+                    <span class="keyword">if</span> (wall != <span class="keyword">null</span>) AddPropertiesToWall(model, wall);
+                    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Add Wall&quot;</span>))
+                    {
+                        building.AddElement(wall);
+                        txn.Commit();
+                    }
+
+                    <span class="keyword">if</span> (wall != <span class="keyword">null</span>)
+                    {
+                        <span class="keyword">try</span>
+                        {
+                            <span class="type">Console</span>.WriteLine(<span class="string">&quot;Standard Wall successfully created....&quot;</span>);
+                            <span class="comment">//write the Ifc File</span>
+                            model.SaveAs(<span class="string">&quot;HelloWallIfc4.ifc&quot;</span>, <span class="type">IfcStorageType</span>.Ifc);
+                            <span class="type">Console</span>.WriteLine(<span class="string">&quot;HelloWallIfc4.ifc has been successfully written&quot;</span>);
+                        }
+                        <span class="keyword">catch</span> (<span class="type">Exception</span> e)
+                        {
+                            <span class="type">Console</span>.WriteLine(<span class="string">&quot;Failed to save HelloWall.ifc&quot;</span>);
+                            <span class="type">Console</span>.WriteLine(e.Message);
+                        }
+                    }
                 }
-
-                <span class="keyword">if</span> (wall != <span class="keyword">null</span>)
+                <span class="keyword">else</span>
                 {
-                    <span class="keyword">try</span>
-                    {
-                        <span class="type">Console</span>.WriteLine(<span class="string">&quot;Standard Wall successfully created....&quot;</span>);
-                        <span class="comment">//write the Ifc File</span>
-                        model.SaveAs(<span class="string">&quot;HelloWallIfc4.ifc&quot;</span>,<span class="type">IfcStorageType</span>.Ifc);
-                        <span class="type">Console</span>.WriteLine(<span class="string">&quot;HelloWallIfc4.ifc has been successfully written&quot;</span>);
-                    }
-                    <span class="keyword">catch</span> (<span class="type">Exception</span> e)
-                    {
-                        <span class="type">Console</span>.WriteLine(<span class="string">&quot;Failed to save HelloWall.ifc&quot;</span>);
-                        <span class="type">Console</span>.WriteLine(e.Message);
-                    }
+                    <span class="type">Console</span>.WriteLine(<span class="string">&quot;Failed to initialise the model&quot;</span>);
                 }
             }
-            <span class="keyword">else</span>
-            {
-                <span class="type">Console</span>.WriteLine(<span class="string">&quot;Failed to initialise the model&quot;</span>);
-            }
-
             <span class="type">Console</span>.WriteLine(<span class="string">&quot;Press any key to exit to view the IFC file....&quot;</span>);
             <span class="type">Console</span>.ReadKey();
             LaunchNotepad(<span class="string">&quot;HelloWallIfc4.ifc&quot;</span>);
@@ -323,12 +323,12 @@
                 <span class="comment">//now place the wall into the model</span>
                 <span class="keyword">var</span> lp = model.Instances.New&lt;<span class="type">IfcLocalPlacement</span>&gt;();
                 <span class="keyword">var</span> ax3D = model.Instances.New&lt;<span class="type">IfcAxis2Placement3D</span>&gt;();
-                ax3<span class="type">D</span>.Location = origin;
-                ax3<span class="type">D</span>.RefDirection = model.Instances.New&lt;<span class="type">IfcDirection</span>&gt;();
-                ax3<span class="type">D</span>.RefDirection.SetXYZ(0, 1, 0);
-                ax3<span class="type">D</span>.Axis = model.Instances.New&lt;<span class="type">IfcDirection</span>&gt;();
-                ax3<span class="type">D</span>.Axis.SetXYZ(0, 0, 1);
-                lp.RelativePlacement = ax3<span class="type">D</span>;
+                ax3D.Location = origin;
+                ax3D.RefDirection = model.Instances.New&lt;<span class="type">IfcDirection</span>&gt;();
+                ax3D.RefDirection.SetXYZ(0, 1, 0);
+                ax3D.Axis = model.Instances.New&lt;<span class="type">IfcDirection</span>&gt;();
+                ax3D.Axis.SetXYZ(0, 0, 1);
+                lp.RelativePlacement = ax3D;
                 wall.ObjectPlacement = lp;
 
 
@@ -368,11 +368,11 @@
                 ifcPolyline.Points.Add(endPoint);
 
                 <span class="keyword">var</span> shape2D = model.Instances.New&lt;<span class="type">IfcShapeRepresentation</span>&gt;();
-                shape2<span class="type">D</span>.ContextOfItems = modelContext;
-                shape2<span class="type">D</span>.RepresentationIdentifier = <span class="string">&quot;Axis&quot;</span>;
-                shape2<span class="type">D</span>.RepresentationType = <span class="string">&quot;Curve2D&quot;</span>;
-                shape2<span class="type">D</span>.Items.Add(ifcPolyline);
-                rep.Representations.Add(shape2<span class="type">D</span>); 
+                shape2D.ContextOfItems = modelContext;
+                shape2D.RepresentationIdentifier = <span class="string">&quot;Axis&quot;</span>;
+                shape2D.RepresentationType = <span class="string">&quot;Curve2D&quot;</span>;
+                shape2D.Items.Add(ifcPolyline);
+                rep.Representations.Add(shape2D); 
                 txn.Commit();               
                 <span class="keyword">return</span> wall;
             }
@@ -693,6 +693,113 @@
 
     }
 }
+
+</code></pre></div>
+
+<p>Resulting IFC file:</p>
+
+<div class="step"><pre><code>ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION ((<span class="string">&#39;&#39;</span>), <span class="string">&#39;2;1&#39;</span>);
+FILE_NAME (<span class="string">&#39;&#39;</span>, <span class="string">&#39;2016-10-31T10:18:08&#39;</span>, (<span class="string">&#39;&#39;</span>), (<span class="string">&#39;&#39;</span>), <span class="string">&#39;Xbim File Processor version 4.0.0.0&#39;</span>, <span class="string">&#39;Xbim version 4.0.0.0&#39;</span>, <span class="string">&#39;&#39;</span>);
+FILE_SCHEMA ((<span class="string">&#39;IFC4&#39;</span>));
+ENDSEC;
+DATA;
+<span class="number">#1</span>=<span class="type">IFCPROJECT</span>(<span class="string">&#39;2MSHGQD897wuyjYHKVxtyf&#39;</span>,<span class="number">#2</span>,<span class="string">&#39;HelloWall&#39;</span>,$,$,$,$,(<span class="number">#20</span>,<span class="number">#23</span>),<span class="number">#8</span>);
+<span class="number">#2</span>=<span class="type">IFCOWNERHISTORY</span>(<span class="number">#5</span>,<span class="number">#6</span>,$,.ADDED.,$,$,$,0);
+<span class="number">#3</span>=<span class="type">IFCPERSON</span>($,<span class="string">&#39;Team&#39;</span>,<span class="string">&#39;xBIM&#39;</span>,$,$,$,$,$);
+<span class="number">#4</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;xBimTeam&#39;</span>,$,$,$);
+<span class="number">#5</span>=<span class="type">IFCPERSONANDORGANIZATION</span>(<span class="number">#3</span>,<span class="number">#4</span>,$);
+<span class="number">#7</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;xBimTeam&#39;</span>,$,$,$);
+<span class="number">#6</span>=<span class="type">IFCAPPLICATION</span>(<span class="number">#7</span>,<span class="string">&#39;1.0&#39;</span>,<span class="string">&#39;Hello Wall Application&#39;</span>,<span class="string">&#39;HelloWall.exe&#39;</span>);
+<span class="number">#8</span>=<span class="type">IFCUNITASSIGNMENT</span>((<span class="number">#9</span>,<span class="number">#10</span>,<span class="number">#11</span>,<span class="number">#12</span>,<span class="number">#13</span>,<span class="number">#14</span>,<span class="number">#15</span>,<span class="number">#16</span>,<span class="number">#17</span>));
+<span class="number">#9</span>=<span class="type">IFCSIUNIT</span>(*,.LENGTHUNIT.,.MILLI.,.METRE.);
+<span class="number">#10</span>=<span class="type">IFCSIUNIT</span>(*,.AREAUNIT.,$,.SQUARE_METRE.);
+<span class="number">#11</span>=<span class="type">IFCSIUNIT</span>(*,.VOLUMEUNIT.,$,.CUBIC_METRE.);
+<span class="number">#12</span>=<span class="type">IFCSIUNIT</span>(*,.SOLIDANGLEUNIT.,$,.STERADIAN.);
+<span class="number">#13</span>=<span class="type">IFCSIUNIT</span>(*,.PLANEANGLEUNIT.,$,.RADIAN.);
+<span class="number">#14</span>=<span class="type">IFCSIUNIT</span>(*,.MASSUNIT.,$,.GRAM.);
+<span class="number">#15</span>=<span class="type">IFCSIUNIT</span>(*,.TIMEUNIT.,$,.SECOND.);
+<span class="number">#16</span>=<span class="type">IFCSIUNIT</span>(*,.THERMODYNAMICTEMPERATUREUNIT.,$,.DEGREE_CELSIUS.);
+<span class="number">#17</span>=<span class="type">IFCSIUNIT</span>(*,.LUMINOUSINTENSITYUNIT.,$,.LUMEN.);
+<span class="number">#18</span>=<span class="type">IFCCARTESIANPOINT</span>((0.,0.,0.));
+<span class="number">#19</span>=<span class="type">IFCAXIS</span>2PLACEMENT3D(<span class="number">#18</span>,$,$);
+<span class="number">#20</span>=<span class="type">IFCGEOMETRICREPRESENTATIONCONTEXT</span>(<span class="string">&#39;Building Model&#39;</span>,<span class="string">&#39;Model&#39;</span>,3,1.E-05,<span class="number">#19</span>,$);
+<span class="number">#21</span>=<span class="type">IFCCARTESIANPOINT</span>((0.,0.));
+<span class="number">#22</span>=<span class="type">IFCAXIS</span>2PLACEMENT2D(<span class="number">#21</span>,$);
+<span class="number">#23</span>=<span class="type">IFCGEOMETRICREPRESENTATIONCONTEXT</span>(<span class="string">&#39;Building Plan View&#39;</span>,<span class="string">&#39;Plan&#39;</span>,2,1.E-05,<span class="number">#22</span>,$);
+<span class="number">#24</span>=<span class="type">IFCBUILDING</span>(<span class="string">&#39;0jQ$yvAIv6URCwLuvWnAo0&#39;</span>,<span class="number">#2</span>,<span class="string">&#39;Default Building&#39;</span>,$,$,<span class="number">#25</span>,$,$,.ELEMENT.,$,$,$);
+<span class="number">#25</span>=<span class="type">IFCLOCALPLACEMENT</span>($,<span class="number">#26</span>);
+<span class="number">#26</span>=<span class="type">IFCAXIS</span>2PLACEMENT3D(<span class="number">#27</span>,$,$);
+<span class="number">#27</span>=<span class="type">IFCCARTESIANPOINT</span>((0.,0.,0.));
+<span class="number">#28</span>=<span class="type">IFCRELAGGREGATES</span>(<span class="string">&#39;3Qs6TKkPjASQ1ctGzUSQ7F&#39;</span>,<span class="number">#2</span>,$,$,<span class="number">#1</span>,(<span class="number">#24</span>));
+<span class="number">#29</span>=<span class="type">IFCWALLSTANDARDCASE</span>(<span class="string">&#39;3NBPkknun6EuV9fpeE6rFh&#39;</span>,<span class="number">#2</span>,<span class="string">&#39;A Standard rectangular wall&#39;</span>,$,$,<span class="number">#39</span>,<span class="number">#38</span>,$,$);
+<span class="number">#30</span>=<span class="type">IFCRECTANGLEPROFILEDEF</span>(.AREA.,$,<span class="number">#32</span>,300.,4000.);
+<span class="number">#31</span>=<span class="type">IFCCARTESIANPOINT</span>((0.,400.));
+<span class="number">#32</span>=<span class="type">IFCAXIS</span>2PLACEMENT2D(<span class="number">#31</span>,$);
+<span class="number">#33</span>=<span class="type">IFCEXTRUDEDAREASOLID</span>(<span class="number">#30</span>,<span class="number">#36</span>,<span class="number">#34</span>,2400.);
+<span class="number">#34</span>=<span class="type">IFCDIRECTION</span>((0.,0.,1.));
+<span class="number">#35</span>=<span class="type">IFCCARTESIANPOINT</span>((0.,0.,0.));
+<span class="number">#36</span>=<span class="type">IFCAXIS</span>2PLACEMENT3D(<span class="number">#35</span>,$,$);
+<span class="number">#37</span>=<span class="type">IFCSHAPEREPRESENTATION</span>(<span class="number">#20</span>,<span class="string">&#39;Body&#39;</span>,<span class="string">&#39;SweptSolid&#39;</span>,(<span class="number">#33</span>));
+<span class="number">#38</span>=<span class="type">IFCPRODUCTDEFINITIONSHAPE</span>($,$,(<span class="number">#37</span>,<span class="number">#52</span>));
+<span class="number">#39</span>=<span class="type">IFCLOCALPLACEMENT</span>($,<span class="number">#40</span>);
+<span class="number">#40</span>=<span class="type">IFCAXIS</span>2PLACEMENT3D(<span class="number">#35</span>,<span class="number">#42</span>,<span class="number">#41</span>);
+<span class="number">#41</span>=<span class="type">IFCDIRECTION</span>((0.,1.,0.));
+<span class="number">#42</span>=<span class="type">IFCDIRECTION</span>((0.,0.,1.));
+<span class="number">#43</span>=<span class="type">IFCMATERIALLAYERSETUSAGE</span>(<span class="number">#44</span>,.AXIS2.,.NEGATIVE.,150.,$);
+<span class="number">#44</span>=<span class="type">IFCMATERIALLAYERSET</span>((<span class="number">#45</span>),$,$);
+<span class="number">#45</span>=<span class="type">IFCMATERIALLAYER</span>($,10.,$,$,$,$,$);
+<span class="number">#46</span>=<span class="type">IFCMATERIAL</span>(<span class="string">&#39;some material&#39;</span>,$,$);
+<span class="number">#47</span>=<span class="type">IFCRELASSOCIATESMATERIAL</span>(<span class="string">&#39;0is_vsqtn9ouErH3XVg3O8&#39;</span>,<span class="number">#2</span>,$,$,(<span class="number">#29</span>),<span class="number">#43</span>);
+<span class="number">#48</span>=<span class="type">IFCPRESENTATIONLAYERASSIGNMENT</span>(<span class="string">&#39;some ifcPresentationLayerAssignment&#39;</span>,$,(<span class="number">#37</span>),$);
+<span class="number">#49</span>=<span class="type">IFCPOLYLINE</span>((<span class="number">#50</span>,<span class="number">#51</span>));
+<span class="number">#50</span>=<span class="type">IFCCARTESIANPOINT</span>((0.,0.));
+<span class="number">#51</span>=<span class="type">IFCCARTESIANPOINT</span>((4000.,0.));
+<span class="number">#52</span>=<span class="type">IFCSHAPEREPRESENTATION</span>(<span class="number">#20</span>,<span class="string">&#39;Axis&#39;</span>,<span class="string">&#39;Curve2D&#39;</span>,(<span class="number">#49</span>));
+<span class="number">#54</span>=<span class="type">IFCSIUNIT</span>(*,.LENGTHUNIT.,.MILLI.,.METRE.);
+<span class="number">#53</span>=<span class="type">IFCQUANTITYLENGTH</span>(<span class="string">&#39;IfcQuantityArea:Area&#39;</span>,<span class="string">&#39;&#39;</span>,<span class="number">#54</span>,100.,$);
+<span class="number">#56</span>=<span class="type">IFCDIMENSIONALEXPONENTS</span>(1,0,0,0,0,0,0);
+<span class="number">#55</span>=<span class="type">IFCCONTEXTDEPENDENTUNIT</span>(<span class="number">#56</span>,.LENGTHUNIT.,<span class="string">&#39;Elephants&#39;</span>);
+<span class="number">#57</span>=<span class="type">IFCQUANTITYCOUNT</span>(<span class="string">&#39;IfcQuantityCount:Elephant&#39;</span>,$,<span class="number">#55</span>,12.,$);
+<span class="number">#60</span>=<span class="type">IFCSIUNIT</span>(*,.LENGTHUNIT.,.MILLI.,.METRE.);
+<span class="number">#59</span>=<span class="type">IFCMEASUREWITHUNIT</span>(<span class="type">IFCRATIOMEASURE</span>(25.4),<span class="number">#60</span>);
+<span class="number">#61</span>=<span class="type">IFCDIMENSIONALEXPONENTS</span>(1,0,0,0,0,0,0);
+<span class="number">#58</span>=<span class="type">IFCCONVERSIONBASEDUNIT</span>(<span class="number">#61</span>,.LENGTHUNIT.,<span class="string">&#39;Inch&#39;</span>,<span class="number">#59</span>);
+<span class="number">#62</span>=<span class="type">IFCQUANTITYLENGTH</span>(<span class="string">&#39;IfcQuantityLength:Length&#39;</span>,<span class="string">&#39;&#39;</span>,<span class="number">#58</span>,24.,$);
+<span class="number">#63</span>=<span class="type">IFCELEMENTQUANTITY</span>(<span class="string">&#39;2NzDD6BkfDFAUH5zVe3vf0&#39;</span>,<span class="number">#2</span>,<span class="string">&#39;Test:IfcElementQuantity&#39;</span>,<span class="string">&#39;Measurement quantity&#39;</span>,$,(<span class="number">#53</span>,<span class="number">#57</span>,<span class="number">#62</span>));
+<span class="number">#64</span>=<span class="type">IFCRELDEFINESBYPROPERTIES</span>(<span class="string">&#39;2rxEDLnp59XvLpgGjoNnBQ&#39;</span>,<span class="number">#2</span>,<span class="string">&#39;Area Association&#39;</span>,<span class="string">&#39;IfcElementQuantity associated to wall&#39;</span>,(<span class="number">#29</span>),<span class="number">#63</span>);
+<span class="number">#66</span>=<span class="type">IFCSIUNIT</span>(*,.TIMEUNIT.,$,.SECOND.);
+<span class="number">#65</span>=<span class="type">IFCPROPERTYSINGLEVALUE</span>(<span class="string">&#39;IfcPropertySingleValue:Time&#39;</span>,<span class="string">&#39;&#39;</span>,<span class="type">IFCTIMEMEASURE</span>(150.),<span class="number">#66</span>);
+<span class="number">#68</span>=<span class="type">IFCPROPERTYENUMERATION</span>(<span class="string">&#39;Notes&#39;</span>,(<span class="type">IFCLABEL</span>(<span class="string">&#39;Do&#39;</span>),<span class="type">IFCLABEL</span>(<span class="string">&#39;Re&#39;</span>),<span class="type">IFCLABEL</span>(<span class="string">&#39;Mi&#39;</span>),<span class="type">IFCLABEL</span>(<span class="string">&#39;Fa&#39;</span>),<span class="type">IFCLABEL</span>(<span class="string">&#39;So&#39;</span>),<span class="type">IFCLABEL</span>(<span class="string">&#39;La&#39;</span>),<span class="type">IFCLABEL</span>(<span class="string">&#39;Ti&#39;</span>)),$);
+<span class="number">#67</span>=<span class="type">IFCPROPERTYENUMERATEDVALUE</span>(<span class="string">&#39;IfcPropertyEnumeratedValue:Music&#39;</span>,$,(<span class="type">IFCLABEL</span>(<span class="string">&#39;Do&#39;</span>),<span class="type">IFCLABEL</span>(<span class="string">&#39;Re&#39;</span>),<span class="type">IFCLABEL</span>(<span class="string">&#39;Mi&#39;</span>)),<span class="number">#68</span>);
+<span class="number">#70</span>=<span class="type">IFCSIUNIT</span>(*,.MASSUNIT.,.KILO.,.GRAM.);
+<span class="number">#69</span>=<span class="type">IFCPROPERTYBOUNDEDVALUE</span>(<span class="string">&#39;IfcPropertyBoundedValue:Mass&#39;</span>,<span class="string">&#39;&#39;</span>,<span class="type">IFCMASSMEASURE</span>(5000.),<span class="type">IFCMASSMEASURE</span>(1000.),<span class="number">#70</span>,$);
+<span class="number">#73</span>=<span class="type">IFCDIMENSIONALEXPONENTS</span>(0,0,0,0,0,0,0);
+<span class="number">#72</span>=<span class="type">IFCCONTEXTDEPENDENTUNIT</span>(<span class="number">#73</span>,.FREQUENCYUNIT.,<span class="string">&#39;dB&#39;</span>);
+<span class="number">#71</span>=<span class="type">IFCPROPERTYTABLEVALUE</span>(<span class="string">&#39;IfcPropertyTableValue:Sound&#39;</span>,$,(<span class="type">IFCREAL</span>(100.),<span class="type">IFCREAL</span>(200.),<span class="type">IFCREAL</span>(400.),<span class="type">IFCREAL</span>(800.),<span class="type">IFCREAL</span>(1600.),<span class="type">IFCREAL</span>(3200.)),(<span class="type">IFCREAL</span>(20.),<span class="type">IFCREAL</span>(42.),<span class="type">IFCREAL</span>(46.),<span class="type">IFCREAL</span>(56.),<span class="type">IFCREAL</span>(60.),<span class="type">IFCREAL</span>(65.)),$,$,<span class="number">#72</span>,$);
+<span class="number">#74</span>=<span class="type">IFCPROPERTYLISTVALUE</span>(<span class="string">&#39;IfcPropertyListValue:Colours&#39;</span>,$,(<span class="type">IFCLABEL</span>(<span class="string">&#39;Red&#39;</span>),<span class="type">IFCLABEL</span>(<span class="string">&#39;Green&#39;</span>),<span class="type">IFCLABEL</span>(<span class="string">&#39;Blue&#39;</span>),<span class="type">IFCLABEL</span>(<span class="string">&#39;Pink&#39;</span>),<span class="type">IFCLABEL</span>(<span class="string">&#39;White&#39;</span>),<span class="type">IFCLABEL</span>(<span class="string">&#39;Black&#39;</span>)),$);
+<span class="number">#75</span>=<span class="type">IFCMATERIAL</span>(<span class="string">&#39;Brick&#39;</span>,$,$);
+<span class="number">#76</span>=<span class="type">IFCPROPERTYREFERENCEVALUE</span>(<span class="string">&#39;IfcPropertyReferenceValue:Material&#39;</span>,$,$,<span class="number">#75</span>);
+<span class="number">#78</span>=<span class="type">IFCMATERIAL</span>(<span class="string">&#39;Cavity&#39;</span>,$,$);
+<span class="number">#79</span>=<span class="type">IFCMATERIAL</span>(<span class="string">&#39;Block&#39;</span>,$,$);
+<span class="number">#77</span>=<span class="type">IFCMATERIALLIST</span>((<span class="number">#75</span>,<span class="number">#78</span>,<span class="number">#79</span>));
+<span class="number">#80</span>=<span class="type">IFCMATERIALLAYER</span>(<span class="number">#75</span>,100.,$,$,$,$,$);
+<span class="number">#81</span>=<span class="type">IFCPROPERTYREFERENCEVALUE</span>(<span class="string">&#39;IfcPropertyReferenceValue:MaterialLayer&#39;</span>,$,$,<span class="number">#80</span>);
+<span class="number">#82</span>=<span class="type">IFCDOCUMENTREFERENCE</span>(<span class="string">&#39;c://Documents//TheDoc.Txt&#39;</span>,$,<span class="string">&#39;Document&#39;</span>,$,$);
+<span class="number">#83</span>=<span class="type">IFCPROPERTYREFERENCEVALUE</span>(<span class="string">&#39;IfcPropertyReferenceValue:Document&#39;</span>,$,$,<span class="number">#82</span>);
+<span class="number">#84</span>=<span class="type">IFCREGULARTIMESERIES</span>(<span class="string">&#39;Regular Time Series&#39;</span>,<span class="string">&#39;Time series of events&#39;</span>,<span class="string">&#39;2015-02-14T12:01:01&#39;</span>,<span class="string">&#39;2015-05-15T12:01:01&#39;</span>,.CONTINUOUS.,.MEASURED.,$,$,604800.,());
+<span class="number">#85</span>=<span class="type">IFCPROPERTYREFERENCEVALUE</span>(<span class="string">&#39;IfcPropertyReferenceValue:TimeSeries&#39;</span>,$,$,<span class="number">#84</span>);
+<span class="number">#86</span>=<span class="type">IFCPOSTALADDRESS</span>($,$,$,<span class="string">&#39;Room 101&#39;</span>,(<span class="string">&#39;12 New road&#39;</span>,<span class="string">&#39;DoxField&#39;</span>),$,<span class="string">&#39;Sunderland&#39;</span>,$,<span class="string">&#39;DL01 6SX&#39;</span>,$);
+<span class="number">#87</span>=<span class="type">IFCPROPERTYREFERENCEVALUE</span>(<span class="string">&#39;IfcPropertyReferenceValue:Address&#39;</span>,$,$,<span class="number">#86</span>);
+<span class="number">#88</span>=<span class="type">IFCTELECOMADDRESS</span>($,$,$,(<span class="string">&#39;01325 6589965&#39;</span>),$,$,(<span class="string">&#39;bob@bobsworks.com&#39;</span>),$,$);
+<span class="number">#89</span>=<span class="type">IFCPROPERTYREFERENCEVALUE</span>(<span class="string">&#39;IfcPropertyReferenceValue:Telecom&#39;</span>,$,$,<span class="number">#88</span>);
+<span class="number">#90</span>=<span class="type">IFCPROPERTYSET</span>(<span class="string">&#39;2qJSTdQSj0wQKmIdFVroG2&#39;</span>,<span class="number">#2</span>,<span class="string">&#39;Test:IfcPropertySet&#39;</span>,<span class="string">&#39;Property Set&#39;</span>,(<span class="number">#65</span>,<span class="number">#67</span>,<span class="number">#69</span>,<span class="number">#71</span>,<span class="number">#74</span>,<span class="number">#76</span>,<span class="number">#81</span>,<span class="number">#83</span>,<span class="number">#85</span>,<span class="number">#87</span>,<span class="number">#89</span>));
+<span class="number">#91</span>=<span class="type">IFCRELDEFINESBYPROPERTIES</span>(<span class="string">&#39;3n83nuxoj0gA5F$UnucPP3&#39;</span>,<span class="number">#2</span>,<span class="string">&#39;Property Association&#39;</span>,<span class="string">&#39;IfcPropertySet associated to wall&#39;</span>,(<span class="number">#29</span>),<span class="number">#90</span>);
+<span class="number">#92</span>=<span class="type">IFCRELCONTAINEDINSPATIALSTRUCTURE</span>(<span class="string">&#39;1mefbELBn5JQeF1AH4vA0$&#39;</span>,<span class="number">#2</span>,$,$,(<span class="number">#29</span>),<span class="number">#24</span>);
+ENDSEC;
+END-ISO-10303-21;
+
 </code></pre></div>
 
     </div>

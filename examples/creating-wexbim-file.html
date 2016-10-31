@@ -70,6 +70,9 @@
         <li>
 			<a href="../examples/proper-wall-in-3d.html">Proper Wall in 3D</a>
 		</li>
+        <li>
+			<a href="../examples/step-to-xml-and-back-again.html">STEP to XML and Back Again</a>
+		</li>
     </ul>
 
 		</li>
@@ -109,11 +112,15 @@
 
 <h2>Creating WexBIM file for a web presentation</h2>
 
-<p>You may have realized that one of our projects is <a href="http://xbimteam.github.io/XbimWebUI/">web viewer for IFC</a>. We have developed it from scratch based on our previous experience with some webGL libraries.
+<p><canvas id="x-view" style="width:50%;float:right;"></canvas></p>
+
+<p>You may have realized that one of our projects is <a target="_blank" href="http://xbimteam.github.io/XbimWebUI/">web viewer for IFC</a>. We have developed it from scratch based on our previous experience with some webGL libraries.
 We know it is not very obvious for the first time where to have a look when you want to convert IFC into compact wexBIM so here is the code. 
-You will need <a href="https://www.nuget.org/packages/Xbim.Essentials/">xBIM Essentials</a> and <a href="https://www.nuget.org/packages/Xbim.Geometry/">xBIM Geometry</a>.
+You will need <a target="_blank" href="https://www.nuget.org/packages/Xbim.Essentials/">xBIM Essentials</a> and <a target="_blank" href="https://www.nuget.org/packages/Xbim.Geometry/">xBIM Geometry</a>.
 Here is very simple code to be used for a conversion of complete IFC file into wexBIM file. Because xBIM is a Toolkit there are ways how to customize/filter
 the wexBIM file for advanced deployments but that is far more complicated than this simple conversion:</p>
+
+<div class="clearfix"></div>
 
 <div class="csharp"><pre><code><span class="keyword">using</span> <span class="type">System</span>.IO;
 <span class="keyword">using</span> <span class="type">Xbim</span>.Ifc;
@@ -146,6 +153,10 @@ the wexBIM file for advanced deployments but that is far more complicated than t
     }
 }
 </code></pre></div>
+
+<script type="text/javascript" src="../js/xbim-viewer.js"></script>
+
+<script type="text/javascript" src="../js/sample-house.js"></script>
 
     </div>
 	    

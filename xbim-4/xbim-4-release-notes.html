@@ -70,6 +70,9 @@
         <li>
 			<a href="../examples/proper-wall-in-3d.html">Proper Wall in 3D</a>
 		</li>
+        <li>
+			<a href="../examples/step-to-xml-and-back-again.html">STEP to XML and Back Again</a>
+		</li>
     </ul>
 
 		</li>
@@ -109,7 +112,7 @@
 
 <h1>xBIM 4 Release Notes</h1>
 
-<p>You may have realized that xBIM Nuget packages on <a href="https://www.nuget.org/packages/Xbim.Essentials/">www.nuget.org</a> didn't change for a while (about a year) and than the new version appeared recently.
+<p>You may have realized that xBIM Nuget packages on <a target="_blank" href="https://www.nuget.org/packages/Xbim.Essentials/">www.nuget.org</a> didn't change for a while (about a year) and than the new version appeared recently.
 Latest xBIM version 3 was released on 15 October 2015. Well, two minor versions were published in October 2016 but these were just minor fixes to put things in order before
 the major upgrade to version 4. xBIM 4 was first published on 13 October 2016 and it contains more than a year of very intensive development and refactoring.
 This document should help you to understand what has changed (and why it is good even if it breaks your old code). If you are new to xBIM you may also
@@ -150,8 +153,8 @@ If we have enough time we will write an article about why EXPRESS/STEP is a lot 
 for product modelling like IFC it is not). Saying so, <strong>xBIM supports both STEP and XML file format completely</strong>. </p>
 
 <p>Because EXPRESS is not as widely spread as XSD there are not many tools for code generation and we certainly didn't find one for .NET which could be used to 
-generate the source code using design patterns which proved to be right over several years. So we developed our own code generation utility using <a href="https://gppg.codeplex.com/">GPPG/GPLEX</a>
-parser generator and <a href="https://msdn.microsoft.com/en-us/library/bb126445.aspx">T4 templates</a>. It was developed in a way where it can process any EXPRESS schema
+generate the source code using design patterns which proved to be right over several years. So we developed our own code generation utility using <a target="_blank" href="https://gppg.codeplex.com/">GPPG/GPLEX</a>
+parser generator and <a target="_blank" href="https://msdn.microsoft.com/en-us/library/bb126445.aspx">T4 templates</a>. It was developed in a way where it can process any EXPRESS schema
 and generate code in a very uniform way. We generated IFC2x3 first to check it that the generated code works fine and than we generated IFC4. While doing so 
 we started to make some substantial changes to make most of the parts of xBIM Toolkit schema agnostic so that it can be used with any schema implementation. So we moved 
 some of the code between DLLs and namespaces and changed names to make it more neutral where objects are not IFC specific.</p>

@@ -70,6 +70,9 @@
         <li>
 			<a href="examples/proper-wall-in-3d.html">Proper Wall in 3D</a>
 		</li>
+        <li>
+			<a href="examples/step-to-xml-and-back-again.html">STEP to XML and Back Again</a>
+		</li>
     </ul>
 
 		</li>
@@ -109,11 +112,11 @@
 
 <h1>Quick Start</h1>
 
-<p>To get started the easiest way to get xBIM into your project is to use <a href="https://www.nuget.org/packages?q=xbim">NuGet</a>. To do anything you want with the data you only need 
-<a href="https://www.nuget.org/packages/Xbim.Essentials/">xBIM Essentials</a>. If you need anything to do with geometry (like visualization) you will also need 
-<a href="https://www.nuget.org/packages/Xbim.Geometry/">xBIM Geometry Engine</a>. There are many years of development behind xBIM and both these packages are mature and pretty much stable.</p>
+<p>To get started the easiest way to get xBIM into your project is to use <a target="_blank" href="https://www.nuget.org/packages?q=xbim">NuGet</a>. To do anything you want with the data you only need 
+<a target="_blank" href="https://www.nuget.org/packages/Xbim.Essentials/">xBIM Essentials</a>. If you need anything to do with geometry (like visualization) you will also need 
+<a target="_blank" href="https://www.nuget.org/packages/Xbim.Geometry/">xBIM Geometry Engine</a>. There are many years of development behind xBIM and both these packages are mature and pretty much stable.</p>
 
-<p>As the very first thing you should create credentials which will be used to keep <a href="http://www.buildingsmart-tech.org/ifc/IFC4/final/html/link/ifcownerhistory.htm">owner history</a> 
+<p>As the very first thing you should create credentials which will be used to keep <a target="_blank" href="http://www.buildingsmart-tech.org/ifc/IFC4/final/html/link/ifcownerhistory.htm">owner history</a> 
 of all entities right in IFC world. </p>
 
 <div class="csharp"><pre><code><span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
@@ -176,7 +179,7 @@ with model initialized to IFC2x3 it will throw a runtime exception. </p>
 typed object initializer to set up values of the object. It is not necessary to use them but I personally like it because I can see the structure of
 the resulting entity. To find an entity you want you will use following functions:</p>
 
-<div class="csharp"><pre><code><span class="keyword">var</span> firstWall = mode.Instances.FirtsOrDefault&lt;<span class="type">IfcWall</span>&gt;();
+<div class="csharp"><pre><code><span class="keyword">var</span> firstWall = model.Instances.FirstOrDefault&lt;<span class="type">IfcWall</span>&gt;();
 <span class="keyword">var</span> allWalls = model.Instances.OfType&lt;<span class="type">IfcWall</span>&gt;();
 <span class="keyword">var</span> specificWall = model.Instances.Where&lt;<span class="type">IfcWall</span>&gt;(w =&gt; w.Name == <span class="string">&quot;Brick wall&quot;</span>);
 </code></pre></div>
@@ -188,7 +191,7 @@ on IFC2x3 entities</strong> which means you can query IFC2x3 and IFC4 with a <st
 <p>Using all these basic bits and pieces your first simple code might look like this. Because it uses <code>Xbim.Ifc4.Interfaces</code> this code will work both for IFC2x3 and IFC4.</p>
 
 <div class="csharp"><pre><code><span class="keyword">using</span> <span class="type">Xbim</span>.Ifc;
-<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.Interfaces;
+<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.Interfaces; <span class="comment">//IFC4 interfaces are also implemented in our IFC2x3 schema implementation</span>
 
 <span class="keyword">namespace</span> <span class="type">BasicExamples</span>
 {
@@ -196,7 +199,7 @@ on IFC2x3 entities</strong> which means you can query IFC2x3 and IFC4 with a <st
     {
         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> Start()
         {
-            <span class="keyword">const</span> <span class="keyword">string</span> fileName = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
+            <span class="keyword">const</span> <span class="keyword">string</span> fileName = <span class="string">&quot;SampleHouse.ifc&quot;</span>; <span class="comment">//this can be either IFC2x3 or IFC4</span>
             <span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
             {
                 ApplicationDevelopersName = <span class="string">&quot;You&quot;</span>,
@@ -225,7 +228,7 @@ on IFC2x3 entities</strong> which means you can query IFC2x3 and IFC4 with a <st
                     txn.Commit();
                 }
 
-                <span class="comment">//save your changed model</span>
+                <span class="comment">//save your changed model. IfcStore will use the extension to save it as *.ifc, *.ifczip or *.ifcxml.</span>
                 model.SaveAs(<span class="string">&quot;SampleHouse_Modified.ifc&quot;</span>);
             }
         }
