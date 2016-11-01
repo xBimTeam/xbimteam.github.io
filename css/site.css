@@ -81,3 +81,11 @@ body {
 .brand{
     margin: 0 10px;
 }
+
+.navbar-brand{
+    padding-right: 25px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 15px;
+    position: relative;
+}
