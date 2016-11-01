@@ -14,8 +14,13 @@
     width: device-width;
 }
 
+html{
+    position: relative;
+    min-height: 100%;
+}
+
 body {
-    margin-bottom: 5em;
+    margin-bottom: 400px;
 }
 
 .container {
@@ -56,4 +61,31 @@ body {
 
 .step .number {
     color: red;
+}
+
+.group-divider {
+    font-size: 80%;
+    color: gray;
+    padding-left: 1em;
+}
+
+
+p code{
+    color: #333;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.brands-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    color: #9d9d9d;
+    background: black;
+}
+
+.brand{
+    margin: 0 10px;
 }
