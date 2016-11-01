@@ -191,7 +191,7 @@ with model initialized to IFC2x3 it will throw a runtime exception. </p>
 typed object initializer to set up values of the object. It is not necessary to use them but I personally like it because I can see the structure of
 the resulting entity. To find an entity you want you will use following functions:</p>
 
-<div class="csharp"><pre><code><span class="keyword">var</span> firstWall = model.Instances.First`<span class="type">OrDefault</span>&lt;<span class="type">IfcWall</span>&gt;();
+<div class="csharp"><pre><code><span class="keyword">var</span> firstWall = model.Instances.FirstOrDefault&lt;<span class="type">IfcWall</span>&gt;();
 <span class="keyword">var</span> allWalls = model.Instances.OfType&lt;<span class="type">IfcWall</span>&gt;();
 <span class="keyword">var</span> specificWall = model.Instances.Where&lt;<span class="type">IfcWall</span>&gt;(w =&gt; w.Name == <span class="string">&quot;Brick wall&quot;</span>);
 </code></pre></div>
