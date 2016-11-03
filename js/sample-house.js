@@ -12,7 +12,7 @@
     $("#x-view").height(width / 1.618033988749895);
 
     var viewer = new xViewer("x-view");
-    viewer.background = [0, 0, 0];
+    viewer.background = [0, 0, 0, 0];
     viewer.load(sampleHouse);
     viewer.start();
 
