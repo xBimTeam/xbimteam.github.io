@@ -126,11 +126,38 @@
     </nav>
 
 	<div class="container">
-	<h1>Using Linq for Optimal Performance</h1>
+	<h1>Using <a target="_blank" href="https://msdn.microsoft.com/en-us/library/mt693052.aspx">LINQ</a> for Optimal Performance</h1>
 
-<p>Following code will only execute the <code>IEnumerable</code> once you actually access it. Furthermore xBIM uses type of entities internally as
-a first level filter so you should ask for the most specific type you can. Keep in mind that <code>IModel.Instances</code> contains <strong>all</strong> entities
-in the model which is typically hundreds of thousands objects! So you don't want to iterate over all of them to do anything. </p>
+<p><a target="_blank" href="https://msdn.microsoft.com/en-us/library/mt693052.aspx">LINQ</a> stands for a Language-Integrated Query and it is part .NET Framework
+since version 3.5. It implements deferred execution which means you can chain the query statements and it will do nothing until you 
+actually iterate over the result. You can either use LINQ as a <a target="_blank" href="https://msdn.microsoft.com/en-us/library/bb397927.aspx">specific language</a> or
+you can use <a target="_blank" href="https://msdn.microsoft.com/en-us/library/9eekhta0.aspx">extension methods</a> from <code>System.Linq</code> which extend <code>IEnumerable&lt;T&gt;</code> 
+interface and can get arguments as lambda expressions. We prefer the later approach but it is equivalent. 
+Following example shows both variants to do the same. The result of both queries is enumeration of the globally unique IDs of the walls which have any opening.</p>
+
+<div class="csharp"><pre><code><span class="comment">//expression using LINQ</span>
+<span class="keyword">var</span> ids =
+    <span class="keyword">from</span> wall <span class="keyword">in</span> model.Instances.OfType&lt;<span class="type">IIfcWall</span>&gt;()
+    <span class="keyword">where</span> wall.HasOpenings.Any()
+    <span class="keyword">select</span> wall.GlobalId;
+</code></pre></div>
+
+<div class="csharp"><pre><code><span class="comment">//equivalent expression using chained extensions of IEnumerable and lambda expressions</span>
+<span class="keyword">var</span> ids =
+    model.Instances
+    .Where&lt;<span class="type">IIfcWall</span>&gt;(wall =&gt; wall.HasOpenings.Any())
+    .Select(wall =&gt; wall.GlobalId);
+</code></pre></div>
+
+<p>You can see in the code that we called <code>Where()</code> function directly on <code>IModel.Instances</code>. <code>IEntityCollection</code> implementations  implement overloads for most of Linq 
+data retrieval methods like <code>Where&lt;T&gt;()</code>, <code>Count&lt;T&gt;()</code>, <code>FirstOrDefault&lt;T&gt;()</code> and <code>OfType&lt;T&gt;()</code> and it is optimized on the lowest level for fast data access.
+All these methods return <code>IEnumerable&lt;T&gt;</code> so you can chain it with other methods to perform further selections, aggregation, sorting and other operations. 
+<code>IEntityCollection</code> functions also use deferred execution so it fits very well with Linq concepts. You should only force it to enumerate if you are going to use
+the result more than once. You can do that by calling one of <code>ToList&lt;T&gt;()</code>, <code>ToArray&lt;T&gt;()</code>or <code>ToDictionary&lt;T&gt;()</code> methods.</p>
+
+<p>xBIM uses type of entities internally as the first level filter so you should always ask for the most specific type you can. 
+Keep in mind that <code>IModel.Instances</code> contains <strong>all</strong> entities in the model which is typically hundreds of thousands of objects! 
+So you don't want to iterate over all of them to do anything. See following good and bad example which do the same but not quite the same:</p>
 
 <div class="csharp"><pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> SelectionWithLinq()
 {
@@ -155,6 +182,9 @@ in the model which is typically hundreds of thousands objects! So you don't want
 </code></pre></div>
 
 <div class="alert alert-danger" role="alert"> 
+    <p>
+        Following code example is about <strong>4.5 times slower.</strong>
+    </p>
     <strong>Please, never use this kind of code:</strong>
 </div>
 
