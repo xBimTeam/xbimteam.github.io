@@ -9,7 +9,7 @@
     <meta name="author" content="xBIM Team">
     <link rel="icon" href="../img/favicon.ico">
 
-    <title>Creating wexBIM file</title>
+    <title>Using Linq for Optimal Performance</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -66,11 +66,11 @@
         <li>
 			<a href="../examples/step-to-xml-and-back-again.html">STEP to XML and Back Again</a>
 		</li>
-        <li class="active">
-			<a href="../examples/creating-wexbim-file.html">Creating wexBIM file</a>
-		</li>
 		
         <li>
+			<a href="../examples/creating-wexbim-file.html">Creating wexBIM file</a>
+		</li>
+        <li class="active">
 			<a href="../examples/using-linq-for-optimal-performance.html">Using Linq for Optimal Performance</a>
 		</li>
 		<li role="separator" class="group-divider">Advanced </li>
@@ -126,53 +126,60 @@
     </nav>
 
 	<div class="container">
-	<h1>Creating WexBIM File for a Web Presentation</h1>
+	<h1>Using Linq for Optimal Performance</h1>
 
-<p><canvas id="x-view" style="width:50%;float:right;"></canvas></p>
+<p>Following code will only execute the <code>IEnumerable</code> once you actually access it. Furthermore xBIM uses type of entities internally as
+a first level filter so you should ask for the most specific type you can. Keep in mind that <code>IModel.Instances</code> contains <strong>all</strong> entities
+in the model which is typically hundreds of thousands objects! So you don't want to iterate over all of them to do anything. </p>
 
-<p>You may have realized that one of our projects is <a target="_blank" href="http://xbimteam.github.io/XbimWebUI/">web viewer for IFC</a>. We have developed it from scratch based on our previous experience with some webGL libraries.
-We know it is not very obvious for the first time where to have a look when you want to convert IFC into compact wexBIM so here is the code. 
-You will need <a target="_blank" href="https://www.nuget.org/packages/Xbim.Essentials/">xBIM Essentials</a> and <a target="_blank" href="https://www.nuget.org/packages/Xbim.Geometry/">xBIM Geometry</a>.
-Here is very simple code to be used for a conversion of complete IFC file into wexBIM file. Because xBIM is a Toolkit there are ways how to customize/filter
-the wexBIM file for advanced deployments but that is far more complicated than this simple conversion:</p>
-
-<div class="clearfix"></div>
-
-<div class="csharp"><pre><code><span class="keyword">using</span> <span class="type">System</span>.IO;
-<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc;
-<span class="keyword">using</span> <span class="type">Xbim</span>.ModelGeometry.Scene;
-
-<span class="keyword">namespace</span> <span class="type">CreateWexBIM</span>
+<div class="csharp"><pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> SelectionWithLinq()
 {
-    <span class="keyword">class</span> <span class="type">Program</span>
+    <span class="keyword">const</span> <span class="keyword">string</span> ifcFilename = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
+    <span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(ifcFilename);
+    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction())
     {
-        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> Main()
-        {
-            <span class="keyword">const</span> <span class="keyword">string</span> fileName = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
-            <span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName))
-            {
-                <span class="keyword">var</span> context = <span class="keyword">new</span> Xbim3DModelContext(model);
-                context.CreateContext();
+        <span class="keyword">var</span> requiredProducts = <span class="keyword">new</span> <span class="type">IIfcProduct</span>[0]
+            .Concat(model.Instances.OfType&lt;<span class="type">IIfcWallStandardCase</span>&gt;())
+            .Concat(model.Instances.OfType&lt;<span class="type">IIfcDoor</span>&gt;())
+            .Concat(model.Instances.OfType&lt;<span class="type">IIfcWindow</span>&gt;());
 
-                <span class="keyword">var</span> wexBimFilename = <span class="type">Path</span>.ChangeExtension(fileName, <span class="string">&quot;wexBIM&quot;</span>);
-                <span class="keyword">using</span> (<span class="keyword">var</span> wexBiMfile = <span class="type">File</span>.Create(wexBimFilename))
-                {
-                    <span class="keyword">using</span> (<span class="keyword">var</span> wexBimBinaryWriter = <span class="keyword">new</span> BinaryWriter(wexBiMfile))
-                    {
-                        model.SaveAsWexBim(wexBimBinaryWriter);
-                        wexBimBinaryWriter.Close();
-                    }
-                    wexBiMfile.Close();
-                }
-            }
+        <span class="comment">//This will only iterate over entities you really need (9 in this case)</span>
+        <span class="keyword">foreach</span> (<span class="keyword">var</span> product <span class="keyword">in</span> requiredProducts)
+        {
+            <span class="comment">//Do anything you want here...</span>
         }
+
+        txn.Commit();
     }
 }
 </code></pre></div>
 
-<script type="text/javascript" src="../js/xbim-viewer.js"></script>
+<div class="alert alert-danger" role="alert"> 
+    <strong>Please, never use this kind of code:</strong>
+</div>
 
-<script type="text/javascript" src="../js/sample-house.js"></script>
+<div class="csharp"><pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> SelectionWithoutLinq()
+{
+    <span class="keyword">const</span> <span class="keyword">string</span> ifcFilename = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
+    <span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(ifcFilename);
+    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction())
+    {
+        <span class="comment">//this will iterate over 47309 entities instead of just 9 you need in this case!</span>
+        <span class="keyword">foreach</span> (<span class="keyword">var</span> entity <span class="keyword">in</span> model.Instances)
+        {
+            <span class="keyword">if</span> (entity <span class="keyword">is</span> <span class="type">IIfcWallStandardCase</span> ||
+                entity <span class="keyword">is</span> <span class="type">IIfcDoor</span> ||
+                entity <span class="keyword">is</span> <span class="type">IIfcWindow</span>)
+            {
+                <span class="comment">//You may want to do something here. Please DON&#39;T!</span>
+            }
+        }
+
+
+        txn.Commit();
+    }
+}
+</code></pre></div>
 
     </div>
     
