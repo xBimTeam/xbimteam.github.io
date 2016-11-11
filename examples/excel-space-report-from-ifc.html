@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="xBIM Toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
+    <meta name="author" content="xBIM Team">
+    <link rel="icon" href="../img/favicon.ico">
+
+    <title>Excel Space Report from IFC</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Custom styles for this template -->
+    <link href="../css/codestyles.css" rel="stylesheet">
+    <link href="../css/site.css" rel="stylesheet">
+
+    <script src="../js/jquery.min.js"></script>
+
+  </head>
+<!-- NAVBAR
+================================================== -->
+  <body>
+
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html"><img alt="logo" src="../img/logos/xbim_white_h35.png"/></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          		   
+	<ul class="nav navbar-nav">
+		
+        <li>
+			<a href="../quick-start.html">Quick Start</a>
+		</li>
+        <li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Examples <span class="caret"></span></a>
+			
+	<ul class="dropdown-menu">
+		<li role="separator" class="group-divider">Basic </li>
+		
+        <li>
+			<a href="../examples/basic-model-operations.html">Basic Model Operations</a>
+		</li>
+		
+        <li>
+			<a href="../examples/proper-wall-in-3d.html">Proper Wall in 3D</a>
+		</li>
+		
+        <li>
+			<a href="../examples/step-to-xml-and-back-again.html">STEP to XML and Back Again</a>
+		</li>
+		
+        <li>
+			<a href="../examples/creating-wexbim-file.html">Creating wexBIM file</a>
+		</li>
+		
+        <li>
+			<a href="../examples/using-linq-for-optimal-performance.html">Using Linq for Optimal Performance</a>
+		</li>
+        <li class="active">
+			<a href="../examples/excel-space-report-from-ifc.html">Excel Space Report from IFC</a>
+		</li>
+		<li role="separator" class="group-divider">Advanced </li>
+		
+        <li>
+			<a href="../examples/federating-models.html">Federating Models</a>
+		</li>
+		
+        <li>
+			<a href="../examples/insert-copy-function.html">Insert Copy Function</a>
+		</li>
+		
+        <li>
+			<a href="../examples/change-log-creation.html">Change Log Creation</a>
+		</li>
+    </ul>
+
+		</li>
+        <li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">xBIM 4 <span class="caret"></span></a>
+			
+	<ul class="dropdown-menu">
+		
+        <li>
+			<a href="../xbim-4/fast-upgrade-track.html">Fast Upgrade Track</a>
+		</li>
+		
+        <li>
+			<a href="../xbim-4/xbim-4-release-notes.html">xBIM 4 Release Notes</a>
+		</li>
+    </ul>
+
+		</li>
+        <li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">License <span class="caret"></span></a>
+			
+	<ul class="dropdown-menu">
+		
+        <li>
+			<a href="../license/license.html">License</a>
+		</li>
+		
+        <li>
+			<a href="../license/third-party-licenses.html">Third Party Licenses</a>
+		</li>
+    </ul>
+
+		</li>
+    </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+	<div class="container">
+	<h1>Excel Space Report from IFC</h1>
+
+<p>This example will show you some of the concepts necessary to read data from IFC file. It uses IFC4 interfaces which will 
+work both for IFC2x3 and IFC4 models. To create Excel files we use <a target="_blank" href="https://www.nuget.org/packages/NPOI/">NPOI</a>. You will 
+just need <a target="_blank" href="https://www.nuget.org/packages/Xbim.Essentials/">xBIM Essentials</a> for this example because we are not going to
+use geometry here. All the code including sample data is available <a target="_blank" href="https://github.com/xBimTeam/XbimSamples/tree/master/ExcelReportExample">here</a>.</p>
+
+<p>The result from this example will look like this:
+<img src="../examples/images/excel-report.png" alt="Excel Report" /></p>
+
+<p>You will need these <code>using</code> statements:</p>
+
+<div class="csharp"><pre><code><span class="keyword">using</span> <span class="type">NPOI</span>.SS.UserModel;
+<span class="keyword">using</span> <span class="type">NPOI</span>.XSSF.UserModel;
+<span class="keyword">using</span> <span class="type">System</span>.Diagnostics;
+<span class="keyword">using</span> <span class="type">System</span>.IO;
+<span class="keyword">using</span> <span class="type">System</span>.Linq;
+<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc;
+<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.Interfaces;
+</code></pre></div>
+
+<p>The main function looks like this:</p>
+
+<div class="csharp"><pre><code><span class="comment">//initialize NPOI workbook from the template</span>
+<span class="keyword">var</span> workbook = <span class="keyword">new</span> XSSFWorkbook(<span class="string">&quot;template.xlsx&quot;</span>);
+<span class="keyword">var</span> sheet = workbook.GetSheet(<span class="string">&quot;Spaces&quot;</span>);
+
+<span class="comment">//Create nice numeric formats with units. Units would need a LOT MORE care in real world. </span>
+<span class="comment">//We just know that our current model has space areas in square meters and space volumes in cubic meters</span>
+<span class="comment">//Please note that the original data exported from Revit were wrong because volumes were 1000x bigger than they should be.</span>
+<span class="comment">//Data were fixed using xBIM for this example.</span>
+
+<span class="keyword">var</span> areaFormat = workbook.CreateDataFormat();
+<span class="keyword">var</span> areaFormatId = areaFormat.GetFormat(<span class="string">&quot;# ##0.00 [$m&#178;]&quot;</span>);
+<span class="keyword">var</span> areaStyle = workbook.CreateCellStyle();
+areaStyle.DataFormat = areaFormatId;
+
+<span class="keyword">var</span> volumeFormat = workbook.CreateDataFormat();
+<span class="keyword">var</span> volumeFormatId = volumeFormat.GetFormat(<span class="string">&quot;# ##0.00 [$m&#179;]&quot;</span>);
+<span class="keyword">var</span> volumeStyle = workbook.CreateCellStyle();
+volumeStyle.DataFormat = volumeFormatId;
+
+
+<span class="comment">//Open IFC model. We are not going to change anything in the model so we can leave editor credentials out.</span>
+<span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(<span class="string">&quot;SampleHouse.ifc&quot;</span>))
+{
+    <span class="comment">//Get all spaces in the model. </span>
+    <span class="comment">//We use ToList() here to avoid multiple enumeration with Count() and foreach(){}</span>
+    <span class="keyword">var</span> spaces = model.Instances.OfType&lt;<span class="type">IIfcSpace</span>&gt;().ToList();
+    <span class="comment">//Set header content</span>
+    sheet.GetRow(0).GetCell(0)
+        .SetCellValue($<span class="string">&quot;Space Report ({spaces.Count} spaces)&quot;</span>);
+    <span class="keyword">foreach</span> (<span class="keyword">var</span> space <span class="keyword">in</span> spaces)
+    {
+        <span class="comment">//write report data</span>
+        WriteSpaceRow(space, sheet, areaStyle, volumeStyle);
+    }
+}
+
+<span class="comment">//save report</span>
+<span class="keyword">using</span> (<span class="keyword">var</span> stream = <span class="type">File</span>.Create(<span class="string">&quot;spaces.xlsx&quot;</span>))
+{
+    workbook.Write(stream);
+    stream.Close();
+}
+
+<span class="comment">//see the result if you have some SW associated with the *.xlsx</span>
+<span class="type">Process</span>.Start(<span class="string">&quot;spaces.xlsx&quot;</span>);
+</code></pre></div>
+
+<p>This code uses following functions to read the data from IFC and write a row for every space.</p>
+
+<div class="csharp"><pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> WriteSpaceRow(<span class="type">IIfcSpace</span> space, <span class="type">ISheet</span> sheet, <span class="type">ICellStyle</span> areaStyle, <span class="type">ICellStyle</span> volumeStyle)
+{
+    <span class="keyword">var</span> row = sheet.CreateRow(sheet.LastRowNum + 1);
+
+    <span class="keyword">var</span> name = space.Name;
+    row.CreateCell(0).SetCellValue(name);
+
+    <span class="keyword">var</span> floor = GetFloor(space);
+    row.CreateCell(1).SetCellValue(floor?.Name);
+
+    <span class="keyword">var</span> area = GetArea(space);
+    <span class="keyword">if</span> (area != <span class="keyword">null</span>)
+    {
+        <span class="keyword">var</span> cell = row.CreateCell(2);
+        cell.CellStyle = areaStyle;
+
+        <span class="comment">//there is no guarantee it is a number if it came from property and not from a quantity</span>
+        <span class="keyword">if</span> (area.UnderlyingSystemType == <span class="keyword">typeof</span>(<span class="keyword">double</span>))
+            cell.SetCellValue((<span class="keyword">double</span>)(area.Value));
+        <span class="keyword">else</span>
+            cell.SetCellValue(area.ToString());
+    }
+
+    <span class="keyword">var</span> volume = GetVolume(space);
+    <span class="keyword">if</span> (volume != <span class="keyword">null</span>)
+    {
+        <span class="keyword">var</span> cell = row.CreateCell(3);
+        cell.CellStyle = volumeStyle;
+
+        <span class="comment">//there is no guarantee it is a number if it came from property and not from a quantity</span>
+        <span class="keyword">if</span> (volume.UnderlyingSystemType == <span class="keyword">typeof</span>(<span class="keyword">double</span>))
+            cell.SetCellValue((<span class="keyword">double</span>)(volume.Value));
+        <span class="keyword">else</span>
+            cell.SetCellValue(volume.ToString());
+    }
+}
+</code></pre></div>
+
+<p>To get both floor and properties or quantities you need to inspect <a href="">objectified relations</a>.
+For example to get the floor which contains the space you need to do this:</p>
+
+<div class="csharp"><pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">IIfcBuildingStorey</span> GetFloor(<span class="type">IIfcSpace</span> space)
+{
+    <span class="keyword">return</span>
+        <span class="comment">//get all objectified relations which model decomposition by this space</span>
+        space.Decomposes
+
+        <span class="comment">//select decomposed objects (these might be either other space or building storey)</span>
+        .Select(r =&gt; r.RelatingObject)
+
+        <span class="comment">//get only storeys</span>
+        .OfType&lt;<span class="type">IIfcBuildingStorey</span>&gt;()
+
+        <span class="comment">//get the first one</span>
+        .FirstOrDefault();
+}
+</code></pre></div>
+
+<p>IFC contains data infrastructure to store any arbitrary data related to products and their types. This infrastructure
+is rather complex. Two main ways to store the data is as a quantity or as a property. Quantities are explicit about the
+type of value they contain where properties can contain many different data types as a value. For area and volume it is preferable to
+get the value from quantities if they are defined. Property is a fallback in this case. </p>
+
+<div class="csharp"><pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">IIfcValue</span> GetArea(<span class="type">IIfcProduct</span> product)
+{
+    <span class="comment">//try to get the value from quantities first</span>
+    <span class="keyword">var</span> area =
+        <span class="comment">//get all relations which can define property and quantity sets</span>
+        product.IsDefinedBy
+
+        <span class="comment">//Search across all property and quantity sets. </span>
+        <span class="comment">//You might also want to search in a specific quantity set by name</span>
+        .SelectMany(r =&gt; r.RelatingPropertyDefinition.PropertySetDefinitions)
+
+        <span class="comment">//Only consider quantity sets in this case.</span>
+        .OfType&lt;<span class="type">IIfcElementQuantity</span>&gt;()
+
+        <span class="comment">//Get all quantities from all quantity sets</span>
+        .SelectMany(qset =&gt; qset.Quantities)
+
+        <span class="comment">//We are only interested in areas </span>
+        .OfType&lt;<span class="type">IIfcQuantityArea</span>&gt;()
+
+        <span class="comment">//We will take the first one. There might obviously be more than one area properties</span>
+        <span class="comment">//so you might want to check the name. But we will keep it simple for this example.</span>
+        .FirstOrDefault()?
+        .AreaValue;
+
+    <span class="keyword">if</span> (area != <span class="keyword">null</span>)
+        <span class="keyword">return</span> area;
+
+    <span class="comment">//try to get the value from properties</span>
+    <span class="keyword">return</span> GetProperty(product, <span class="string">&quot;Area&quot;</span>);
+}
+
+<span class="keyword">private</span> <span class="keyword">static</span> <span class="type">IIfcValue</span> GetVolume(<span class="type">IIfcProduct</span> product)
+{
+    <span class="keyword">var</span> volume = product.IsDefinedBy
+        .SelectMany(r =&gt; r.RelatingPropertyDefinition.PropertySetDefinitions)
+        .OfType&lt;<span class="type">IIfcElementQuantity</span>&gt;()
+        .SelectMany(qset =&gt; qset.Quantities)
+        .OfType&lt;<span class="type">IIfcQuantityVolume</span>&gt;()
+        .FirstOrDefault()?.VolumeValue;
+    <span class="keyword">if</span> (volume != <span class="keyword">null</span>)
+        <span class="keyword">return</span> volume;
+    <span class="keyword">return</span> GetProperty(product, <span class="string">&quot;Volume&quot;</span>);
+}
+</code></pre></div>
+
+<p>It is probably more common to search for values in property sets so this is how you can do it.</p>
+
+<div class="csharp"><pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">IIfcValue</span> GetProperty(<span class="type">IIfcProduct</span> product, <span class="keyword">string</span> name)
+{
+    <span class="keyword">return</span>
+        <span class="comment">//get all relations which can define property and quantity sets</span>
+        product.IsDefinedBy
+
+        <span class="comment">//Search across all property and quantity sets. You might also want to search in a specific property set</span>
+        .SelectMany(r =&gt; r.RelatingPropertyDefinition.PropertySetDefinitions)
+
+        <span class="comment">//Only consider property sets in this case.</span>
+        .OfType&lt;<span class="type">IIfcPropertySet</span>&gt;()
+
+        <span class="comment">//Get all properties from all property sets</span>
+        .SelectMany(pset =&gt; pset.HasProperties)
+
+        <span class="comment">//lets only consider single value properties. There are also enumerated properties, </span>
+        <span class="comment">//table properties, reference properties, complex properties and other</span>
+        .OfType&lt;<span class="type">IIfcPropertySingleValue</span>&gt;()
+
+        <span class="comment">//lets make the name comparison more fuzzy. This might not be the best practise</span>
+        .Where(p =&gt;
+            <span class="keyword">string</span>.Equals(p.Name, name, <span class="type">System</span>.StringComparison.OrdinalIgnoreCase) ||
+            p.Name.ToString().ToLower().Contains(name.ToLower()))
+
+        <span class="comment">//only take the first. In reality you should handle this more carefully.</span>
+        .FirstOrDefault()?.NominalValue;
+}
+</code></pre></div>
+
+    </div>
+    
+
+	<div class="brands-container">
+	<p><small>Some of the companies using xBIM Toolkit:</small></p>
+		<img src="../img/logos/northumbria_logo_gray.png" class="brand"/>
+		<img src="../img/logos/viewpoint_logo_gray.png" class="brand"/>
+		<img src="../img/logos/welplan_logo_gray.png" class="brand"/>
+		<img src="../img/logos/nbs_logo_gray.png" class="brand"/>
+		<img src="../img/logos/bim_academy_logo_gray.png" class="brand"/>
+	</div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

@@ -13,6 +13,43 @@
 
     var viewer = new xViewer("x-view");
     viewer.background = [0, 0, 0, 0];
+    viewer.on("loaded", function () {
+        var shouldRotate = true;
+        function rotate() {
+            if (!shouldRotate) {
+                return;
+            }
+
+            var origin = viewer._origin;
+            var camera = viewer.getCameraPosition();
+
+            //get origin coordinates in view space
+            var mvOrigin = vec3.transformMat4(vec3.create(), origin, viewer._mvMatrix)
+
+            //movement factor needs to be dependant on the distance but one meter is a minimum so that movement wouldn't stop when camera is in 0 distance from navigation origin
+            var distanceVec = vec3.subtract(vec3.create(), origin, camera);
+            var distance = Math.max(vec3.length(distanceVec), viewer._handles[0]._model.meter);
+
+            //move to the navigation origin in view space
+            var transform = mat4.translate(mat4.create(), mat4.create(), mvOrigin)
+
+            //z rotation around model z axis
+            var mvZ = vec3.transformMat3(vec3.create(), [0, 0, 1], mat3.fromMat4(mat3.create(), viewer._mvMatrix));
+            mvZ = vec3.normalize(vec3.create(), mvZ);
+            transform = mat4.rotate(mat4.create(), transform, Math.PI / 700.0, mvZ);
+
+            //reverse the translation in view space and leave only navigation changes
+            var translation = vec3.negate(vec3.create(), mvOrigin);
+            transform = mat4.translate(mat4.create(), transform, translation);
+
+            //apply transformation in right order
+            viewer._mvMatrix = mat4.multiply(mat4.create(), transform, viewer._mvMatrix);
+
+        }
+        $("#x-view").mousedown(function () { shouldRotate = false; });
+
+        setInterval(rotate, 20);
+    });
     viewer.load(sampleHouse);
     viewer.start();
 
