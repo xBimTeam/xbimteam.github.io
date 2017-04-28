@@ -61,6 +61,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://xbimteam.github.io/examples/spatial-hierarchy.html</loc>
+    <lastmod>2017-04-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://xbimteam.github.io/examples/federating-models.html</loc>
     <lastmod>2017-04-28</lastmod>
     <changefreq>weekly</changefreq>

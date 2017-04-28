@@ -12,7 +12,7 @@
 
     <link rel="icon" href="../img/favicon.ico">
 
-    <title>Federating Models</title>
+    <title>Spatial hierarchy</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -113,12 +113,12 @@
         <li>
 			<a href="../examples/excel-space-report-from-ifc.html">Excel Space Report from IFC</a>
 		</li>
-		
-        <li>
+        <li class="active">
 			<a href="../examples/spatial-hierarchy.html">Spatial hierarchy</a>
 		</li>
 		<li role="separator" class="group-divider">Advanced </li>
-        <li class="active">
+		
+        <li>
 			<a href="../examples/federating-models.html">Federating Models</a>
 		</li>
 		
@@ -169,100 +169,113 @@
     </nav>
 
 	<div class="container">
-	<h1>Federation of multiple models</h1>
+	<h1>Spatial hierarchy from IFC</h1>
 
-<ul>
-<li>Overlaying multiple models to behave like a one</li>
-<li>Uniform access to the data as if it was a single model</li>
-<li>Read-only. To modify the content of the model you have to work with the specific model</li>
-<li>Not constrained to a single schema (federate IFC2x3 + IFC4 → query it as IFC4 interfaces)</li>
-<li>IFC federation can be stored as an IFC file (in IfcStore)</li>
-</ul>
+<p>This very simple example shows how to retrieve spatial structure from the file. Spatial structure in IFC means nested structure of 
+the hierarchy representing project, site, building, storey and space. If you have a look at <a target="_blank" href="http://www.buildingsmart-tech.org/ifc/IFC4/Add2/html/link/ifcspace.htm">IFC documentation</a>
+you will find that building can contain storeys as well as other buildings, storey can contain spaces as well as other storeys
+and so on. Also this kind of relation is modeled using <a target="_blank" href="http://www.buildingsmart-tech.org/ifc/IFC4/Add2/html/link/ifcrelaggregates.htm">IfcRelAggregates</a>
+but if you want to find elements contained in the particular spatial structure it is modeled as 
+<a target="_blank" href="http://www.buildingsmart-tech.org/ifc/IFC4/Add2/html/link/ifcrelcontainedinspatialstructure.htm">IfcRelContainedInSpatialStructure</a>
+so it depends what you want to find. Following example shows how to search and traverse the data to get complete hierarchy using the two relations mentioned above.</p>
 
 <div class="csharp"><pre><code><span class="keyword">using</span> <span class="type">System</span>;
-<span class="keyword">using</span> <span class="type">Xbim</span>.Common.Step21;
+<span class="keyword">using</span> <span class="type">System</span>.Linq;
 <span class="keyword">using</span> <span class="type">Xbim</span>.Ifc;
 <span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.Interfaces;
 
 <span class="keyword">namespace</span> <span class="type">BasicExamples</span>
 {
-    <span class="keyword">public</span> <span class="keyword">class</span> <span class="type">FederationExample</span>
+    <span class="keyword">class</span> <span class="type">SpatialStructureExample</span>
     {
-        <span class="keyword">public</span> <span class="keyword">void</span> CreateFederation()
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> Show()
         {
-            <span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
+            <span class="keyword">const</span> <span class="keyword">string</span> file = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
+
+            <span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(file))
             {
-                ApplicationDevelopersName = <span class="string">&quot;You&quot;</span>,
-                ApplicationFullName = <span class="string">&quot;Your app&quot;</span>,
-                ApplicationIdentifier = <span class="string">&quot;Your app ID&quot;</span>,
-                ApplicationVersion = <span class="string">&quot;4.0&quot;</span>,
-                <span class="comment">//your user</span>
-                EditorsFamilyName = <span class="string">&quot;Santini Aichel&quot;</span>,
-                EditorsGivenName = <span class="string">&quot;Johann Blasius&quot;</span>,
-                EditorsOrganisationName = <span class="string">&quot;Independent Architecture&quot;</span>
-            };
-            <span class="keyword">using</span> (<span class="keyword">var</span> federation = <span class="type">IfcStore</span>.Create(editor, <span class="type">IfcSchemaVersion</span>.Ifc4, <span class="type">XbimStoreType</span>.InMemoryModel))
-            {
-
-                federation.AddModelReference(<span class="string">&quot;SampleHouse.ifc&quot;</span>, <span class="string">&quot;Bob The Builder&quot;</span>, <span class="string">&quot;Original Constructor&quot;</span>); <span class="comment">//IFC4</span>
-                federation.AddModelReference(<span class="string">&quot;SampleHouseExtension.ifc&quot;</span>, <span class="string">&quot;Tyna&quot;</span>, <span class="string">&quot;Extensions Builder&quot;</span>); <span class="comment">//IFC2x3</span>
-
-                <span class="type">Console</span>.WriteLine($<span class="string">&quot;Model is federation: {federation.IsFederation}&quot;</span>);
-                <span class="type">Console</span>.WriteLine($<span class="string">&quot;Number of overall entities: {federation.FederatedInstances.Count}&quot;</span>);
-                <span class="type">Console</span>.WriteLine($<span class="string">&quot;Number of walls: {federation.FederatedInstances.CountOf&lt;IIfcWall&gt;()}&quot;</span>);
-                <span class="keyword">foreach</span> (<span class="keyword">var</span> refModel <span class="keyword">in</span> federation.ReferencedModels)
-                {
-                    <span class="type">Console</span>.WriteLine();
-                    <span class="type">Console</span>.WriteLine($<span class="string">&quot;    Referenced model: {refModel.Name}&quot;</span>);
-                    <span class="type">Console</span>.WriteLine($<span class="string">&quot;    Referenced model organization: {refModel.OwningOrganisation}&quot;</span>);
-                    <span class="type">Console</span>.WriteLine($<span class="string">&quot;    Number of walls: {refModel.Model.Instances.CountOf&lt;IIfcWall&gt;()}&quot;</span>);
-
-                }
-
-                <span class="comment">//you can save information about the federation for a future use</span>
-                federation.SaveAs(<span class="string">&quot;federation.ifc&quot;</span>);
+                <span class="keyword">var</span> project = model.Instances.FirstOrDefault&lt;<span class="type">IIfcProject</span>&gt;();
+                PrintHierarchy(project, 0);
             }
+        }
+
+        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> PrintHierarchy(<span class="type">IIfcObjectDefinition</span> o, <span class="keyword">int</span> level)
+        {
+            <span class="type">Console</span>.WriteLine(<span class="keyword">string</span>.Format(<span class="string">&quot;{0}{1} [{2}]&quot;</span>, GetIndent(level), o.Name, o.GetType().Name));
+
+            <span class="comment">//only spatial elements can contain building elements</span>
+            <span class="keyword">var</span> spatialElement = o <span class="keyword">as</span> <span class="type">IIfcSpatialStructureElement</span>;
+            <span class="keyword">if</span> (spatialElement != <span class="keyword">null</span>)
+            {
+                <span class="comment">//using IfcRelContainedInSpatialElement to get contained elements</span>
+                <span class="keyword">var</span> containedElements = spatialElement.ContainsElements.SelectMany(rel =&gt; rel.RelatedElements);
+                <span class="keyword">foreach</span> (<span class="keyword">var</span> element <span class="keyword">in</span> containedElements)
+                    <span class="type">Console</span>.WriteLine(<span class="keyword">string</span>.Format(<span class="string">&quot;{0}    -&gt;{1} [{2}]&quot;</span>, GetIndent(level), element.Name, element.GetType().Name));
+            }
+
+            <span class="comment">//using IfcRelAggregares to get spatial decomposition of spatial structure elements</span>
+            <span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> o.IsDecomposedBy.SelectMany(r =&gt; r.RelatedObjects))
+                PrintHierarchy(item, level +1);
+        }
+
+        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> GetIndent(<span class="keyword">int</span> level)
+        {
+            <span class="keyword">var</span> indent = <span class="string">&quot;&quot;</span>;
+            <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; level; i++)
+                indent += <span class="string">&quot;  &quot;</span>;
+            <span class="keyword">return</span> indent;
         }
     }
 }
 
 </code></pre></div>
 
-<p>Console output will look like this:</p>
+<p>This will give you following output for our sample model:</p>
 
-<pre><code>Model is federation: True
-Number of overall entities: 50303
-Number of walls: 8
-
-    Referenced model: SampleHouse.ifc
-    Referenced model organization: Bob The Builder
-    Number of walls: 5
-
-    Referenced model: SampleHouseExtension.ifc
-    Referenced model organization: Tyna
-    Number of walls: 3
+<pre><code>Project Number [IfcProject]
+  Default [IfcSite]
+     [IfcBuilding]
+      Ground Floor [IfcBuildingStorey]
+          ->Basic Wall:Wall-Ext_102Bwk-75Ins-100LBlk-12P:285330 [IfcWall]
+          ->Basic Wall:Wall-Ext_102Bwk-75Ins-100LBlk-12P:285395 [IfcWall]
+          ->Basic Wall:Wall-Ext_102Bwk-75Ins-100LBlk-12P:285459 [IfcWall]
+          ->Curtain Wall:Curtain_Wall-Exterior_Glazing:285582 [IfcCurtainWall]
+          ->Curtain Wall:Curtain_Wall-Exterior_Glazing:285684 [IfcCurtainWall]
+          ->Basic Wall:Wall-Partn_12P-70MStd-12P:285792 [IfcWallStandardCase]
+          ->Basic Wall:Wall-Partn_12P-70MStd-12P:285846 [IfcWallStandardCase]
+          ->Doors_ExtDbl_Flush:1810x2110mm:285860 [IfcDoor]
+          ->Doors_IntSgl:810x2110mm:285959 [IfcDoor]
+          ->Doors_IntSgl:810x2110mm:285996 [IfcDoor]
+          ->Windows_Sgl_Plain:1810x1210mm:286105 [IfcWindow]
+          ->Windows_Sgl_Plain:1810x1210mm:286188 [IfcWindow]
+          ->Windows_Sgl_Plain:1810x1210mm:286238 [IfcWindow]
+          ->Compound Ceiling:Plain:286319 [IfcCovering]
+          ->Compound Ceiling:Plain:286329 [IfcCovering]
+          ->Compound Ceiling:Plain:286337 [IfcCovering]
+          ->Floor:Floor-Grnd-Susp_65Scr-80Ins-100Blk-75PC:286349 [IfcSlab]
+          ->Windows_Sgl_Plain:1810x1210mm:287567 [IfcWindow]
+        1 - Living room [IfcSpace]
+            ->Furniture_Table_Dining_w-Chairs_Rectangular:2000x1000x750mm_w-6_Seats:289768 [IfcFurniture]
+            ->Chair - Dining:Chair - Dining:289769 [IfcFurniture]
+            ->Chair - Dining:Chair - Dining:289770 [IfcFurniture]
+            ->Chair - Dining:Chair - Dining:289771 [IfcFurniture]
+            ->Chair - Dining:Chair - Dining:289772 [IfcFurniture]
+            ->Chair - Dining:Chair - Dining:290097 [IfcFurniture]
+            ->Chair - Dining:Chair - Dining:290098 [IfcFurniture]
+            ->Furniture_Couch_Viper:2290x950x340mm:290852 [IfcFurniture]
+            ->Furniture_Chair_Viper:1120x940x350mm:291916 [IfcFurniture]
+            ->Furniture_Chair_Viper:1120x940x350mm:292127 [IfcFurniture]
+            ->Furniture_Table_Coffee_1:1200x550x450mm:293046 [IfcFurniture]
+            ->Furniture_Piano:1370x600x1170mm:293961 [IfcFurniture]
+        2 - Bedroom [IfcSpace]
+            ->Furniture_Desk:1525x762mm:287689 [IfcFurniture]
+            ->Furniture_Bed_1:1525x2007x355mm-Queen:295878 [IfcFurniture]
+        3 - Entrance hall [IfcSpace]
+      Roof [IfcBuildingStorey]
+          ->Basic Roof:Roof_Flat-4Felt-150Ins-50Scr-150Conc-12Plr:286419 [IfcRoof]
+          ->Floor:Simple floor:295048 [IfcSlab]
+        4 - Roof [IfcSpace]
 </code></pre>
-
-<p>Federation settings saved as IFC file look like this. This convention is purely our invention so it won't work with other tools. But it will allows you
-to create federations in your system and reopen them again once needed.</p>
-
-<div class="step"><pre><code>ISO-10303-21;
-HEADER;
-FILE_DESCRIPTION ((<span class="string">&#39;&#39;</span>), <span class="string">&#39;2;1&#39;</span>);
-FILE_NAME (<span class="string">&#39;&#39;</span>, <span class="string">&#39;2016-10-27T13:14:43&#39;</span>, (<span class="string">&#39;&#39;</span>), (<span class="string">&#39;&#39;</span>), <span class="string">&#39;Xbim File Processor version 3.2.0.0&#39;</span>, <span class="string">&#39;Xbim version 3.2.0.0&#39;</span>, <span class="string">&#39;&#39;</span>);
-FILE_SCHEMA ((<span class="string">&#39;IFC4&#39;</span>));
-ENDSEC;
-DATA;
-<span class="number">#1</span>=<span class="type">IFCACTORROLE</span>(.USERDEFINED.,<span class="string">&#39;Original Constructor&#39;</span>,$);
-<span class="number">#2</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;Bob The Builder&#39;</span>,$,(<span class="number">#1</span>),$);
-<span class="number">#3</span>=<span class="type">IFCDOCUMENTINFORMATION</span>(<span class="string">&#39;1&#39;</span>,<span class="string">&#39;SampleHouse.ifc&#39;</span>,$,$,$,<span class="string">&#39;XbimReferencedModel&#39;</span>,$,$,<span class="number">#2</span>,$,$,$,$,$,$,$,$);
-<span class="number">#4</span>=<span class="type">IFCACTORROLE</span>(.USERDEFINED.,<span class="string">&#39;Extensions Builder&#39;</span>,$);
-<span class="number">#5</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;Tyna&#39;</span>,$,(<span class="number">#4</span>),$);
-<span class="number">#6</span>=<span class="type">IFCDOCUMENTINFORMATION</span>(<span class="string">&#39;2&#39;</span>,<span class="string">&#39;SampleHouseExtension.ifc&#39;</span>,$,$,$,<span class="string">&#39;XbimReferencedModel&#39;</span>,$,$,<span class="number">#5</span>,$,$,$,$,$,$,$,$);
-ENDSEC;
-END-ISO-10303-21;
-
-</code></pre></div>
 
     </div>
     
