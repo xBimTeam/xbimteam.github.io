@@ -1,0 +1,133 @@
+﻿Quick Start
+======================
+To get started the easiest way to get xBIM into your project is to use [NuGet](https://www.nuget.org/packages?q=xbim). To do anything you want with the data you only need 
+[xBIM Essentials](https://www.nuget.org/packages/Xbim.Essentials/). If you need anything to do with geometry (like visualization) you will also need 
+[xBIM Geometry Engine](https://www.nuget.org/packages/Xbim.Geometry/). There are many years of development behind xBIM and both these packages are mature and pretty much stable.
+
+
+As the very first thing you should create credentials which will be used to keep [owner history](http://www.buildingsmart-tech.org/ifc/IFC4/final/html/link/ifcownerhistory.htm) 
+of all entities right in IFC world. 
+
+```cs
+var editor = new XbimEditorCredentials
+{
+    ApplicationDevelopersName = "You",
+    ApplicationFullName = "Your app",
+    ApplicationIdentifier = "Your app ID",
+    ApplicationVersion = "4.0",
+    //your user
+    EditorsFamilyName = "Santini Aichel",
+    EditorsGivenName = "Johann Blasius",
+    EditorsOrganisationName = "Independent Architecture"
+};
+```
+
+All implementations of `IModel` in xBIM are `IDisposable` so you should always use them inside of `using` statement like this:
+
+```cs
+using (var model = IfcStore.Open(fileName, editor, true))
+{
+    //...do something with the model
+}
+```
+
+`IfcStore.Open()` is smart  enough to recognize the file format *(*.ifc, *.ifczip, *.xml)* and IFC version *(IFC2x3, IFC4)*. Using this static function it also decides
+if in-memory model or Esent database should be used to store the data. You can use additional parameter to say what you want explicitly. You
+can also pass in a delegate which will report a progress. 
+
+You can also use following function if you want to create new model from scratch. In this case you have to specify which schema and storage should be used
+because we don't know what you need and model needs to know these two things from the very beginning. Also make sure you use the right schema namespaces for the
+model you created as you can't mix data from multiple schemas in a single model.
+
+```cs
+using (var model = IfcStore.Create(editor, IfcSchemaVersion.Ifc4, XbimStoreType.InMemoryModel))
+{
+	//...do something with the model
+}
+```
+
+If you are going to create or modify anything in the model you have to use transactions. These should also be used inside of `using` statement
+so they have a proper scope for eventual roll-back operation in case something happens. You have to commit transaction explicitly to keep the changes.
+Transactions can't be nested so there has always be just one transaction at the time.
+
+```cs
+using (var txn = model.BeginTransaction("Hello Wall"))
+{
+    //....do something in the scope of this transaction
+    txn.Commit()
+}
+```
+
+All operations related to entities are accessible through `IModel.Instances`. That is your point of access to get, change and create new
+entities in the model. To create any new object you use this templated function. You always have to specify a non-abstract type to create. This is
+built in xBIM in a way where you get a compile time error if you don't. 
+Every model is schema specific so it is either IFC2x3 or IFC4 or other specific schema. `IfcStore` makes it easier because it can open both IFC versions 
+and will tell you what it is but when you want to create data make sure you don't mess up your `using` statements. If you try to create IFC4 entity
+with model initialized to IFC2x3 it will throw a runtime exception. 
+
+```cs
+var newWall = mode.Instances.New<IfcWall>();
+```
+
+It isn't possible to create new entities in any other way than with this function. You will see in the code above that this function takes optional 
+typed object initializer to set up values of the object. It is not necessary to use them but I personally like it because I can see the structure of
+the resulting entity. To find an entity you want you will use following functions:
+
+```cs
+var firstWall = model.Instances.FirstOrDefault<IfcWall>();
+var allWalls = model.Instances.OfType<IfcWall>();
+var specificWall = model.Instances.Where<IfcWall>(w => w.Name == "Brick wall");
+```
+
+You can see that all these functions are templated so they use type of the object as the first level filter. If you know the type you want you should
+always specify it to increase a performance. For all search queries you can also use interfaces to retrieve entities. We have implemented **IFC4 interfaces
+on IFC2x3 entities** which means you can query IFC2x3 and IFC4 with a **single codebase**. 
+
+Using all these basic bits and pieces your first simple code might look like this. Because it uses `Xbim.Ifc4.Interfaces` this code will work both for IFC2x3 and IFC4.
+
+```cs
+using Xbim.Ifc;
+using Xbim.Ifc4.Interfaces; //IFC4 interfaces are also implemented in our IFC2x3 schema implementation
+
+namespace BasicExamples
+{
+    class QuickStart
+    {
+        public static void Start()
+        {
+            const string fileName = "SampleHouse.ifc"; //this can be either IFC2x3 or IFC4
+            var editor = new XbimEditorCredentials
+            {
+                ApplicationDevelopersName = "You",
+                ApplicationFullName = "Your app",
+                ApplicationIdentifier = "Your app ID",
+                ApplicationVersion = "4.0",
+                //your user
+                EditorsFamilyName = "Santini Aichel",
+                EditorsGivenName = "Johann Blasius",
+                EditorsOrganisationName = "Independent Architecture"
+            };
+            using (var model = IfcStore.Open(fileName, editor, true))
+            {
+                using (var txn = model.BeginTransaction("Quick start transaction"))
+                {
+                    //get all walls in the model
+                    var walls = model.Instances.OfType<IIfcWall>();
+
+                    //iterate over all the walls and change them
+                    foreach (var wall in walls)
+                    {
+                        wall.Name = "Iterated wall: " + wall.Name;
+                    }
+
+                    //commit your changes
+                    txn.Commit();
+                }
+
+                //save your changed model. IfcStore will use the extension to save it as *.ifc, *.ifczip or *.ifcxml.
+                model.SaveAs("SampleHouse_Modified.ifc");
+            }
+        }
+    }
+}
+```
