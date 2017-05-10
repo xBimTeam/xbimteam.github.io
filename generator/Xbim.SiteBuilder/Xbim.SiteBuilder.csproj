@@ -82,14 +82,15 @@
   <ItemGroup>
     <Content Include="Data\[02] Examples\[-1] images\excel-report.png" />
     <Content Include="Data\[02] Examples\[01-Basic-02] Watch the log!.md.txt" />
+    <Content Include="Data\[04] Downloads\XbimXplorer.md.txt" />
     <Content Include="Data\[02] Examples\[01-Basic-08] Spatial hierarchy.md.txt" />
     <Content Include="Data\[02] Examples\[01-Basic-07] Excel Space Report from IFC.md.txt" />
     <Content Include="Data\[02] Examples\[02-Advanced-01] Federating Models.md.txt" />
     <Content Include="Data\[02] Examples\[01-Basic-03] Proper Wall in 3D.md.txt" />
     <Content Include="Data\[02] Examples\[01-Basic-04] STEP to XML and Back Again.md.txt" />
     <Content Include="Data\[02] Examples\[01-Basic-06] Using LINQ for Optimal Performance.md.txt" />
-    <Content Include="Data\[04] License\Third Party Licenses.md.txt" />
-    <Content Include="Data\[04] License\License.md.txt" />
+    <Content Include="Data\[05] License\Third Party Licenses.md.txt" />
+    <Content Include="Data\[05] License\License.md.txt" />
     <Content Include="Data\[02] Examples\[02-Advanced-03] Change Log Creation.md.txt" />
     <Content Include="Data\[02] Examples\[02-Advanced-02] Insert Copy Function.md.txt" />
     <Content Include="Data\[02] Examples\[01-Basic-01] Basic Model Operations.md.txt" />
