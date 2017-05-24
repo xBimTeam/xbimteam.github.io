@@ -108,6 +108,8 @@ API for all collections in xBIM schema implementations. So all collections in xB
 Lost Features
 -------------
 
+** UPDATE: May 2017 `WHERE` rules have been restored in the develop branch **
+
 Everything comes with a price. In this case using code generation we could painlessly extend xBIM with complete IFC4 implementation in 1000+ files but it wasn't viable
 to generate `WHERE` rules from the schema. Where translation of data-related concepts from EXPRESS to C# is relatively straightforward translating EXPRESS functions
 into C# functions is completely different ball game. If you are not familiar with `WHERE` rules in IFC these are functional constrains on the data model. These might be something 
