@@ -12,7 +12,7 @@
 
     <link rel="icon" href="../img/favicon.ico">
 
-    <title>Using LINQ for Optimal Performance</title>
+    <title>Ifc2X3 Test Harness</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -105,7 +105,8 @@
         <li>
 			<a href="../examples/creating-wexbim-file.html">Creating wexBIM file</a>
 		</li>
-        <li class="active">
+		
+        <li>
 			<a href="../examples/using-linq-for-optimal-performance.html">Using LINQ for Optimal Performance</a>
 		</li>
 		
@@ -164,8 +165,7 @@
         <li>
 			<a href="../research/history.html">History</a>
 		</li>
-		
-        <li>
+        <li class="active">
 			<a href="../research/ifc2x3-test-harness.html">Ifc2X3 Test Harness</a>
 		</li>
     </ul>
@@ -204,90 +204,24 @@
     </nav>
 
 	<div class="container">
-	<h1>Using <a target="_blank" href="https://msdn.microsoft.com/en-us/library/mt693052.aspx">LINQ</a> for Optimal Performance</h1>
+	<h1>Ifc2x3 Test Harness</h1>
 
-<p><a target="_blank" href="https://msdn.microsoft.com/en-us/library/mt693052.aspx">LINQ</a> stands for a Language-Integrated Query and it is part .NET Framework
-since version 3.5. It implements deferred execution which means you can chain the query statements and it will do nothing until you 
-actually iterate over the result. You can either use LINQ as a <a target="_blank" href="https://msdn.microsoft.com/en-us/library/bb397927.aspx">specific language</a> or
-you can use <a target="_blank" href="https://msdn.microsoft.com/en-us/library/9eekhta0.aspx">extension methods</a> from <code>System.Linq</code> which extend <code>IEnumerable&lt;T&gt;</code> 
-interface and can get arguments as lambda expressions. We prefer the later approach but it is equivalent. 
-Following example shows both variants to do the same. The result of both queries is enumeration of the globally unique IDs of the walls which have any opening.</p>
+<h2>Background</h2>
 
-<div class="csharp"><pre><code><span class="comment">//expression using LINQ</span>
-<span class="keyword">var</span> ids =
-    <span class="keyword">from</span> wall <span class="keyword">in</span> model.Instances.OfType&lt;<span class="type">IIfcWall</span>&gt;()
-    <span class="keyword">where</span> wall.HasOpenings.Any()
-    <span class="keyword">select</span> wall.GlobalId;
-</code></pre></div>
+<p>A key constraint in the uptake of Building Information Modelling (BIM) is interoperability of geometries. 
+In 2012 we have done some work investigating the issues of authoring reusable BIM components that can be delivered across multiple platforms. 
+To support this research a simple test model was constructed to include representative and challenging geometries that are encountered in Ifc files. </p>
 
-<div class="csharp"><pre><code><span class="comment">//equivalent expression using chained extensions of IEnumerable and lambda expressions</span>
-<span class="keyword">var</span> ids =
-    model.Instances
-    .Where&lt;<span class="type">IIfcWall</span>&gt;(wall =&gt; wall.HasOpenings.Any())
-    .Select(wall =&gt; wall.GlobalId);
-</code></pre></div>
+<p>Our analysis was eventually <a target="_blank" href="https://www.igi-global.com/article/constraints-authoring-bim-components-optimal/77815">published on IJ3DIM</a>.</p>
 
-<p>You can see in the code that we called <code>Where()</code> function directly on <code>IModel.Instances</code>. <code>IEntityCollection</code> implementations  implement overloads for most of Linq 
-data retrieval methods like <code>Where&lt;T&gt;()</code>, <code>Count&lt;T&gt;()</code>, <code>FirstOrDefault&lt;T&gt;()</code> and <code>OfType&lt;T&gt;()</code> and it is optimized on the lowest level for fast data access.
-All these methods return <code>IEnumerable&lt;T&gt;</code> so you can chain it with other methods to perform further selections, aggregation, sorting and other operations. 
-<code>IEntityCollection</code> functions also use deferred execution so it fits very well with Linq concepts. You should only force it to enumerate if you are going to use
-the result more than once. You can do that by calling one of <code>ToList&lt;T&gt;()</code>, <code>ToArray&lt;T&gt;()</code>or <code>ToDictionary&lt;T&gt;()</code> methods.</p>
+<h2>Download</h2>
 
-<p>xBIM uses type of entities internally as the first level filter so you should always ask for the most specific type you can. 
-Keep in mind that <code>IModel.Instances</code> contains <strong>all</strong> entities in the model which is typically hundreds of thousands of objects! 
-So you don't want to iterate over all of them to do anything. See following good and bad example which do the same but not quite the same:</p>
+<p>This pages makes the test model <a target="_blank" href="https://raw.githubusercontent.com/xBimTeam/XbimWindowsUI/master/XbimXplorer/BIM%20Logo.ifc">available for download</a> if you wish to replicate the study of test your IFC implementation.
+Once opened in you viewer of choice the model should look as the following image.</p>
 
-<div class="csharp"><pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> SelectionWithLinq()
-{
-    <span class="keyword">const</span> <span class="keyword">string</span> ifcFilename = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
-    <span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(ifcFilename);
-    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction())
-    {
-        <span class="keyword">var</span> requiredProducts = <span class="keyword">new</span> <span class="type">IIfcProduct</span>[0]
-            .Concat(model.Instances.OfType&lt;<span class="type">IIfcWallStandardCase</span>&gt;())
-            .Concat(model.Instances.OfType&lt;<span class="type">IIfcDoor</span>&gt;())
-            .Concat(model.Instances.OfType&lt;<span class="type">IIfcWindow</span>&gt;());
+<p><img alt="The test harness file displayed in XbimXplorer" title="the expected geometry representation" src="../img/ifc2x3TestHarness.png" width="50%" /></p>
 
-        <span class="comment">//This will only iterate over entities you really need (9 in this case)</span>
-        <span class="keyword">foreach</span> (<span class="keyword">var</span> product <span class="keyword">in</span> requiredProducts)
-        {
-            <span class="comment">//Do anything you want here...</span>
-        }
-
-        txn.Commit();
-    }
-}
-</code></pre></div>
-
-<div class="alert alert-danger" role="alert"> 
-    <p>
-        Following code example is about <strong>4.5 times slower.</strong>
-    </p>
-    <strong>Please, never use this kind of code:</strong>
-</div>
-
-<div class="csharp"><pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> SelectionWithoutLinq()
-{
-    <span class="keyword">const</span> <span class="keyword">string</span> ifcFilename = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
-    <span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(ifcFilename);
-    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction())
-    {
-        <span class="comment">//this will iterate over 47309 entities instead of just 9 you need in this case!</span>
-        <span class="keyword">foreach</span> (<span class="keyword">var</span> entity <span class="keyword">in</span> model.Instances)
-        {
-            <span class="keyword">if</span> (entity <span class="keyword">is</span> <span class="type">IIfcWallStandardCase</span> ||
-                entity <span class="keyword">is</span> <span class="type">IIfcDoor</span> ||
-                entity <span class="keyword">is</span> <span class="type">IIfcWindow</span>)
-            {
-                <span class="comment">//You may want to do something here. Please DON&#39;T!</span>
-            }
-        }
-
-
-        txn.Commit();
-    }
-}
-</code></pre></div>
+<p>We are now working on a more complete IFC4 Geometry test suite. Get in touch if interested.</p>
 
     </div>
     

@@ -100,6 +100,4 @@ namespace Xbim.SiteBuilder
         yearly,
         never
     }
-
-
 }

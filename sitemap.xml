@@ -2,127 +2,139 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://xbimteam.github.io/</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/index.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/quick-start.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/examples/basic-model-operations.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/examples/watch-the-log.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/examples/proper-wall-in-3d.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/examples/step-to-xml-and-back-again.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/examples/creating-wexbim-file.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/examples/using-linq-for-optimal-performance.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/examples/excel-space-report-from-ifc.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/examples/spatial-hierarchy.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/examples/federating-models.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/examples/insert-copy-function.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/examples/change-log-creation.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/examples/xbimxplorer.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/xbim-4/fast-upgrade-track.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/xbim-4/project-status.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/xbim-4/xbim-4-release-notes.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://xbimteam.github.io/research/history.html</loc>
+    <lastmod>2017-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://xbimteam.github.io/research/ifc2x3-test-harness.html</loc>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/downloads/xbimxplorer.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/license/license.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xbimteam.github.io/license/third-party-licenses.html</loc>
-    <lastmod>2017-05-24</lastmod>
+    <lastmod>2017-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
