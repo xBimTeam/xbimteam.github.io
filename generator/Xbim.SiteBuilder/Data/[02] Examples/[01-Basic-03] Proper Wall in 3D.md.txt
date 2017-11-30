@@ -1,6 +1,7 @@
 ﻿Proper Wall in 3D
 =================
 
+Quite a lot of work is involved with producing a single wall in IFC.
 
 ```cs
 using System;
@@ -589,7 +590,7 @@ namespace HelloWall
 
 ```
 
-Resulting IFC file:
+The resulting IFC file can be opened in a viewer of your choice:
 
 ```step
 ISO-10303-21;

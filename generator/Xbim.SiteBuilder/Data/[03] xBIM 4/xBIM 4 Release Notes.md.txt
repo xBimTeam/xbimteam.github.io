@@ -91,6 +91,7 @@ It is also best in case you will load most of the model for processing anyway (l
 | Speed for queries | Lower, but it depends on a kind of query. It uses primary and secondary index | Higher for a general purpose queries.                    |
 | Memory footprint  | Low, only loads entities you actually access.                                 | High, about 2 times size of plain STEP21 representation. |
 | Windows dependant | Yes, Esent is built in Windows                                                | No, exists just in memory                                |
+| | | | <!-- the last line of the table is lost in the conversion -->
 
 There was only `XbimModel` in xBIM 3 which was based on what is EsentModel now and it implemented IFC2x3 specific functionality (like ownership maintenance). XbimModel is still in xBIM 4 but it
 has been moved to `Xbim.Ifc2x3.IO`. It works as it used to do but we **strongly encourage you to move to IfcStore** which is IFC schema agnostic and can be backed both by `EsentModel` and by `MemoryModel`.

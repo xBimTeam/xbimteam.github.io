@@ -172,7 +172,10 @@ namespace Xbim.SiteBuilder.Structure
             //it is just an order
             if (fields.Length == 1)
             {
-                var order = Convert.ToInt32(fields[0].TrimStart('0'));
+                var order = 0;
+                Int32.TryParse(fields[0], out order);
+
+                // var order = Convert.ToInt32(fields[0].TrimStart('0'));
                 return new PageSettings { Order = order, MenuGroup = null, MenuGroupOrder = -1 };
             }
 

@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\[02] Examples\[-1] images\excel-report.png" />
+    <Content Include="Data\[02] Examples\[00]Examples list.md.txt" />
     <Content Include="Data\[02] Examples\[01-Basic-02] Watch the log!.md.txt" />
     <Content Include="Data\[03] xBIM 4\Project Status.md.txt" />
     <Content Include="Data\[04] Research\[02]Ifc2X3 Test Harness.md.txt" />

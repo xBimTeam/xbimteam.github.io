@@ -58,13 +58,13 @@ public static void SelectionWithLinq()
 
 <div class="alert alert-danger" role="alert"> 
 	<p>
-		Following code example is about <strong>4.5 times slower.</strong>
+		The Following code example is about <strong>4.5 times slower!!!</strong>
 	</p>
 	<strong>Please, never use this kind of code:</strong>
 </div>
 
 ```cs
-public static void SelectionWithoutLinq()
+public static void SelectionWithoutLinqIsSLOW()
 {
     const string ifcFilename = "SampleHouse.ifc";
     var model = IfcStore.Open(ifcFilename);
@@ -80,8 +80,6 @@ public static void SelectionWithoutLinq()
                 //You may want to do something here. Please DON'T!
             }
         }
-
-        
         txn.Commit();
     }
 }

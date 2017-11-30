@@ -12,7 +12,7 @@
 
     <link rel="icon" href="../img/favicon.ico">
 
-    <title>Using LINQ for Optimal Performance</title>
+    <title>Examples list</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -84,8 +84,7 @@
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Examples <span class="caret"></span></a>
 			
 	<ul class="dropdown-menu">
-		
-        <li>
+        <li class="active">
 			<a href="../examples/examples-list.html">Examples list</a>
 		</li>
 		<li role="separator" class="group-divider">Basic </li>
@@ -109,7 +108,8 @@
         <li>
 			<a href="../examples/creating-wexbim-file.html">Creating wexBIM file</a>
 		</li>
-        <li class="active">
+		
+        <li>
 			<a href="../examples/using-linq-for-optimal-performance.html">Using LINQ for Optimal Performance</a>
 		</li>
 		
@@ -208,88 +208,59 @@
     </nav>
 
 	<div class="container">
-	<h1>Using <a target="_blank" href="https://msdn.microsoft.com/en-us/library/mt693052.aspx">LINQ</a> for Optimal Performance</h1>
+	<h1>Examples of usage</h1>
 
-<p><a target="_blank" href="https://msdn.microsoft.com/en-us/library/mt693052.aspx">LINQ</a> stands for a Language-Integrated Query and it is part .NET Framework
-since version 3.5. It implements deferred execution which means you can chain the query statements and it will do nothing until you 
-actually iterate over the result. You can either use LINQ as a <a target="_blank" href="https://msdn.microsoft.com/en-us/library/bb397927.aspx">specific language</a> or
-you can use <a target="_blank" href="https://msdn.microsoft.com/en-us/library/9eekhta0.aspx">extension methods</a> from <code>System.Linq</code> which extend <code>IEnumerable&lt;T&gt;</code> 
-interface and can get arguments as lambda expressions. We prefer the later approach but it is equivalent. 
-Following example shows both variants to do the same. The result of both queries is enumeration of the globally unique IDs of the walls which have any opening.</p>
+<p>The following list includes a set of examples that demonstrate some applications of the toolkit.</p>
 
-<div class="csharp"><pre><code><span class="comment">//expression using LINQ</span>
-<span class="keyword">var</span> ids =
-    <span class="keyword">from</span> wall <span class="keyword">in</span> model.Instances.OfType&lt;<span class="type">IIfcWall</span>&gt;()
-    <span class="keyword">where</span> wall.HasOpenings.Any()
-    <span class="keyword">select</span> wall.GlobalId;
-</code></pre></div>
+<h2>Xbim.Essentials</h2>
 
-<div class="csharp"><pre><code><span class="comment">//equivalent expression using chained extensions of IEnumerable and lambda expressions</span>
-<span class="keyword">var</span> ids =
-    model.Instances
-    .Where&lt;<span class="type">IIfcWall</span>&gt;(wall =&gt; wall.HasOpenings.Any())
-    .Select(wall =&gt; wall.GlobalId);
-</code></pre></div>
+<p>See <a target="_blank" href="https://github.com/xBimTeam/XbimEssentials">Xbim.Essentials</a> library.</p>
 
-<p>You can see in the code that we called <code>Where()</code> function directly on <code>IModel.Instances</code>. <code>IEntityCollection</code> implementations  implement overloads for most of Linq 
-data retrieval methods like <code>Where&lt;T&gt;()</code>, <code>Count&lt;T&gt;()</code>, <code>FirstOrDefault&lt;T&gt;()</code> and <code>OfType&lt;T&gt;()</code> and it is optimized on the lowest level for fast data access.
-All these methods return <code>IEnumerable&lt;T&gt;</code> so you can chain it with other methods to perform further selections, aggregation, sorting and other operations. 
-<code>IEntityCollection</code> functions also use deferred execution so it fits very well with Linq concepts. You should only force it to enumerate if you are going to use
-the result more than once. You can do that by calling one of <code>ToList&lt;T&gt;()</code>, <code>ToArray&lt;T&gt;()</code>or <code>ToDictionary&lt;T&gt;()</code> methods.</p>
+<h3>Basics</h3>
 
-<p>xBIM uses type of entities internally as the first level filter so you should always ask for the most specific type you can. 
-Keep in mind that <code>IModel.Instances</code> contains <strong>all</strong> entities in the model which is typically hundreds of thousands of objects! 
-So you don't want to iterate over all of them to do anything. See following good and bad example which do the same but not quite the same:</p>
+<table class="table">
+<thead>
+<tr><th>Example               </th><th> Description</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="../examples/basic-model-operations.html">Basic model operations</a>                    </td><td> This example demos four basic functions of CRUD persistent storage (Create, Retrieve, Update and Delete).</td></tr>
+<tr><td><a href="../examples/watch-the-log.html">Watch the log!</a>                    </td><td> xBIM uses Log4Net to log processing errors and warnings where exceptions are not appropriate.</td></tr>
+<tr><td><a href="../examples/proper-wall-in-3d.html">Proper Wall in 3D</a>                    </td><td> Quite a lot of work is involved with producing a single wall in IFC.</td></tr>
+<tr><td><a href="../examples/step-to-xml-and-back-again.html">STEP to XML and Back Again</a>                    </td><td> Converting between formats supported by the library.</td></tr>
+<tr><td><a href="../examples/using-linq-for-optimal-performance.html">Using LINQ for Optimal Query Performance</a>                    </td><td> Depending on the syntax you use the code might be faster or slower.</td></tr>
+<tr><td><a href="../examples/excel-space-report-from-ifc.html">Data extraction</a>                    </td><td> This example shows how to extract data for your analytical purposes.</td></tr>
+</tbody>
+</table>
 
-<div class="csharp"><pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> SelectionWithLinq()
-{
-    <span class="keyword">const</span> <span class="keyword">string</span> ifcFilename = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
-    <span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(ifcFilename);
-    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction())
-    {
-        <span class="keyword">var</span> requiredProducts = <span class="keyword">new</span> <span class="type">IIfcProduct</span>[0]
-            .Concat(model.Instances.OfType&lt;<span class="type">IIfcWallStandardCase</span>&gt;())
-            .Concat(model.Instances.OfType&lt;<span class="type">IIfcDoor</span>&gt;())
-            .Concat(model.Instances.OfType&lt;<span class="type">IIfcWindow</span>&gt;());
+<h3>Advanced</h3>
 
-        <span class="comment">//This will only iterate over entities you really need (9 in this case)</span>
-        <span class="keyword">foreach</span> (<span class="keyword">var</span> product <span class="keyword">in</span> requiredProducts)
-        {
-            <span class="comment">//Do anything you want here...</span>
-        }
+<table class="table">
+<thead>
+<tr><th>Example               </th><th> Description</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="../examples/insert-copy-function.html">Insert Copy Function</a>                    </td><td> Merging and deleting entities in IFC models is a non-trivial task because IFC is not a hierarchical structure. It is a complex structure with potential cyclic relations an bi-directional navigation.</td></tr>
+</tbody>
+</table>
 
-        txn.Commit();
-    }
-}
-</code></pre></div>
+<h2>Xbim.Geometry</h2>
 
-<div class="alert alert-danger" role="alert"> 
-    <p>
-        The Following code example is about <strong>4.5 times slower!!!</strong>
-    </p>
-    <strong>Please, never use this kind of code:</strong>
-</div>
+<p>See <a target="_blank" href="https://github.com/xBimTeam/XbimGeometry">Xbim.Geometry</a> library.</p>
 
-<div class="csharp"><pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> SelectionWithoutLinqIsSLOW()
-{
-    <span class="keyword">const</span> <span class="keyword">string</span> ifcFilename = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
-    <span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(ifcFilename);
-    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction())
-    {
-        <span class="comment">//this will iterate over 47309 entities instead of just 9 you need in this case!</span>
-        <span class="keyword">foreach</span> (<span class="keyword">var</span> entity <span class="keyword">in</span> model.Instances)
-        {
-            <span class="keyword">if</span> (entity <span class="keyword">is</span> <span class="type">IIfcWallStandardCase</span> ||
-                entity <span class="keyword">is</span> <span class="type">IIfcDoor</span> ||
-                entity <span class="keyword">is</span> <span class="type">IIfcWindow</span>)
-            {
-                <span class="comment">//You may want to do something here. Please DON&#39;T!</span>
-            }
-        }
-        txn.Commit();
-    }
-}
-</code></pre></div>
+<h3>Basics</h3>
+
+<table class="table">
+<thead>
+<tr><th>Example               </th><th> Description</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="../examples/creating-wexbim-file.html">Creating WexBIM File</a>                    </td><td> Preparing a file for export to the web viewer for IFC.</td></tr>
+</tbody>
+</table>
+
+<h2>Contribute more examples</h2>
+
+<p>If you have used Xbim and feel that more documentation is needed, feel free to <a target="_blank" href="https://github.com/xBimTeam/xbimteam.github.io">contribute to the documentation</a>, we'd be happy to merge your Pull Request.</p>
 
     </div>
     
