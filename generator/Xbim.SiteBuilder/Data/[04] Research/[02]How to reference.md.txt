@@ -1,0 +1,47 @@
+﻿# How to reference
+
+## Background
+
+*Xbim Toolkit* is the result of several years of academic research and development, if you use any part of *Xbim* in your research **we welcome and encourage appropriate acknowledgement in your publications.**
+
+If you do reference our work, please avoid informal references to the GitHub website or the Nuget package; the best way to reference our work is through [our publication on The Journal of Open Source Software (JOSS)](http://joss.theoj.org/papers/b23bed93a0377b4f4317d0583b4d2c5e).
+
+[![DOI](http://joss.theoj.org/papers/10.21105/joss.00473/status.svg)](https://doi.org/10.21105/joss.00473)
+
+## Reference 
+
+### Cite as:
+
+```
+Lockley, S., Benghi, C., Černý M., 2017. Xbim.Essentials: a library for interoperable building information applications. Journal of Open Source Software, 2(20), 473, https://doi.org/10.21105/joss.00473
+```
+
+### Full biblatex record
+
+Most reference management applications will import the reference from the following snippet, you can also [download it as a single file](../data/XbimEssentials.bib). 
+
+```
+@article{LockleyXbimEssentialslibrary2017,
+  title = {Xbim.{{Essentials}}: A Library for Interoperable Building Information Applications},
+  volume = {2},
+  url = {http://joss.theoj.org/papers/b23bed93a0377b4f4317d0583b4d2c5e},
+  doi = {10.21105/joss.00473},
+  shorttitle = {Xbim.{{Essentials}}},
+  number = {20},
+  journaltitle = {The Journal of Open Source Software},
+  author = {Lockley, Steve and Benghi, Claudio and Černý, Martin},
+  urldate = {2017-12-07},
+  date = {2017-12-07},
+  pages = {473},
+  abstract = {The Xbim.Essentials library offers data extraction, data transformation and data validation
+functions for Building Information Models (BIM); its robust and optimised implementation
+allows efficient operations on gigabyte-range files for researchers and practitioners
+interested in the built environment.}
+}
+```
+
+### Article
+
+<object id="joss-paper" data="https://www.theoj.org/joss-papers/joss.00473/10.21105.joss.00473.pdf#toolbar=0&amp;navpanes=0&amp;scrollbar=0&amp;statusbar=0&amp;messages=0" type="application/pdf" style="width:100%; height:700px; margin-right: 10px;">
+    <embed src="https://www.theoj.org/joss-papers/joss.00473/10.21105.joss.00473.pdf#toolbar=0&amp;navpanes=0&amp;scrollbar=0&amp;statusbar=0&amp;messages=0" type="application/pdf">
+</object>
