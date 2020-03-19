@@ -80,6 +80,7 @@ namespace Xbim.SiteBuilder
             foreach (FileInfo file in files)
             {
                 string temppath = Path.Combine(destDirName, file.Name);
+                DirectoryInfo d = new DirectoryInfo(destDirName);
                 file.CopyTo(temppath, true);
             }
 

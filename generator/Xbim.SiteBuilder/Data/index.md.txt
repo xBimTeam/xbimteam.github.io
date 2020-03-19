@@ -42,7 +42,7 @@ The XBIM library is made available under the [CDDL Open Source licence](/license
 All licences should support the commercial usage of the xBIM Toolkit within a 'Larger Work', as long as you honour 
 the licence agreements.
 
-# Compilation
+# <a name="compilation"></a>Compilation
 
 The toolkit uses the NuGet technology for the management of several required packages as well as for distributing the libraries.
 If you wish to use the **development versions of xBIM** make sure to add our NuGet feeds for the master and develop branches of the solution.
