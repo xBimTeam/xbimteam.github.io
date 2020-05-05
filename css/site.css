@@ -103,10 +103,6 @@ h1, h2, h3, h4, h5, h6, h7 {
 
 .navbar .container {
     padding: 0.5em 1em;
-    align-content: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .navbar-inverse .navbar-nav > li > a {
@@ -120,4 +116,13 @@ h1, h2, h3, h4, h5, h6, h7 {
 
 p img {
     max-width: 100%;
+}
+
+ul.nav.navbar-nav {
+    float:right;
+}
+@media (max-width : 768px) {
+    ul.nav.navbar-nav {
+        float: none;
+    }
 }
