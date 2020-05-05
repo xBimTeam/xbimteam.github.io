@@ -17,6 +17,9 @@
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Google fonts -->
+	<link target="_blank" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;700&family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet"> 
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -46,8 +49,8 @@
 	  "@context" : "http://schema.org",
 	  "@type" : "SoftwareApplication",
 	  "name" : "xBIM Toolkit",
-	  "image" : "https://xbimteam.github.io/img/xbim.png",
-	  "url" : "https://xbimteam.github.io/",
+	  "image" : "https://docs.xbim.net../img/xBim_toolkit_logo.png",
+	  "url" : "https://docs.xbim.net/",
 	  "author" : {
 	    "@type" : "Person",
 	    "name" : "prof. Steve Lockley"
@@ -71,7 +74,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html"><img alt="logo" src="../img/logos/xbim_white_h35.png"/></a>
+          <a class="navbar-brand" href="../index.html"><img alt="logo" src="../img/xBim_toolkit_logo.png"/></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           		   
@@ -205,6 +208,10 @@
     </ul>
 
 		</li>
+		
+        <li>
+			<a href="../cloud.html">Cloud</a>
+		</li>
     </ul>
 
         </div><!--/.nav-collapse -->
@@ -214,9 +221,40 @@
 	<div class="container">
 	<h1>Watch the log!</h1>
 
-<p>xBIM uses <a target="_blank" href="https://logging.apache.org/log4net/">Log4Net</a> to log processing errors and warnings where exceptions are not appropriate.
-It is heavily used in xBIM Geometry Engine to log all geometry errors. If you have a file which doesn't look quite right you should always
-check the log first. There are many possible configurations of Log4Net including logging to console, creating continuous or rolling log file and others.
+<p>xBIM is logging processing errors and warnings where exceptions are not appropriate.
+It is heavily used in xBIM Geometry Engine to log all geometry errors. It is also used in the parser to log any syntactic problems with the file. 
+If you have a file which doesn't look quite right you should always check the log first.</p>
+
+<p>As a library we don't want to to force any specific logging library. To stay agnostic of the logging framework we use 
+<a target="_blank" href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.abstractions?view=dotnet-plat-ext-3.1&amp;viewFallbackFrom=netstandard-2.1">Microsoft Logging Abstractions</a>.
+Most of common logging frameworks have their implementation of logging providers which makes it easy to wire xBIM in your wider application logging.</p>
+
+<p>Setup is pretty easy. Just initialize <code>XbimLogging.LoggerFactory</code> before you do anything with xBIM. We often use <a target="_blank" href="https://serilog.net/">Serilog</a> in our examples,
+which looks like this:</p>
+
+<div class="xml"><pre><code>    <span class="xmlDelimiter">&lt;</span><span class="xmlName">PackageReference</span> <span class="xmlAttribute">Include</span><span class="xmlDelimiter">=</span><span class="xmlAttributeQuotes">&quot;</span><span class="xmlAttributeValue">Serilog.Extensions.Logging</span><span class="xmlAttributeQuotes">&quot;</span> <span class="xmlAttribute">Version</span><span class="xmlDelimiter">=</span><span class="xmlAttributeQuotes">&quot;</span><span class="xmlAttributeValue">2.0.2</span><span class="xmlAttributeQuotes">&quot;</span> <span class="xmlDelimiter">/&gt;</span>
+    <span class="xmlDelimiter">&lt;</span><span class="xmlName">PackageReference</span> <span class="xmlAttribute">Include</span><span class="xmlDelimiter">=</span><span class="xmlAttributeQuotes">&quot;</span><span class="xmlAttributeValue">Serilog.Sinks.Console</span><span class="xmlAttributeQuotes">&quot;</span> <span class="xmlAttribute">Version</span><span class="xmlDelimiter">=</span><span class="xmlAttributeQuotes">&quot;</span><span class="xmlAttributeValue">3.0.1</span><span class="xmlAttributeQuotes">&quot;</span> <span class="xmlDelimiter">/&gt;</span>
+</code></pre></div>
+
+<div class="csharp"><pre><code><span class="comment">// set up serilog</span>
+<span class="type">Log</span>.Logger = <span class="keyword">new</span> LoggerConfiguration()
+   .Enrich.FromLogContext()
+   .WriteTo.Console()
+   .CreateLogger();
+
+<span class="comment">// set up xBIM logging. It will use your providers.</span>
+<span class="type">XbimLogging</span>.LoggerFactory.AddSerilog();
+
+<span class="comment">// do anything you want with xBIM</span>
+<span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName, <span class="keyword">null</span>, -1))
+{
+    <span class="comment">// ...</span>
+}
+</code></pre></div>
+
+<h2>xBIM v4 and earlier</h2>
+
+<p>xBIM used to use <a target="_blank" href="https://logging.apache.org/log4net/">Log4Net</a>. There are many possible configurations of Log4Net including logging to console, creating continuous or rolling log file and others.
 Some examples can be found <a target="_blank" href="https://logging.apache.org/log4net/release/config-examples.html">here</a>. The most basic configuration which will write all colourful log 
 messages in console can look like this:</p>
 
@@ -283,6 +321,7 @@ log.Info(<span class="string">&quot;All examples finished.&quot;</span>);
 
 	<div class="brands-container">
 	<p><small>Some of the companies using xBIM Toolkit:</small></p>
+		<a target="_blank" href="https://www.xbim.net"><img style="height:65px;" src="../img/xBim_parent_logo_white.svg" class="brand" alt="xbim ltd."></a>
 		<img src="../img/logos/northumbria_logo_gray.png" class="brand"/>
 		<img src="../img/logos/viewpoint_logo_gray.png" class="brand"/>
 		<img src="../img/logos/welplan_logo_gray.png" class="brand"/>

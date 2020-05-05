@@ -11,5 +11,6 @@
         public string BannerContent { get; set; } = "";
         public string Title { get; set; }
         public string Template { get; set; } = "Layout";
+        public string ExternalLink { get; set; } = null;
     }
 }

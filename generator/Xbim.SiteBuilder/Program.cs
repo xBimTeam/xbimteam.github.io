@@ -47,7 +47,7 @@ namespace Xbim.SiteBuilder
             contentRoot.Render(rootDir);
 
             var siteMap = new SiteMap();
-            siteMap.Build(contentRoot, "https://xbimteam.github.io/");
+            siteMap.Build(contentRoot, "https://docs.xbim.net/");
             using (var map = File.Create(Path.Combine(rootDir.FullName, "sitemap.xml")))
             {
                 siteMap.Save(map);

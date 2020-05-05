@@ -14,13 +14,19 @@
     width: device-width;
 }
 
-html{
+html {
     position: relative;
     min-height: 100%;
 }
 
 body {
     margin-bottom: 400px;
+    font-family: 'Roboto', sans-serif;
+    color: #0f1c43;
+}
+
+h1, h2, h3, h4, h5, h6, h7 {
+    font-family: 'Rajdhani', sans-serif;
 }
 
 .container {
@@ -29,8 +35,10 @@ body {
 
 .banner {
     width: 100%;
-    padding: 90px 10px;
+    padding: 2em 1em;
     text-align: center;
+    background: #2f6cf4;
+    color: white;
 }
 
 @media (max-width : 768px) {
@@ -43,16 +51,10 @@ body {
     font-size: 60px;
 }
 
-.architecture {
-    background-image: url("../img/architecture.jpg");
-    background-size: cover;
+.banner h1 small {
     color: white;
-    text-shadow: 3px 3px 5px #222;
 }
 
-    .architecture small {
-        color: white;
-    }
 
 .navbar {
     margin-bottom: 0;
@@ -78,14 +80,40 @@ body {
     background: black;
 }
 
-.brand{
+.brand {
     margin: 0 10px;
 }
 
-.navbar-brand{
+.navbar-brand {
     padding-right: 25px;
     padding-top: 0;
     padding-bottom: 0;
     padding-left: 15px;
     position: relative;
+}
+
+.navbar-brand img {
+    height: 2.5em;
+}
+
+.navbar-inverse {
+    background-color: #0f1c43;
+    border-color: #0f1c43;
+}
+
+.navbar .container {
+    padding: 0.5em 1em;
+    align-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: white;
+}
+
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
+    color: #fff;
+    background-color: #ff5d6a;
 }

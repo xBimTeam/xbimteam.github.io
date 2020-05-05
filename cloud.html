@@ -12,7 +12,7 @@
 
     <link rel="icon" href="img/favicon.ico">
 
-    <title>xBIM Toolkit</title>
+    <title>xbim flex</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -209,8 +209,7 @@
     </ul>
 
 		</li>
-		
-        <li>
+        <li class="active">
 			<a href="cloud.html">Cloud</a>
 		</li>
     </ul>
@@ -219,71 +218,35 @@
       </div>
     </nav>
 	<div class="banner">
-		<h1>xbim toolkit <br /> <small>making building information flow </small></h1>
+		<h1><img alt='xbim flex' src='img/xBim_flex_logo_white.svg' style='height: 2em;'><br /><small>making building information flow </small></h1>
 	</div>
 
 	<div class="container">
-	<h1>The toolkit</h1>
+	<h1>xbim in the cloud</h1>
 
-<p>The <strong>xBIM Toolkit</strong> (eXtensible Building Information Modelling) is a <strong>.NET</strong> <a href="license/license.html">open-source</a> software development BIM toolkit that 
-supports the <a target="_blank" href="http://www.buildingsmart-tech.org/">BuildingSmart</a> Data Model (aka the <a target="_blank" href="http://en.wikipedia.org/wiki/Industry_Foundation_Classes">Industry Foundation Classes IFC</a>).</p>
+<p>After many years developing the xbim toolkit we helped help other members of the xbimteam to develop  web or cloud applications 
+built on our core technology. This has given us insights into specific issues and challenges which are involved in cloud data 
+processing and 3D presentation. IFC files are essentially a serialized object databases of a building. It is quite common that 
+these files are hundreds of megabytes. Even if you compress it to IFCZIP (about 90% compression rate), you still need to expand 
+it once you want to process it. When loaded all in memory, it can easily consume several GB of RAM. This is certainly not scalable 
+for cloud based multi-user application. Although some progress can be made using our Esent model, initial processing has the same 
+hit of conversion of geometry form and storage and cannot be fanned out to multiple machines. That is not very responsive and is 
+only scalable to a certain degree.</p>
 
-<p>Xbim allows .NET developers to read, create and view <a target="_blank" href="http://en.wikipedia.org/wiki/Building_information_modeling">Building Information (BIM)</a> Models in the IFC format. 
-There is full support for geometric, topological operations and visualisation. In addition xBIM supports 
-bi-directional translation between IFC and COBie formats. Core libraries for data manipulation are all written in C#, core of geometry engine is written in C++.</p>
+<p>When you start processing geometry, it consumes essentially all CPU available on the machine. That is great to get it done as 
+quick as possible but probably not desirable if you run your API or the application itself on the same machine. Dedicated virtual 
+machine with a lot of RAM and CPU might be used to serve a queue of models but some people might wait ages until their models 
+get processed and sometimes you will be paying a lot for the VM which is just sitting there, waiting for some models to digest.
+That is scalable in a way but far from being optimal or cost efficient.</p>
 
-<h1>Getting Started</h1>
+<p>Based on all our findings we have developed a new cloud platform <strong><a target="_blank" href="https://www.xbim.net">xbim flex</a></strong>, which uses xbim toolkit
+under the hood and provides access to building data in a completely scalable way as a commercial service. It can process any number 
+of models at any time and can digest models which make many other platforms choke. If you are interested, get in touch 
+at <a href="mailto:info@xbim.net">info@xbim.net</a>.</p>
 
-<p>Our main distribution channel is <a target="_blank" href="https://www.nuget.org/packages?q=xbim">NuGet</a>. Versions published there are assumed to be stable and safe. 
-You can also use our development feeds as listed at the bottom of this page. Have a look at <a href="quick-start.html">this quick guide</a> to get up to speed
-with basic xBIM functions. Examples contain other code samples and snippets which present various xBIM features. You will see that it is quite powerful.</p>
-
-<p>Two core libraries <a target="_blank" href="https://github.com/xBimTeam/XbimEssentials">xBIM Essentials</a> and <a target="_blank" href="https://github.com/xBimTeam/XbimGeometry">xBIM Geometry</a> are to be used 
-for the creation of complex applications, other repositories under the <a target="_blank" href="https://github.com/xBimTeam">xBIM Team</a> page include a number of example applications to 
-demonstrate its capabilities:</p>
-
-<ul>
-<li><a target="_blank" href="https://github.com/xBimTeam/XbimWindowsUI">xBIM Xplorer</a> - a Windows WPF sample application that can open and render 3D IFC models (and native xBIM models ) as well as displaying semantic data.</li>
-<li><a target="_blank" href="https://github.com/xBimTeam/XbimWebUI">xBIM WebUI</a> - a web application that can open and render 3D models <a href="examples/creating-wexbim-file.html">processed by xBIM</a>. </li>
-<li><a target="_blank" href="https://github.com/xBimTeam/XbimUtilities">xBIM Utilities</a> - a set of sample console applications to perform bulk functions on IFC files.</li>
-<li><a target="_blank" href="https://github.com/xBimTeam/XbimExchange">xBIM Exchange </a> - Project containing libraries and sample application demonstrating various approaches to work with COBie. This includes <a target="_blank" href="https://github.com/xBimTeam/XbimExchange/tree/master/Xbim.COBie">Xbim.Cobie</a> which represents spreadsheet view of the COBie model, <a target="_blank" href="https://github.com/xBimTeam/XbimExchange/tree/master/Xbim.COBieLite">implementation</a> of <a target="_blank" href="https://www.nibs.org/?page=bsa_cobielite">CobieLite</a>,  <a target="_blank" href="https://github.com/xBimTeam/XbimExchange/tree/master/Xbim.COBieLiteUK">Xbim.CobieLiteUK</a> which is XML model inspired by CobieLite but more rigorous and memory efficient and <a target="_blank" href="https://github.com/xBimTeam/XbimEssentials/tree/master/Xbim.CobieExpress">CobieExpress</a> as an EXPRESS based model representing COBie. <a target="_blank" href="https://github.com/xBimTeam/XbimExchange">XbimExchange </a> contains sample code for conversions between IFC and various implementations of COBie.</li>
-<li><a target="_blank" href="https://github.com/xBimTeam/XbimSamples">xBIM Samples</a> - a sample console application demonstrating how to undertake simple IFC creation and other tasks with xBIM.</li>
-</ul>
-
-<p>Please note: all the applications except for <a target="_blank" href="https://github.com/xBimTeam/XbimWebUI">xBIM WebUI</a> are provided to demonstrate how to use the xBIM library, they are not intended for use in uncontrolled production environments.</p>
-
-<h1>Licence</h1>
-
-<p>The XBIM library is made available under the <a href="license/license.html">CDDL Open Source licence</a>. List of third party licenses is <a href="license/third-party-licenses.html">here</a>.</p>
-
-<p>All licences should support the commercial usage of the xBIM Toolkit within a 'Larger Work', as long as you honour 
-the licence agreements.</p>
-
-<h1><a name="compilation"></a>Compilation</h1>
-
-<p>The toolkit uses the NuGet technology for the management of several required packages as well as for distributing the libraries.
-If you wish to use the <strong>development versions of xBIM</strong> make sure to add our NuGet feeds for the master and develop branches of the solution.
-NuGet can download all the required dependencies for you if you have the correct package source configuration.</p>
-
-<p>If you use Visual Studio 2015+ add the following package sources:</p>
-
-<ul>
-<li>https://www.myget.org/F/xbim-develop/api/v3/index.json</li>
-<li>https://www.myget.org/F/xbim-master/api/v3/index.json</li>
-</ul>
-
-<p>If you use Visual Studio 2013+ add the following package sources:</p>
-
-<ul>
-<li>https://www.myget.org/F/xbim-develop/api/v2</li>
-<li>https://www.myget.org/F/xbim-master/api/v2</li>
-</ul>
-
-<p><canvas id="x-view" style="width:100%;"></canvas></p>
-
-<script type="text/javascript" src="js/xbim-viewer.js"></script>
-
-<script type="text/javascript" src="js/sample-house.js"></script>
+<p>Our first application on the platform is helping people to communicate around BIM models using open standards 
+in the cloud: <a target="_blank" href="https://www.xbim.net">www.xbim.net</a>. We have also found and fixed issues with several issues with IFC production, 
+you can download our Revit  Add-in for free and see how the paltform works at <a target="_blank" href="https://www.xbim.net/download-addin">www.xbim.net/download-addin</a>.</p>
 
     </div>
     

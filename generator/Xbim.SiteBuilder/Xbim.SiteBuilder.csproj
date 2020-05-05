@@ -100,6 +100,7 @@
     <Content Include="Data\[02] Examples\[02-Advanced-02] Insert Copy Function.md.txt" />
     <Content Include="Data\[02] Examples\[01-Basic-01] Basic Model Operations.md.txt" />
     <Content Include="Data\[03] xBIM 4\Fast Upgrade Track.md.txt" />
+    <Content Include="Data\[07] Cloud.md.txt" />
     <Content Include="Resources\css\codestyles.css" />
     <None Include="Resources\data\XbimEssentials.bib" />
     <Content Include="Resources\img\logos\bim_academy_logo_gray.png" />
@@ -111,7 +112,13 @@
     <Content Include="Resources\img\logos\xbim_white_h35.png" />
     <Content Include="Resources\img\logos\xbim_white_h50.png" />
     <Content Include="Resources\img\logos\SEMA_logo_gray.png" />
+    <Content Include="Resources\img\favicon.ico" />
     <Content Include="Resources\img\xbim.png" />
+    <Content Include="Resources\img\xBim_flex_logo.svg" />
+    <Content Include="Resources\img\xBim_flex_logo_white.svg" />
+    <Content Include="Resources\img\xBim_parent_logo_white.svg" />
+    <Content Include="Resources\img\xBim_toolkit_logo.png" />
+    <Content Include="Resources\img\xBim_toolkit_logo_white.png" />
     <Content Include="Resources\js\sample-house.js" />
     <Content Include="Resources\js\xbim-viewer.js" />
     <Content Include="Resources\robots.txt" />
@@ -146,7 +153,6 @@
     <Content Include="Resources\css\site.css" />
     <Content Include="Resources\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Resources\img\architecture.jpg" />
-    <Content Include="Resources\img\favicon.ico" />
     <Content Include="Resources\img\xbim_white.png" />
     <Content Include="Resources\js\bootstrap.js" />
     <Content Include="Resources\js\bootstrap.min.js" />

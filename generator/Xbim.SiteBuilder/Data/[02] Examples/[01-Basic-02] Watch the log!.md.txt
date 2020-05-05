@@ -1,8 +1,41 @@
 ﻿# Watch the log!
 
-xBIM uses [Log4Net](https://logging.apache.org/log4net/) to log processing errors and warnings where exceptions are not appropriate.
-It is heavily used in xBIM Geometry Engine to log all geometry errors. If you have a file which doesn't look quite right you should always
-check the log first. There are many possible configurations of Log4Net including logging to console, creating continuous or rolling log file and others.
+xBIM is logging processing errors and warnings where exceptions are not appropriate.
+It is heavily used in xBIM Geometry Engine to log all geometry errors. It is also used in the parser to log any syntactic problems with the file. 
+If you have a file which doesn't look quite right you should always check the log first.
+
+As a library we don't want to to force any specific logging library. To stay agnostic of the logging framework we use 
+[Microsoft Logging Abstractions](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.abstractions?view=dotnet-plat-ext-3.1&viewFallbackFrom=netstandard-2.1).
+Most of common logging frameworks have their implementation of logging providers which makes it easy to wire xBIM in your wider application logging.
+
+Setup is pretty easy. Just initialize `XbimLogging.LoggerFactory` before you do anything with xBIM. We often use [Serilog](https://serilog.net/) in our examples,
+which looks like this:
+
+```xml
+    <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.0.1" />
+```
+
+```cs
+// set up serilog
+Log.Logger = new LoggerConfiguration()
+   .Enrich.FromLogContext()
+   .WriteTo.Console()
+   .CreateLogger();
+
+// set up xBIM logging. It will use your providers.
+XbimLogging.LoggerFactory.AddSerilog();
+
+// do anything you want with xBIM
+using (var model = IfcStore.Open(fileName, null, -1))
+{
+    // ...
+}
+```
+
+## xBIM v4 and earlier
+
+xBIM used to use [Log4Net](https://logging.apache.org/log4net/). There are many possible configurations of Log4Net including logging to console, creating continuous or rolling log file and others.
 Some examples can be found [here](https://logging.apache.org/log4net/release/config-examples.html). The most basic configuration which will write all colourful log 
 messages in console can look like this:
 

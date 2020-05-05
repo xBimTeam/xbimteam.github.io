@@ -1,1 +1,1 @@
-Sitemap: https://xbimteam.github.io/sitemap.xml
+Sitemap: https://docs.xbim.net/sitemap.xml

@@ -24,10 +24,21 @@ Our [GitHub page](https://github.com/orgs/xBimTeam/people) lists public members 
 members from the enterprises. If you want to contact us to ask something about xBIM source code we prefer 
 [GitHub issues](https://guides.github.com/features/issues/) as a way to talk about the code.
 
-# Recent Research Projects Using xBIM
+## Recent Research Projects Using xBIM
 
   - [Tier2Tier: A collaboration interface between construction main contractors and their supply chain specialist sub-contractors](http://gtr.rcuk.ac.uk/projects?ref=102053) (Apr 15 - Sep 16)
   - [DECC-MR](http://gtr.rcuk.ac.uk/projects?ref=102062) (Apr 15 - Mar 16)
   - [A digital tool for building information modelling](http://gtr.rcuk.ac.uk/projects?ref=972199) (Oct 14 - Apr 15 )
   - [4BIM](http://gtr.rcuk.ac.uk/projects?ref=101150) (Feb 12 - Jan 14)
   - [interoperable Carbon Assessment Toolkit (iCAT)](http://gtr.rcuk.ac.uk/projects?ref=400144) (Mar 10 - May 12)
+
+## Raise of a company: xbim ltd.
+
+After 10 years from the first line of code Steve decided to set up new company with Martin Cerny, who became the second major 
+contributor to xbim Toolkit over time and had worked on most of the recent research project. They were later joined by Andy Ward, 
+former solution architect of 4Projects. xbim ltd. is currently maintainer of the xbimToolkit and will continue to develop it for a 
+benefit of the community as well as their own product development. Nothing is changing for any xbim users in terms of license. 
+xbim ltd. will always keep the xbim Toolkit public and open source. xbim Ltd. continues to grow and is currently developing 
+**[Flex](https://www.xbim.net)**: a cloud platform based on xbim Toolkit which provides highly scalable distributed processing 
+of models with random access to data. Flex will be available to other developers as a commercial service (PaaS). 
+If you are interested, [get in touch](mailto:info@xbim.net).
