@@ -103,19 +103,13 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.xbim.net/xbim-4/fast-upgrade-track.html</loc>
+    <loc>https://docs.xbim.net/release-notes/fast-upgrade-track.html</loc>
     <lastmod>2020-05-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.xbim.net/xbim-4/project-status.html</loc>
-    <lastmod>2020-05-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.xbim.net/xbim-4/xbim-4-release-notes.html</loc>
+    <loc>https://docs.xbim.net/release-notes/xbim-4-release-notes.html</loc>
     <lastmod>2020-05-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

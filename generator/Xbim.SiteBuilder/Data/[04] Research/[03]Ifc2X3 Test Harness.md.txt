@@ -10,8 +10,8 @@ Our analysis was eventually [published on IJ3DIM](https://www.igi-global.com/art
 
 ## Download
 
-This pages makes the test model [available for download](https://raw.githubusercontent.com/xBimTeam/XbimWindowsUI/master/XbimXplorer/BIM%20Logo.ifc) if you wish to replicate the study of test your IFC implementation.
-Once opened in you viewer of choice the model should look as the following image.
+This pages makes the test model [available for download](https://raw.githubusercontent.com/xBimTeam/XbimWindowsUI/master/XbimXplorer/BIM%20Logo.ifc) if you wish to replicate the study or test your IFC implementation.
+Once opened in your viewer of choice the model should look as the following image.
 
 <img alt="The test harness file displayed in XbimXplorer" title="the expected geometry representation" src="/img/ifc2x3TestHarness.png" width="50%" />
 

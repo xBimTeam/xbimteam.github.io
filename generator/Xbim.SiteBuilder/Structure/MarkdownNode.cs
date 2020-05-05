@@ -132,7 +132,9 @@ namespace Xbim.SiteBuilder.Structure
 
                 //write normal table row
                 line = line.Trim('|', ' ');
-                line = "<tr><td>" + line.Replace("|", "</td><td>") + "</td></tr>";
+                line = "<tr><td>" + 
+                    string.Join("</td><td>", line.Split('|').Select(col => md.Transform(col))) + 
+                    "</td></tr>";
                 writer.WriteLine(line);
                 line = nextLine;
             }

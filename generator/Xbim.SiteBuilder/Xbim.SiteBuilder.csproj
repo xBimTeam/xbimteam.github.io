@@ -83,7 +83,6 @@
     <Content Include="Data\[02] Examples\[-1] images\excel-report.png" />
     <Content Include="Data\[02] Examples\[00]Examples list.md.txt" />
     <Content Include="Data\[02] Examples\[01-Basic-02] Watch the log!.md.txt" />
-    <Content Include="Data\[03] xBIM 4\Project Status.md.txt" />
     <Content Include="Data\[04] Research\[02]How to reference.md.txt" />
     <Content Include="Data\[04] Research\[03]Ifc2X3 Test Harness.md.txt" />
     <Content Include="Data\[04] Research\[01]History.md.txt" />
@@ -99,7 +98,7 @@
     <Content Include="Data\[02] Examples\[02-Advanced-03] Change Log Creation.md.txt" />
     <Content Include="Data\[02] Examples\[02-Advanced-02] Insert Copy Function.md.txt" />
     <Content Include="Data\[02] Examples\[01-Basic-01] Basic Model Operations.md.txt" />
-    <Content Include="Data\[03] xBIM 4\Fast Upgrade Track.md.txt" />
+    <Content Include="Data\[03] Release notes\Fast Upgrade Track.md.txt" />
     <Content Include="Data\[07] Cloud.md.txt" />
     <Content Include="Resources\css\codestyles.css" />
     <None Include="Resources\data\XbimEssentials.bib" />
@@ -128,7 +127,7 @@
     </Content>
     <None Include="App.config" />
     <Content Include="Data\index.md.txt" />
-    <Content Include="Data\[03] xBIM 4\xBIM 4 Release Notes.md.txt" />
+    <Content Include="Data\[03] Release notes\xBIM 4 Release Notes.md.txt" />
     <None Include="bootstrap.config" />
     <None Include="packages.config" />
     <None Include="Resources\fonts\glyphicons-halflings-regular.eot" />
