@@ -117,3 +117,7 @@ h1, h2, h3, h4, h5, h6, h7 {
     color: #fff;
     background-color: #ff5d6a;
 }
+
+p img {
+    max-width: 100%;
+}

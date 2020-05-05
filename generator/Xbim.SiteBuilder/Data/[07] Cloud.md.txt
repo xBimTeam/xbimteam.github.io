@@ -30,5 +30,9 @@ of models at any time and can digest models which make many other platforms chok
 at [info@xbim.net](mailto:info@xbim.net).
 
 Our first application on the platform is helping people to communicate around BIM models using open standards 
-in the cloud: [www.xbim.net](https://www.xbim.net). We have also found and fixed issues with several issues with IFC production, 
+in the cloud: [www.xbim.net](https://www.xbim.net). We have also found and fixed several issues with IFC production, 
 you can download our Revit  Add-in for free and see how the paltform works at [www.xbim.net/download-addin](https://www.xbim.net/download-addin).
+
+Web application for communication around models:
+
+![xbim flex comms](/img/comms_snapshot.bmp)

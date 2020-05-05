@@ -102,6 +102,7 @@
     <Content Include="Data\[07] Cloud.md.txt" />
     <Content Include="Resources\css\codestyles.css" />
     <None Include="Resources\data\XbimEssentials.bib" />
+    <Content Include="Resources\img\comms_snapshot.bmp" />
     <Content Include="Resources\img\logos\bim_academy_logo_gray.png" />
     <Content Include="Resources\img\logos\di5_logo_gray.png" />
     <Content Include="Resources\img\logos\nbs_logo_gray.png" />
