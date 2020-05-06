@@ -220,14 +220,14 @@
 	<div class="container">
 	<h1>xbim in the cloud</h1>
 
-<p>After many years developing the xbim toolkit we helped help other members of the xbimteam to develop  web or cloud applications 
+<p>After many years developing the <a href="/">xbim toolkit</a> we helped help other members of the xbimteam to develop  web or cloud applications 
 built on our core technology. This has given us insights into specific issues and challenges which are involved in cloud data 
-processing and 3D presentation. IFC files are essentially a serialized object databases of a building. It is quite common that 
+processing and 3D presentation. IFC files are essentially serialized object databases of a building. It is quite common that 
 these files are hundreds of megabytes. Even if you compress it to IFCZIP (about 90% compression rate), you still need to expand 
-it once you want to process it. When loaded all in memory, it can easily consume several GB of RAM. This is certainly not scalable 
-for cloud based multi-user application. Although some progress can be made using our Esent model, initial processing has the same 
-hit of conversion of geometry form and storage and cannot be fanned out to multiple machines. That is not very responsive and is 
-only scalable to a certain degree.</p>
+it once you want to process it. When it's all loaded in memory, it can easily consume several GB of RAM. This is certainly not scalable 
+for cloud based multi-user application. Although some progress can be made using our <a target="_blank" href="https://www.nuget.org/packages/Xbim.IO.Esent/">Esent model</a>, 
+initial processing has the same hit of conversion of geometry form and storage and cannot be fanned out to multiple machines. 
+That is not very responsive and is only scalable to a certain degree.</p>
 
 <p>When you start processing geometry, it consumes essentially all CPU available on the machine. That is great to get it done as 
 quick as possible but probably not desirable if you run your API or the application itself on the same machine. Dedicated virtual 
@@ -235,14 +235,14 @@ machine with a lot of RAM and CPU might be used to serve a queue of models but s
 get processed and sometimes you will be paying a lot for the VM which is just sitting there, waiting for some models to digest.
 That is scalable in a way but far from being optimal or cost efficient.</p>
 
-<p>Based on all our findings we have developed a new cloud platform <strong><a target="_blank" href="https://www.xbim.net">xbim flex</a></strong>, which uses xbim toolkit
+<p>Based on all our findings we have developed a new cloud platform <strong><a target="_blank" href="https://www.xbim.net">xbim flex</a></strong>, which uses <a href="/">xbim toolkit</a>
 under the hood and provides access to building data in a completely scalable way as a commercial service. It can process any number 
-of models at any time and can digest models which make many other platforms choke. If you are interested, get in touch 
-at <a href="mailto:info@xbim.net">info@xbim.net</a>.</p>
+of models at any time and can digest models which make many other platforms choke. If you are interested, 
+download the Flex Revit Add-In <a target="_blank" href="https://www.xbim.net/download-addin/">here</a> or get in touch at <a href="mailto:info@xbim.net">info@xbim.net</a>.</p>
 
 <p>Our first application on the platform is helping people to communicate around BIM models using open standards 
 in the cloud: <a target="_blank" href="https://www.xbim.net">www.xbim.net</a>. We have also found and fixed several issues with IFC production, 
-you can download our Revit  Add-in for free and see how the paltform works at <a target="_blank" href="https://www.xbim.net/download-addin">www.xbim.net/download-addin</a>.</p>
+you can download our Revit  Add-in for free and see how the platform works at <a target="_blank" href="https://www.xbim.net/download-addin">www.xbim.net/download-addin</a>.</p>
 
 <p>Web application for communication around models:</p>
 

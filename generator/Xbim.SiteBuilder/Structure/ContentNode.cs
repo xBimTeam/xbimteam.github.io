@@ -106,6 +106,9 @@ namespace Xbim.SiteBuilder.Structure
             //make paths relative
             foreach (var path in paths.Distinct())
             {
+                if (path == "/")
+                    continue;
+
                 if (path.StartsWith("/") && !path.StartsWith("//"))
                 {
                     //validate all paths (it can either be file resource or content node)

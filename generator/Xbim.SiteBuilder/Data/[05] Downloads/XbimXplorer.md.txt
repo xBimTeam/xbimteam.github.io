@@ -2,7 +2,7 @@
 
 ![XbimXplorer](/examples/images/XbimXplorer.png)
 
-This application is one one of the demonstrators of the xbim toolkit.
+This application is one one of the demonstrators of the [xbim toolkit](/).
 
 It's a .NET Windows application running on WPF that demonstrates how to use some of the APIs of the toolkit.
 

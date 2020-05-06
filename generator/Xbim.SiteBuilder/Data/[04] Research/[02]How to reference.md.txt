@@ -2,7 +2,7 @@
 
 ## Background
 
-*Xbim toolkit* is the result of several years of academic research and development, if you use any part of *xbim* in your research **we welcome and encourage appropriate acknowledgement in your publications.**
+*[Xbim toolkit](/)* is the result of several years of academic research and development, if you use any part of *xbim* in your research **we welcome and encourage appropriate acknowledgement in your publications.**
 
 If you do reference our work, please avoid informal references to the GitHub website or the Nuget package; the best way to reference our work is through [our publication on The Journal of Open Source Software (JOSS)](http://joss.theoj.org/papers/b23bed93a0377b4f4317d0583b4d2c5e).
 

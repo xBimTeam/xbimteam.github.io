@@ -1,7 +1,7 @@
 ﻿Converting STEP physical file to XML and vice versa
 ===================================================
 
-Xbim Toolkit implements 100% of IFC2x3 and IFC4 schemas and it supports all physical representations. 
+[Xbim toolkit](/) implements 100% of IFC2x3 and IFC4 schemas and it supports all physical representations. 
 [STEP21](https://en.wikipedia.org/wiki/ISO_10303-21) is a physical representation of data defined in [EXPRESS](https://en.wikipedia.org/wiki/EXPRESS_(data_modeling_language)). It is
 the original definition of IFC and it is a perfect fit for product modelling. It might not be obvious from this simple example but EXPRESS is a lot more conscious and easier to read
 than any XSD. EXPRESS definitions look like this:
