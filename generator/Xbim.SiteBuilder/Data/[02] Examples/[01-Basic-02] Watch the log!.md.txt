@@ -4,9 +4,10 @@ xBIM is logging processing errors and warnings where exceptions are not appropri
 It is heavily used in xBIM Geometry Engine to log all geometry errors. It is also used in the parser to log any syntactic problems with the file. 
 If you have a file which doesn't look quite right you should always check the log first.
 
-As a library we don't want to to force any specific logging library. To stay agnostic of the logging framework we use 
+As a library we don't want to force you to use any specific logging library. To stay agnostic of the logging framework we use 
 [Microsoft Logging Abstractions](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.abstractions?view=dotnet-plat-ext-3.1&viewFallbackFrom=netstandard-2.1).
-Most of common logging frameworks have their implementation of logging providers which makes it easy to wire xBIM in your wider application logging.
+Most of the common logging frameworks have their implementation of logging providers for these abstractions, which makes it easy to 
+wire xBIM in your wider application logging.
 
 Setup is pretty easy. Just initialize `XbimLogging.LoggerFactory` before you do anything with xBIM. We often use [Serilog](https://serilog.net/) in our examples,
 which looks like this:

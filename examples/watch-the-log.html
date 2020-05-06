@@ -221,9 +221,10 @@
 It is heavily used in xBIM Geometry Engine to log all geometry errors. It is also used in the parser to log any syntactic problems with the file. 
 If you have a file which doesn't look quite right you should always check the log first.</p>
 
-<p>As a library we don't want to to force any specific logging library. To stay agnostic of the logging framework we use 
+<p>As a library we don't want to force you to use any specific logging library. To stay agnostic of the logging framework we use 
 <a target="_blank" href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.abstractions?view=dotnet-plat-ext-3.1&amp;viewFallbackFrom=netstandard-2.1">Microsoft Logging Abstractions</a>.
-Most of common logging frameworks have their implementation of logging providers which makes it easy to wire xBIM in your wider application logging.</p>
+Most of the common logging frameworks have their implementation of logging providers for these abstractions, which makes it easy to 
+wire xBIM in your wider application logging.</p>
 
 <p>Setup is pretty easy. Just initialize <code>XbimLogging.LoggerFactory</code> before you do anything with xBIM. We often use <a target="_blank" href="https://serilog.net/">Serilog</a> in our examples,
 which looks like this:</p>
