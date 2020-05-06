@@ -12,7 +12,7 @@
 # The toolkit
 
 The **xbim toolkit** is a **.NET** [open-source](/license/license.html) software development BIM toolkit that 
-supports the [BuildingSmart](http://www.buildingsmart-tech.org/) Data Model (aka the [Industry Foundation Classes IFC](http://en.wikipedia.org/wiki/Industry_Foundation_Classes)).
+supports the [BuildingSmart](http://www.buildingsmart-tech.org/) Data Model (aka the [Industry Foundation Classes IFC](https://technical.buildingsmart.org/standards/ifc/)).
 
 Xbim allows .NET developers to read, create and view [Building Information (BIM)](http://en.wikipedia.org/wiki/Building_information_modeling) Models in the IFC format. 
 There is full support for geometric, topological operations and visualisation. In addition xbim supports 

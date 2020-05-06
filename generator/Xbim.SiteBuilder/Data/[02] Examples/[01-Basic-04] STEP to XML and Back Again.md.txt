@@ -40,7 +40,7 @@ DATA;
 #3=IFCPERSON($,'Santini Aichel','Johann Blasius',$,$,$,$,$);
 #4=IFCORGANIZATION($,'Independent Architecture',$,$,$);
 #5=IFCPERSONANDORGANIZATION(#3,#4,$);
-#7=IFCORGANIZATION($,'xbim team',$,$,$);
+#7=IFCORGANIZATION($,'xbim developer',$,$,$);
 #6=IFCAPPLICATION(#7,$,'xbim toolkit','xbim');
 #8=IFCUNITASSIGNMENT((#9,#10,#11,#12,#13,#14,#15,#16,#17));
 #9=IFCSIUNIT(*,.LENGTHUNIT.,.MILLI.,.METRE.);
@@ -130,7 +130,7 @@ The same example as above will look like this as IFCXML. Please note, that IFC4 
         <TheOrganization id="i4" xsi:type="IfcOrganization" Name="Independent Architecture" />
       </OwningUser>
       <OwningApplication id="i6" xsi:type="IfcApplication" Version="4.0" ApplicationFullName="xbim toolkit" ApplicationIdentifier="xbim">
-        <ApplicationDeveloper id="i7" xsi:type="IfcOrganization" Name="xbim team" />
+        <ApplicationDeveloper id="i7" xsi:type="IfcOrganization" Name="xbim developer" />
       </OwningApplication>
     </OwnerHistory>
     <RepresentationContexts>
