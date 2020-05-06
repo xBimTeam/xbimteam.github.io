@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="xBIM Toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
-    <meta name="author" content="xBIM Team">
-	<meta name="keywords" content="xBIM,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
+    <meta name="description" content="xbim toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
+    <meta name="author" content="xbim ltd.">
+	<meta name="keywords" content="xbim,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
 	<meta name="google-site-verification" content="0uIEEP0H5QWrL3gUPIdxOhMzGT0ZArO6rdpj9TOeeEQ" />
 
     <link rel="icon" href="../img/favicon.ico">
@@ -48,7 +48,7 @@
 	{
 	  "@context" : "http://schema.org",
 	  "@type" : "SoftwareApplication",
-	  "name" : "xBIM Toolkit",
+	  "name" : "xbim toolkit",
 	  "image" : "https://docs.xbim.net../img/xBim_toolkit_logo.png",
 	  "url" : "https://docs.xbim.net/",
 	  "author" : {
@@ -217,11 +217,11 @@
 	<div class="container">
 	<h1>Basic model operations</h1>
 
-<p>To get started the easiest way to get xBIM into your project is to use <a target="_blank" href="https://www.nuget.org/packages?q=xbim">NuGet</a>. To do anything you want with the data you only need 
-<a target="_blank" href="https://www.nuget.org/packages/Xbim.Essentials/">xBIM Essentials</a>. If you need anything to do with geometry (like visualization) you will also need 
-<a target="_blank" href="https://www.nuget.org/packages/Xbim.Geometry/">xBIM Geometry Engine</a>. There are many years of development behind xBIM and both these packages are mature and pretty much stable.</p>
+<p>To get started the easiest way to get xbim into your project is to use <a target="_blank" href="https://www.nuget.org/packages?q=xbim">NuGet</a>. To do anything you want with the data you only need 
+<a target="_blank" href="https://www.nuget.org/packages/Xbim.Essentials/">Xbim Essentials</a>. If you need anything to do with geometry (like visualization) you will also need 
+<a target="_blank" href="https://www.nuget.org/packages/Xbim.Geometry/">Xbim Geometry Engine</a>. There are many years of development behind xbim and both these packages are mature and pretty much stable.</p>
 
-<p>Now it's probably time to have a look at some very basic code examples representing how xBIM can be used. We will present four basic functions of persistent storage well known as 
+<p>Now it's probably time to have a look at some very basic code examples representing how xbim can be used. We will present four basic functions of persistent storage well known as 
 <a target="_blank" href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> (Create, Retrieve, Update and Delete). Following examples usually work with IFC4 but you can also do the same
 with IFC2x3. Actually most of the code is IFC version agnostic as it uses IFC4 interfaces which work for IFC2x3 as well. Sample data used to develop these examples can be downloaded
 <a href="../data/SampleHouse.zip">here</a>.</p>
@@ -236,9 +236,9 @@ and your current user.</p>
 
 <div class="csharp"><pre><code><span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
 {
-    ApplicationDevelopersName = <span class="string">&quot;xBIM Team&quot;</span>,
-    ApplicationFullName = <span class="string">&quot;xBIM Toolkit&quot;</span>,
-    ApplicationIdentifier = <span class="string">&quot;xBIM&quot;</span>,
+    ApplicationDevelopersName = <span class="string">&quot;xbim developer&quot;</span>,
+    ApplicationFullName = <span class="string">&quot;xbim toolkit&quot;</span>,
+    ApplicationIdentifier = <span class="string">&quot;xbim&quot;</span>,
     ApplicationVersion = <span class="string">&quot;4.0&quot;</span>,
     EditorsFamilyName = <span class="string">&quot;Santini Aichel&quot;</span>,
     EditorsGivenName = <span class="string">&quot;Johann Blasius&quot;</span>,
@@ -246,7 +246,7 @@ and your current user.</p>
 };
 </code></pre></div>
 
-<p>All implementations of <code>IModel</code> in xBIM are <code>IDisposable</code> so you should always use them inside of <code>using</code> statement like this</p>
+<p>All implementations of <code>IModel</code> in xbim are <code>IDisposable</code> so you should always use them inside of <code>using</code> statement like this</p>
 
 <div class="csharp"><pre><code><span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Create(editor, <span class="type">IfcSchemaVersion</span>.Ifc4, <span class="type">XbimStoreType</span>.InMemoryModel))
 {
@@ -267,7 +267,7 @@ Transactions can't be nested so there has always be just one transaction at the 
 
 <p>All operations related to entities are accessible through <code>IModel.Instances</code>. That is your point of access to get, change and create new
 entities in the model. To create any new object you use this templated function. You always have to specify a non-abstract type to create. This is
-built in xBIM in a way where you get a compile time error if you don't. 
+built in xbim in a way where you get a compile time error if you don't. 
 Every model is schema specific so it is either IFC2x3 or IFC4 or other specific schema. <code>IfcStore</code> makes it easier because it can open both IFC versions 
 and will tell you what it is but when you want to create data make sure you don't mess up your <code>using</code> statements. If you try to create IFC4 entity
 with model initialized to IFC2x3 it will throw a runtime exception. </p>
@@ -284,9 +284,9 @@ This wall doesn't have any geometry so most of IFC viewers won't show you anythi
 
 <div class="csharp"><pre><code><span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
 {
-    ApplicationDevelopersName = <span class="string">&quot;xBIM Team&quot;</span>,
-    ApplicationFullName = <span class="string">&quot;xBIM Toolkit&quot;</span>,
-    ApplicationIdentifier = <span class="string">&quot;xBIM&quot;</span>,
+    ApplicationDevelopersName = <span class="string">&quot;xbim developer&quot;</span>,
+    ApplicationFullName = <span class="string">&quot;xbim toolkit&quot;</span>,
+    ApplicationIdentifier = <span class="string">&quot;xbim&quot;</span>,
     ApplicationVersion = <span class="string">&quot;4.0&quot;</span>,
     EditorsFamilyName = <span class="string">&quot;Santini Aichel&quot;</span>,
     EditorsGivenName = <span class="string">&quot;Johann Blasius&quot;</span>,
@@ -354,8 +354,8 @@ DATA;
 <span class="number">#3</span>=<span class="type">IFCPERSON</span>($,<span class="string">&#39;Santini Aichel&#39;</span>,<span class="string">&#39;Johann Blasius&#39;</span>,$,$,$,$,$);
 <span class="number">#4</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;Independent Architecture&#39;</span>,$,$,$);
 <span class="number">#5</span>=<span class="type">IFCPERSONANDORGANIZATION</span>(<span class="number">#3</span>,<span class="number">#4</span>,$);
-<span class="number">#7</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;xBIM Team&#39;</span>,$,$,$);
-<span class="number">#6</span>=<span class="type">IFCAPPLICATION</span>(<span class="number">#7</span>,$,<span class="string">&#39;xBIM Toolkit&#39;</span>,<span class="string">&#39;xBIM&#39;</span>);
+<span class="number">#7</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;xbim developer&#39;</span>,$,$,$);
+<span class="number">#6</span>=<span class="type">IFCAPPLICATION</span>(<span class="number">#7</span>,$,<span class="string">&#39;xbim toolkit&#39;</span>,<span class="string">&#39;xbim&#39;</span>);
 <span class="number">#8</span>=<span class="type">IFCUNITASSIGNMENT</span>((<span class="number">#9</span>,<span class="number">#10</span>,<span class="number">#11</span>,<span class="number">#12</span>,<span class="number">#13</span>,<span class="number">#14</span>,<span class="number">#15</span>,<span class="number">#16</span>,<span class="number">#17</span>));
 <span class="number">#9</span>=<span class="type">IFCSIUNIT</span>(*,.LENGTHUNIT.,.MILLI.,.METRE.);
 <span class="number">#10</span>=<span class="type">IFCSIUNIT</span>(*,.AREAUNIT.,$,.SQUARE_METRE.);
@@ -458,9 +458,9 @@ or model will throw an exception at the moment you create or change any object.<
 <div class="csharp"><pre><code><span class="keyword">const</span> <span class="keyword">string</span> fileName = <span class="string">&quot;SampleHouse.ifc&quot;</span>;
 <span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
 {
-    ApplicationDevelopersName = <span class="string">&quot;xBIM Team&quot;</span>,
-    ApplicationFullName = <span class="string">&quot;xBIM Toolkit&quot;</span>,
-    ApplicationIdentifier = <span class="string">&quot;xBIM&quot;</span>,
+    ApplicationDevelopersName = <span class="string">&quot;xbim developer&quot;</span>,
+    ApplicationFullName = <span class="string">&quot;xbim toolkit&quot;</span>,
+    ApplicationIdentifier = <span class="string">&quot;xbim&quot;</span>,
     ApplicationVersion = <span class="string">&quot;4.0&quot;</span>,
     EditorsFamilyName = <span class="string">&quot;Santini Aichel&quot;</span>,
     EditorsGivenName = <span class="string">&quot;Johann Blasius&quot;</span>,
@@ -538,7 +538,7 @@ referring to it. There are choices to be made by programmer or user. However, lo
     
 
 	<div class="brands-container">
-	<p><small>Some of the companies using xBIM Toolkit:</small></p>
+	<p><small>Some of the companies using xbim toolkit:</small></p>
 		<a target="_blank" href="https://www.xbim.net"><img style="height:65px;" src="../img/xBim_parent_logo_white.svg" class="brand" alt="xbim ltd."></a>
 		<img src="../img/logos/northumbria_logo_gray.png" class="brand"/>
 		<img src="../img/logos/viewpoint_logo_gray.png" class="brand"/>

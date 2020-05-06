@@ -2,7 +2,7 @@
 
 This example will show you some of the concepts necessary to read data from IFC file. It uses IFC4 interfaces which will 
 work both for IFC2x3 and IFC4 models. To create Excel files we use [NPOI](https://www.nuget.org/packages/NPOI/). You will 
-just need [xBIM Essentials](https://www.nuget.org/packages/Xbim.Essentials/) for this example because we are not going to
+just need [Xbim Essentials](https://www.nuget.org/packages/Xbim.Essentials/) for this example because we are not going to
 use geometry here. All the code including sample data is available [here](https://github.com/xBimTeam/XbimSamples/tree/master/ExcelReportExample).
 
 The result from this example will look like this:
@@ -30,7 +30,7 @@ var sheet = workbook.GetSheet("Spaces");
 //Create nice numeric formats with units. Units would need a LOT MORE care in real world. 
 //We just know that our current model has space areas in square meters and space volumes in cubic meters
 //Please note that the original data exported from Revit were wrong because volumes were 1000x bigger than they should be.
-//Data were fixed using xBIM for this example.
+//Data were fixed using xbim for this example.
 
 var areaFormat = workbook.CreateDataFormat();
 var areaFormatId = areaFormat.GetFormat("# ##0.00 [$m²]");

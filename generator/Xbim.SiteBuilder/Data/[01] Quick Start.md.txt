@@ -1,8 +1,8 @@
 ﻿Quick Start
 ======================
-To get started the easiest way to get xBIM into your project is to use [NuGet](https://www.nuget.org/packages?q=xbim). To do anything you want with the data you only need 
-[xBIM Essentials](https://www.nuget.org/packages/Xbim.Essentials/). If you need anything to do with geometry (like visualization) you will also need 
-[xBIM Geometry Engine](https://www.nuget.org/packages/Xbim.Geometry/). There are many years of development behind xBIM and both these packages are mature and pretty much stable.
+To get started the easiest way to get xbim into your project is to use [NuGet](https://www.nuget.org/packages?q=xbim). To do anything you want with the data you only need 
+[Xbim Essentials](https://www.nuget.org/packages/Xbim.Essentials/). If you need anything to do with geometry (like visualization) you will also need 
+[Xbim Geometry Engine](https://www.nuget.org/packages/Xbim.Geometry/). There are many years of development behind xbim and both these packages are mature and pretty much stable.
 
 
 As the very first thing you should create credentials which will be used to keep [owner history](http://www.buildingsmart-tech.org/ifc/IFC4/final/html/link/ifcownerhistory.htm) 
@@ -22,7 +22,7 @@ var editor = new XbimEditorCredentials
 };
 ```
 
-All implementations of `IModel` in xBIM are `IDisposable` so you should always use them inside of `using` statement like this:
+All implementations of `IModel` in xbim are `IDisposable` so you should always use them inside of `using` statement like this:
 
 ```cs
 using (var model = IfcStore.Open(fileName, editor, true))
@@ -60,7 +60,7 @@ using (var txn = model.BeginTransaction("Hello Wall"))
 
 All operations related to entities are accessible through `IModel.Instances`. That is your point of access to get, change and create new
 entities in the model. To create any new object you use this templated function. You always have to specify a non-abstract type to create. This is
-built in xBIM in a way where you get a compile time error if you don't. 
+built in xbim in a way where you get a compile time error if you don't. 
 Every model is schema specific so it is either IFC2x3 or IFC4 or other specific schema. `IfcStore` makes it easier because it can open both IFC versions 
 and will tell you what it is but when you want to create data make sure you don't mess up your `using` statements. If you try to create IFC4 entity
 with model initialized to IFC2x3 it will throw a runtime exception. 

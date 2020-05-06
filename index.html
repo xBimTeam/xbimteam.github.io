@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="xBIM Toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
-    <meta name="author" content="xBIM Team">
-	<meta name="keywords" content="xBIM,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
+    <meta name="description" content="xbim toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
+    <meta name="author" content="xbim ltd.">
+	<meta name="keywords" content="xbim,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
 	<meta name="google-site-verification" content="0uIEEP0H5QWrL3gUPIdxOhMzGT0ZArO6rdpj9TOeeEQ" />
 
     <link rel="icon" href="img/favicon.ico">
 
-    <title>xBIM Toolkit</title>
+    <title>xbim toolkit</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -48,7 +48,7 @@
 	{
 	  "@context" : "http://schema.org",
 	  "@type" : "SoftwareApplication",
-	  "name" : "xBIM Toolkit",
+	  "name" : "xbim toolkit",
 	  "image" : "https://docs.xbim.netimg/xBim_toolkit_logo.png",
 	  "url" : "https://docs.xbim.net/",
 	  "author" : {
@@ -221,32 +221,32 @@
 	<div class="container">
 	<h1>The toolkit</h1>
 
-<p>The <strong>xBIM Toolkit</strong> (eXtensible Building Information Modelling) is a <strong>.NET</strong> <a href="license/license.html">open-source</a> software development BIM toolkit that 
+<p>The <strong>xbim toolkit</strong> is a <strong>.NET</strong> <a href="license/license.html">open-source</a> software development BIM toolkit that 
 supports the <a target="_blank" href="http://www.buildingsmart-tech.org/">BuildingSmart</a> Data Model (aka the <a target="_blank" href="http://en.wikipedia.org/wiki/Industry_Foundation_Classes">Industry Foundation Classes IFC</a>).</p>
 
 <p>Xbim allows .NET developers to read, create and view <a target="_blank" href="http://en.wikipedia.org/wiki/Building_information_modeling">Building Information (BIM)</a> Models in the IFC format. 
-There is full support for geometric, topological operations and visualisation. In addition xBIM supports 
+There is full support for geometric, topological operations and visualisation. In addition xbim supports 
 bi-directional translation between IFC and COBie formats. Core libraries for data manipulation are all written in C#, core of geometry engine is written in C++.</p>
 
 <h1>Getting Started</h1>
 
 <p>Our main distribution channel is <a target="_blank" href="https://www.nuget.org/packages?q=xbim">NuGet</a>. Versions published there are assumed to be stable and safe. 
 You can also use our development feeds as listed at the bottom of this page. Have a look at <a href="quick-start.html">this quick guide</a> to get up to speed
-with basic xBIM functions. Examples contain other code samples and snippets which present various xBIM features. You will see that it is quite powerful.</p>
+with basic xbim functions. Examples contain other code samples and snippets which present various xbim features. You will see that it is quite powerful.</p>
 
-<p>Two core libraries <a target="_blank" href="https://github.com/xBimTeam/XbimEssentials">xBIM Essentials</a> and <a target="_blank" href="https://github.com/xBimTeam/XbimGeometry">xBIM Geometry</a> are to be used 
-for the creation of complex applications, other repositories under the <a target="_blank" href="https://github.com/xBimTeam">xBIM Team</a> page include a number of example applications to 
+<p>Two core libraries <a target="_blank" href="https://github.com/xBimTeam/XbimEssentials">Xbim Essentials</a> and <a target="_blank" href="https://github.com/xBimTeam/XbimGeometry">Xbim Geometry</a> are to be used 
+for the creation of complex applications, other <a target="_blank" href="https://github.com/xBimTeam">repositories</a> include a number of example applications to 
 demonstrate its capabilities:</p>
 
 <ul>
-<li><a target="_blank" href="https://github.com/xBimTeam/XbimWindowsUI">xBIM Xplorer</a> - a Windows WPF sample application that can open and render 3D IFC models (and native xBIM models ) as well as displaying semantic data.</li>
-<li><a target="_blank" href="https://github.com/xBimTeam/XbimWebUI">xBIM WebUI</a> - a web application that can open and render 3D models <a href="examples/creating-wexbim-file.html">processed by xBIM</a>. </li>
-<li><a target="_blank" href="https://github.com/xBimTeam/XbimUtilities">xBIM Utilities</a> - a set of sample console applications to perform bulk functions on IFC files.</li>
-<li><a target="_blank" href="https://github.com/xBimTeam/XbimExchange">xBIM Exchange </a> - Project containing libraries and sample application demonstrating various approaches to work with COBie. This includes <a target="_blank" href="https://github.com/xBimTeam/XbimExchange/tree/master/Xbim.COBie">Xbim.Cobie</a> which represents spreadsheet view of the COBie model, <a target="_blank" href="https://github.com/xBimTeam/XbimExchange/tree/master/Xbim.COBieLite">implementation</a> of <a target="_blank" href="https://www.nibs.org/?page=bsa_cobielite">CobieLite</a>,  <a target="_blank" href="https://github.com/xBimTeam/XbimExchange/tree/master/Xbim.COBieLiteUK">Xbim.CobieLiteUK</a> which is XML model inspired by CobieLite but more rigorous and memory efficient and <a target="_blank" href="https://github.com/xBimTeam/XbimEssentials/tree/master/Xbim.CobieExpress">CobieExpress</a> as an EXPRESS based model representing COBie. <a target="_blank" href="https://github.com/xBimTeam/XbimExchange">XbimExchange </a> contains sample code for conversions between IFC and various implementations of COBie.</li>
-<li><a target="_blank" href="https://github.com/xBimTeam/XbimSamples">xBIM Samples</a> - a sample console application demonstrating how to undertake simple IFC creation and other tasks with xBIM.</li>
+<li><a target="_blank" href="https://github.com/xBimTeam/XbimWindowsUI">Xbim Xplorer</a> - a Windows WPF sample application that can open and render 3D IFC models (and native xbim models ) as well as displaying semantic data.</li>
+<li><a target="_blank" href="https://github.com/xBimTeam/XbimWebUI">Xbim WebUI</a> - a 3D web component that can open and render 3D models <a href="examples/creating-wexbim-file.html">processed by xbim</a>. </li>
+<li><a target="_blank" href="https://github.com/xBimTeam/XbimUtilities">Xbim Utilities</a> - a set of sample console applications to perform bulk functions on IFC files.</li>
+<li><a target="_blank" href="https://github.com/xBimTeam/XbimExchange">Xbim Exchange </a> - Project containing libraries and sample application demonstrating various approaches to work with COBie. This includes <a target="_blank" href="https://github.com/xBimTeam/XbimExchange/tree/master/Xbim.COBie">Xbim.Cobie</a> which represents spreadsheet view of the COBie model, <a target="_blank" href="https://github.com/xBimTeam/XbimExchange/tree/master/Xbim.COBieLite">implementation</a> of <a target="_blank" href="https://www.nibs.org/?page=bsa_cobielite">CobieLite</a>,  <a target="_blank" href="https://github.com/xBimTeam/XbimExchange/tree/master/Xbim.COBieLiteUK">Xbim.CobieLiteUK</a> which is XML model inspired by CobieLite but more rigorous and memory efficient and <a target="_blank" href="https://github.com/xBimTeam/XbimEssentials/tree/master/Xbim.CobieExpress">CobieExpress</a> as an EXPRESS based model representing COBie. <a target="_blank" href="https://github.com/xBimTeam/XbimExchange">XbimExchange </a> contains sample code for conversions between IFC and various implementations of COBie.</li>
+<li><a target="_blank" href="https://github.com/xBimTeam/XbimSamples">Xbim Samples</a> - a sample console application demonstrating how to undertake simple IFC creation and other tasks with xbim.</li>
 </ul>
 
-<p>Please note: all the applications except for <a target="_blank" href="https://github.com/xBimTeam/XbimWebUI">xBIM WebUI</a> are provided to demonstrate how to use the xBIM library, they are not intended for use in uncontrolled production environments.</p>
+<p>Please note: all the applications except for <a target="_blank" href="https://github.com/xBimTeam/XbimWebUI">Xbim WebUI</a> are provided to demonstrate how to use the xbim toolkit components, they are not intended for use in uncontrolled production environments.</p>
 
 <h1>Current versions</h1>
 
@@ -265,7 +265,7 @@ demonstrate its capabilities:</p>
 <h1><a name="compilation"></a>Compilation</h1>
 
 <p>The toolkit uses the NuGet technology for the management of several required packages as well as for distributing the libraries.
-If you wish to use the <strong>development versions of xBIM</strong> make sure to add our NuGet feeds for the master and develop branches of the solution.
+If you wish to use the <strong>development versions of xbim</strong>, make sure to add our NuGet feeds for the master and develop branches of the solution.
 NuGet can download all the required dependencies for you if you have the correct package source configuration.</p>
 
 <p>If you use Visual Studio 2015+ add the following package sources:</p>
@@ -292,7 +292,7 @@ NuGet can download all the required dependencies for you if you have the correct
     
 
 	<div class="brands-container">
-	<p><small>Some of the companies using xBIM Toolkit:</small></p>
+	<p><small>Some of the companies using xbim toolkit:</small></p>
 		<a target="_blank" href="https://www.xbim.net"><img style="height:65px;" src="img/xBim_parent_logo_white.svg" class="brand" alt="xbim ltd."></a>
 		<img src="img/logos/northumbria_logo_gray.png" class="brand"/>
 		<img src="img/logos/viewpoint_logo_gray.png" class="brand"/>

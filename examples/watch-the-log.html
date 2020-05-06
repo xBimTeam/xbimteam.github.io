@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="xBIM Toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
-    <meta name="author" content="xBIM Team">
-	<meta name="keywords" content="xBIM,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
+    <meta name="description" content="xbim toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
+    <meta name="author" content="xbim ltd.">
+	<meta name="keywords" content="xbim,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
 	<meta name="google-site-verification" content="0uIEEP0H5QWrL3gUPIdxOhMzGT0ZArO6rdpj9TOeeEQ" />
 
     <link rel="icon" href="../img/favicon.ico">
@@ -48,7 +48,7 @@
 	{
 	  "@context" : "http://schema.org",
 	  "@type" : "SoftwareApplication",
-	  "name" : "xBIM Toolkit",
+	  "name" : "xbim toolkit",
 	  "image" : "https://docs.xbim.net../img/xBim_toolkit_logo.png",
 	  "url" : "https://docs.xbim.net/",
 	  "author" : {
@@ -217,41 +217,44 @@
 	<div class="container">
 	<h1>Watch the log!</h1>
 
-<p>xBIM is logging processing errors and warnings where exceptions are not appropriate.
-It is heavily used in xBIM Geometry Engine to log all geometry errors. It is also used in the parser to log any syntactic problems with the file. 
+<p>Xbim is logging processing errors and warnings where exceptions are not appropriate.
+It is heavily used in Xbim Geometry Engine to log all geometry errors. It is also used in the parser to log any syntactic problems with the file. 
 If you have a file which doesn't look quite right you should always check the log first.</p>
 
 <p>As a library we don't want to force you to use any specific logging library. To stay agnostic of the logging framework we use 
 <a target="_blank" href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.abstractions?view=dotnet-plat-ext-3.1&amp;viewFallbackFrom=netstandard-2.1">Microsoft Logging Abstractions</a>.
 Most of the common logging frameworks have their implementation of logging providers for these abstractions, which makes it easy to 
-wire xBIM in your wider application logging.</p>
+wire xbim in your wider application logging.</p>
 
-<p>Setup is pretty easy. Just initialize <code>XbimLogging.LoggerFactory</code> before you do anything with xBIM. We often use <a target="_blank" href="https://serilog.net/">Serilog</a> in our examples,
+<p>Setup is pretty easy. Just initialize <code>XbimLogging.LoggerFactory</code> before you do anything with xbim. We often use <a target="_blank" href="https://serilog.net/">Serilog</a> in our examples,
 which looks like this:</p>
 
 <div class="xml"><pre><code>    <span class="xmlDelimiter">&lt;</span><span class="xmlName">PackageReference</span> <span class="xmlAttribute">Include</span><span class="xmlDelimiter">=</span><span class="xmlAttributeQuotes">&quot;</span><span class="xmlAttributeValue">Serilog.Extensions.Logging</span><span class="xmlAttributeQuotes">&quot;</span> <span class="xmlAttribute">Version</span><span class="xmlDelimiter">=</span><span class="xmlAttributeQuotes">&quot;</span><span class="xmlAttributeValue">2.0.2</span><span class="xmlAttributeQuotes">&quot;</span> <span class="xmlDelimiter">/&gt;</span>
     <span class="xmlDelimiter">&lt;</span><span class="xmlName">PackageReference</span> <span class="xmlAttribute">Include</span><span class="xmlDelimiter">=</span><span class="xmlAttributeQuotes">&quot;</span><span class="xmlAttributeValue">Serilog.Sinks.Console</span><span class="xmlAttributeQuotes">&quot;</span> <span class="xmlAttribute">Version</span><span class="xmlDelimiter">=</span><span class="xmlAttributeQuotes">&quot;</span><span class="xmlAttributeValue">3.0.1</span><span class="xmlAttributeQuotes">&quot;</span> <span class="xmlDelimiter">/&gt;</span>
 </code></pre></div>
 
-<div class="csharp"><pre><code><span class="comment">// set up serilog</span>
+<div class="csharp"><pre><code><span class="comment">// set up Serilog</span>
 <span class="type">Log</span>.Logger = <span class="keyword">new</span> LoggerConfiguration()
    .Enrich.FromLogContext()
    .WriteTo.Console()
    .CreateLogger();
 
-<span class="comment">// set up xBIM logging. It will use your providers.</span>
+<span class="comment">// set up xbim logging. It will use your providers.</span>
 <span class="type">XbimLogging</span>.LoggerFactory.AddSerilog();
 
-<span class="comment">// do anything you want with xBIM</span>
+<span class="comment">// do anything you want with xbim</span>
 <span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName, <span class="keyword">null</span>, -1))
 {
     <span class="comment">// ...</span>
 }
 </code></pre></div>
 
-<h2>xBIM v4 and earlier</h2>
+<h2>Xbim v4 and earlier</h2>
 
-<p>xBIM used to use <a target="_blank" href="https://logging.apache.org/log4net/">Log4Net</a>. There are many possible configurations of Log4Net including logging to console, creating continuous or rolling log file and others.
+<p>Xbim used to use <a target="_blank" href="https://logging.apache.org/log4net/">Log4Net</a>. If you want to use it with newer versions of xbim you can use 
+<a target="_blank" href="https://github.com/huorswords/Microsoft.Extensions.Logging.Log4Net.AspNetCore">Log4Net provider</a> for Microsoft abstractions.</p>
+
+<p>There are many possible configurations of Log4Net including logging to console, creating continuous or rolling log file and others.
 Some examples can be found <a target="_blank" href="https://logging.apache.org/log4net/release/config-examples.html">here</a>. The most basic configuration which will write all colourful log 
 messages in console can look like this:</p>
 
@@ -300,7 +303,7 @@ messages in console can look like this:</p>
 <span class="xmlDelimiter">&lt;/</span><span class="xmlName">configuration</span><span class="xmlDelimiter">&gt;</span>
 </code></pre></div>
 
-<p>You can also use xBIM infrastructure to log your own messages like this:</p>
+<p>You can also use xbim infrastructure to log your own messages like this:</p>
 
 <div class="csharp"><pre><code><span class="keyword">using</span> <span class="type">Xbim</span>.Common.Logging;
 </code></pre></div>
@@ -317,7 +320,7 @@ log.Info(<span class="string">&quot;All examples finished.&quot;</span>);
     
 
 	<div class="brands-container">
-	<p><small>Some of the companies using xBIM Toolkit:</small></p>
+	<p><small>Some of the companies using xbim toolkit:</small></p>
 		<a target="_blank" href="https://www.xbim.net"><img style="height:65px;" src="../img/xBim_parent_logo_white.svg" class="brand" alt="xbim ltd."></a>
 		<img src="../img/logos/northumbria_logo_gray.png" class="brand"/>
 		<img src="../img/logos/viewpoint_logo_gray.png" class="brand"/>

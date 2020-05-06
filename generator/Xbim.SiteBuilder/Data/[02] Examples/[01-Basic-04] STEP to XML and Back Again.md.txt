@@ -1,7 +1,7 @@
 ﻿Converting STEP physical file to XML and vice versa
 ===================================================
 
-xBIM Toolkit implements 100% of IFC2x3 and IFC4 schemas and it supports all physical representations. 
+Xbim Toolkit implements 100% of IFC2x3 and IFC4 schemas and it supports all physical representations. 
 [STEP21](https://en.wikipedia.org/wiki/ISO_10303-21) is a physical representation of data defined in [EXPRESS](https://en.wikipedia.org/wiki/EXPRESS_(data_modeling_language)). It is
 the original definition of IFC and it is a perfect fit for product modelling. It might not be obvious from this simple example but EXPRESS is a lot more conscious and easier to read
 than any XSD. EXPRESS definitions look like this:
@@ -40,8 +40,8 @@ DATA;
 #3=IFCPERSON($,'Santini Aichel','Johann Blasius',$,$,$,$,$);
 #4=IFCORGANIZATION($,'Independent Architecture',$,$,$);
 #5=IFCPERSONANDORGANIZATION(#3,#4,$);
-#7=IFCORGANIZATION($,'xBIM Team',$,$,$);
-#6=IFCAPPLICATION(#7,$,'xBIM Toolkit','xBIM');
+#7=IFCORGANIZATION($,'xbim team',$,$,$);
+#6=IFCAPPLICATION(#7,$,'xbim toolkit','xbim');
 #8=IFCUNITASSIGNMENT((#9,#10,#11,#12,#13,#14,#15,#16,#17));
 #9=IFCSIUNIT(*,.LENGTHUNIT.,.MILLI.,.METRE.);
 #10=IFCSIUNIT(*,.AREAUNIT.,$,.SQUARE_METRE.);
@@ -72,7 +72,7 @@ END-ISO-10303-21;
 IFC is also defined by [XSD](https://en.wikipedia.org/wiki/XML_Schema_(W3C)) which is derived from 
 the EXPRESS definition and its physical representation is well known XML. XSD definition doesn't contain all IFC features like `WHERE` rules and `INVERSE` attributes which
 are very handy for a bi-directional navigation in the data. IFC4 also makes some inverse relations inversed again and uses different mapping rules between EXPRESS and XSD so any
-tool written for IFC2x3 XML is completely useless for IFC4. Code written for IFC2x3 with xBIM is very easy to upgrade to be IFC4 compatible. 
+tool written for IFC2x3 XML is completely useless for IFC4. Code written for IFC2x3 with xbim is very easy to upgrade to be IFC4 compatible. 
 
 **Also note that because of the nature of XML data and complexity of even simple IFC model XML model will *always* use more memory and CPU resources.**
 
@@ -129,8 +129,8 @@ The same example as above will look like this as IFCXML. Please note, that IFC4 
         <ThePerson id="i3" xsi:type="IfcPerson" FamilyName="Santini Aichel" GivenName="Johann Blasius" MiddleNames="" PrefixTitles="" SuffixTitles="" />
         <TheOrganization id="i4" xsi:type="IfcOrganization" Name="Independent Architecture" />
       </OwningUser>
-      <OwningApplication id="i6" xsi:type="IfcApplication" Version="4.0" ApplicationFullName="xBIM Toolkit" ApplicationIdentifier="xBIM">
-        <ApplicationDeveloper id="i7" xsi:type="IfcOrganization" Name="xBIM Team" />
+      <OwningApplication id="i6" xsi:type="IfcApplication" Version="4.0" ApplicationFullName="xbim toolkit" ApplicationIdentifier="xbim">
+        <ApplicationDeveloper id="i7" xsi:type="IfcOrganization" Name="xbim team" />
       </OwningApplication>
     </OwnerHistory>
     <RepresentationContexts>

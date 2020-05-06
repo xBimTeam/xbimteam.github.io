@@ -1,12 +1,12 @@
 ﻿Basic model operations
 ======================
 
-To get started the easiest way to get xBIM into your project is to use [NuGet](https://www.nuget.org/packages?q=xbim). To do anything you want with the data you only need 
-[xBIM Essentials](https://www.nuget.org/packages/Xbim.Essentials/). If you need anything to do with geometry (like visualization) you will also need 
-[xBIM Geometry Engine](https://www.nuget.org/packages/Xbim.Geometry/). There are many years of development behind xBIM and both these packages are mature and pretty much stable.
+To get started the easiest way to get xbim into your project is to use [NuGet](https://www.nuget.org/packages?q=xbim). To do anything you want with the data you only need 
+[Xbim Essentials](https://www.nuget.org/packages/Xbim.Essentials/). If you need anything to do with geometry (like visualization) you will also need 
+[Xbim Geometry Engine](https://www.nuget.org/packages/Xbim.Geometry/). There are many years of development behind xbim and both these packages are mature and pretty much stable.
 
 
-Now it's probably time to have a look at some very basic code examples representing how xBIM can be used. We will present four basic functions of persistent storage well known as 
+Now it's probably time to have a look at some very basic code examples representing how xbim can be used. We will present four basic functions of persistent storage well known as 
 [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) (Create, Retrieve, Update and Delete). Following examples usually work with IFC4 but you can also do the same
 with IFC2x3. Actually most of the code is IFC version agnostic as it uses IFC4 interfaces which work for IFC2x3 as well. Sample data used to develop these examples can be downloaded
 [here](/data/SampleHouse.zip).
@@ -23,9 +23,9 @@ and your current user.
 ```cs
 var editor = new XbimEditorCredentials
 {
-    ApplicationDevelopersName = "xBIM Team",
-    ApplicationFullName = "xBIM Toolkit",
-    ApplicationIdentifier = "xBIM",
+    ApplicationDevelopersName = "xbim developer",
+    ApplicationFullName = "xbim toolkit",
+    ApplicationIdentifier = "xbim",
     ApplicationVersion = "4.0",
     EditorsFamilyName = "Santini Aichel",
     EditorsGivenName = "Johann Blasius",
@@ -33,7 +33,7 @@ var editor = new XbimEditorCredentials
 };
 ```
 
-All implementations of `IModel` in xBIM are `IDisposable` so you should always use them inside of `using` statement like this
+All implementations of `IModel` in xbim are `IDisposable` so you should always use them inside of `using` statement like this
 
 ```cs
 using (var model = IfcStore.Create(editor, IfcSchemaVersion.Ifc4, XbimStoreType.InMemoryModel))
@@ -56,7 +56,7 @@ using (var txn = model.BeginTransaction("Hello Wall"))
 
 All operations related to entities are accessible through `IModel.Instances`. That is your point of access to get, change and create new
 entities in the model. To create any new object you use this templated function. You always have to specify a non-abstract type to create. This is
-built in xBIM in a way where you get a compile time error if you don't. 
+built in xbim in a way where you get a compile time error if you don't. 
 Every model is schema specific so it is either IFC2x3 or IFC4 or other specific schema. `IfcStore` makes it easier because it can open both IFC versions 
 and will tell you what it is but when you want to create data make sure you don't mess up your `using` statements. If you try to create IFC4 entity
 with model initialized to IFC2x3 it will throw a runtime exception. 
@@ -75,9 +75,9 @@ This wall doesn't have any geometry so most of IFC viewers won't show you anythi
 ```cs
 var editor = new XbimEditorCredentials
 {
-    ApplicationDevelopersName = "xBIM Team",
-    ApplicationFullName = "xBIM Toolkit",
-    ApplicationIdentifier = "xBIM",
+    ApplicationDevelopersName = "xbim developer",
+    ApplicationFullName = "xbim toolkit",
+    ApplicationIdentifier = "xbim",
     ApplicationVersion = "4.0",
     EditorsFamilyName = "Santini Aichel",
     EditorsGivenName = "Johann Blasius",
@@ -146,8 +146,8 @@ DATA;
 #3=IFCPERSON($,'Santini Aichel','Johann Blasius',$,$,$,$,$);
 #4=IFCORGANIZATION($,'Independent Architecture',$,$,$);
 #5=IFCPERSONANDORGANIZATION(#3,#4,$);
-#7=IFCORGANIZATION($,'xBIM Team',$,$,$);
-#6=IFCAPPLICATION(#7,$,'xBIM Toolkit','xBIM');
+#7=IFCORGANIZATION($,'xbim developer',$,$,$);
+#6=IFCAPPLICATION(#7,$,'xbim toolkit','xbim');
 #8=IFCUNITASSIGNMENT((#9,#10,#11,#12,#13,#14,#15,#16,#17));
 #9=IFCSIUNIT(*,.LENGTHUNIT.,.MILLI.,.METRE.);
 #10=IFCSIUNIT(*,.AREAUNIT.,$,.SQUARE_METRE.);
@@ -254,9 +254,9 @@ or model will throw an exception at the moment you create or change any object.
 const string fileName = "SampleHouse.ifc";
 var editor = new XbimEditorCredentials
 {
-    ApplicationDevelopersName = "xBIM Team",
-    ApplicationFullName = "xBIM Toolkit",
-    ApplicationIdentifier = "xBIM",
+    ApplicationDevelopersName = "xbim developer",
+    ApplicationFullName = "xbim toolkit",
+    ApplicationIdentifier = "xbim",
     ApplicationVersion = "4.0",
     EditorsFamilyName = "Santini Aichel",
     EditorsGivenName = "Johann Blasius",

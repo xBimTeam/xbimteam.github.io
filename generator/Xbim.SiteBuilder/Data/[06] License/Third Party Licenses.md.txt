@@ -1,20 +1,20 @@
 ﻿# Third Party Licences
 
-The core XBIM libraries makes use of the following 3rd party software packages, under their associated licences:
+The core xbim libraries makes use of the following 3rd party software packages, under their associated licences:
 
-## xBIM Essentials 
+## Xbim Essentials 
 
 * [Gardens Point Parser Generator](http://gppg.codeplex.com/):  New BSD Licence
 
-## xBIM Geometry
+## Xbim Geometry
 
 * [OpenCASCADE Geometry Engine](http://www.opencascade.org/):  OPEN CASCADE Public License 
 
-## xBIM Windows UI / Xplorer
+## Xbim Windows UI / Xplorer
 
 * Elements of [3D Tools](http://3dtools.codeplex.com/) WPF library: MS Permissive Licence
 
-## xBIM Exchange
+## Xbim Exchange
 * [NPOI](http://npoi.codeplex.com): Apache 2.0 Licence
 * [NewtonSoft JSON](http://json.codeplex.com/): MIT Licence
 

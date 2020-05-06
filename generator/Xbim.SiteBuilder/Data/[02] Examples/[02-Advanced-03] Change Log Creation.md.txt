@@ -1,7 +1,7 @@
 ﻿Change Log Creation
 ===================
 
-This is one of the interesting aspects of xBIM. It is in a core of our design that every change happening in the model is
+This is one of the interesting aspects of xbim. It is in a core of our design that every change happening in the model is
 a part of a transaction. All transactions are created by an implementation of `IModel` and are weakly referenced from there
 so when you use `using` statement model only keeps reference to the the transaction as long as you keep it. This means that 
 there is a single point where all changes are happening and we can do something with them.
@@ -80,7 +80,7 @@ private static void PrintChanges(TransactionLog log)
 }
 ```
 
-Resulting change log will look like this. It contains more changes because xBIM handles owner history automatically for you when you change or create any `IFCROOT` entity.
+Resulting change log will look like this. It contains more changes because xbim handles owner history automatically for you when you change or create any `IFCROOT` entity.
 
 ```step
 Changed Entity: #1229=IFCWALL

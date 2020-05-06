@@ -29,7 +29,7 @@ All these methods return `IEnumerable<T>` so you can chain it with other methods
 `IEntityCollection` functions also use deferred execution so it fits very well with Linq concepts. You should only force it to enumerate if you are going to use
 the result more than once. You can do that by calling one of `ToList<T>()`, `ToArray<T>()`or `ToDictionary<T>()` methods.
 
-xBIM uses type of entities internally as the first level filter so you should always ask for the most specific type you can. 
+Xbim uses type of entities internally as the first level filter so you should always ask for the most specific type you can. 
 Keep in mind that `IModel.Instances` contains **all** entities in the model which is typically hundreds of thousands of objects! 
 So you don't want to iterate over all of them to do anything. See following good and bad example which do the same but not quite the same:
 

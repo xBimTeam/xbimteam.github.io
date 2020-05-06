@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="xBIM Toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
-    <meta name="author" content="xBIM Team">
-	<meta name="keywords" content="xBIM,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
+    <meta name="description" content="xbim toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
+    <meta name="author" content="xbim ltd.">
+	<meta name="keywords" content="xbim,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
 	<meta name="google-site-verification" content="0uIEEP0H5QWrL3gUPIdxOhMzGT0ZArO6rdpj9TOeeEQ" />
 
     <link rel="icon" href="../img/favicon.ico">
@@ -48,7 +48,7 @@
 	{
 	  "@context" : "http://schema.org",
 	  "@type" : "SoftwareApplication",
-	  "name" : "xBIM Toolkit",
+	  "name" : "xbim toolkit",
 	  "image" : "https://docs.xbim.net../img/xBim_toolkit_logo.png",
 	  "url" : "https://docs.xbim.net/",
 	  "author" : {
@@ -347,13 +347,13 @@
             <span class="comment">//first we need to set up some credentials for ownership of data in the new model</span>
             <span class="keyword">var</span> credentials = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
             {
-                ApplicationDevelopersName = <span class="string">&quot;xBimTeam&quot;</span>,
+                ApplicationDevelopersName = <span class="string">&quot;xbim developer&quot;</span>,
                 ApplicationFullName = <span class="string">&quot;Hello Wall Application&quot;</span>,
                 ApplicationIdentifier = <span class="string">&quot;HelloWall.exe&quot;</span>,
                 ApplicationVersion = <span class="string">&quot;1.0&quot;</span>,
                 EditorsFamilyName = <span class="string">&quot;Team&quot;</span>,
-                EditorsGivenName = <span class="string">&quot;xBIM&quot;</span>,
-                EditorsOrganisationName = <span class="string">&quot;xBimTeam&quot;</span>
+                EditorsGivenName = <span class="string">&quot;xbim&quot;</span>,
+                EditorsOrganisationName = <span class="string">&quot;xbim team&quot;</span>
             };
             <span class="comment">//now we can create an IfcStore, it is in Ifc4 format and will be held in memory rather than in a database</span>
             <span class="comment">//database is normally better in performance terms if the model is large &gt;50MB of Ifc or if robust transactions are required</span>
@@ -816,10 +816,10 @@ ENDSEC;
 DATA;
 <span class="number">#1</span>=<span class="type">IFCPROJECT</span>(<span class="string">&#39;2MSHGQD897wuyjYHKVxtyf&#39;</span>,<span class="number">#2</span>,<span class="string">&#39;HelloWall&#39;</span>,$,$,$,$,(<span class="number">#20</span>,<span class="number">#23</span>),<span class="number">#8</span>);
 <span class="number">#2</span>=<span class="type">IFCOWNERHISTORY</span>(<span class="number">#5</span>,<span class="number">#6</span>,$,.ADDED.,$,$,$,0);
-<span class="number">#3</span>=<span class="type">IFCPERSON</span>($,<span class="string">&#39;Team&#39;</span>,<span class="string">&#39;xBIM&#39;</span>,$,$,$,$,$);
-<span class="number">#4</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;xBimTeam&#39;</span>,$,$,$);
+<span class="number">#3</span>=<span class="type">IFCPERSON</span>($,<span class="string">&#39;Team&#39;</span>,<span class="string">&#39;xbim&#39;</span>,$,$,$,$,$);
+<span class="number">#4</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;xbim team&#39;</span>,$,$,$);
 <span class="number">#5</span>=<span class="type">IFCPERSONANDORGANIZATION</span>(<span class="number">#3</span>,<span class="number">#4</span>,$);
-<span class="number">#7</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;xBimTeam&#39;</span>,$,$,$);
+<span class="number">#7</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;xbim team&#39;</span>,$,$,$);
 <span class="number">#6</span>=<span class="type">IFCAPPLICATION</span>(<span class="number">#7</span>,<span class="string">&#39;1.0&#39;</span>,<span class="string">&#39;Hello Wall Application&#39;</span>,<span class="string">&#39;HelloWall.exe&#39;</span>);
 <span class="number">#8</span>=<span class="type">IFCUNITASSIGNMENT</span>((<span class="number">#9</span>,<span class="number">#10</span>,<span class="number">#11</span>,<span class="number">#12</span>,<span class="number">#13</span>,<span class="number">#14</span>,<span class="number">#15</span>,<span class="number">#16</span>,<span class="number">#17</span>));
 <span class="number">#9</span>=<span class="type">IFCSIUNIT</span>(*,.LENGTHUNIT.,.MILLI.,.METRE.);
@@ -915,7 +915,7 @@ END-ISO-10303-21;
     
 
 	<div class="brands-container">
-	<p><small>Some of the companies using xBIM Toolkit:</small></p>
+	<p><small>Some of the companies using xbim toolkit:</small></p>
 		<a target="_blank" href="https://www.xbim.net"><img style="height:65px;" src="../img/xBim_parent_logo_white.svg" class="brand" alt="xbim ltd."></a>
 		<img src="../img/logos/northumbria_logo_gray.png" class="brand"/>
 		<img src="../img/logos/viewpoint_logo_gray.png" class="brand"/>

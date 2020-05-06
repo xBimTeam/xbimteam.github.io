@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="xBIM Toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
-    <meta name="author" content="xBIM Team">
-	<meta name="keywords" content="xBIM,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
+    <meta name="description" content="xbim toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
+    <meta name="author" content="xbim ltd.">
+	<meta name="keywords" content="xbim,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
 	<meta name="google-site-verification" content="0uIEEP0H5QWrL3gUPIdxOhMzGT0ZArO6rdpj9TOeeEQ" />
 
     <link rel="icon" href="../img/favicon.ico">
@@ -48,7 +48,7 @@
 	{
 	  "@context" : "http://schema.org",
 	  "@type" : "SoftwareApplication",
-	  "name" : "xBIM Toolkit",
+	  "name" : "xbim toolkit",
 	  "image" : "https://docs.xbim.net../img/xBim_toolkit_logo.png",
 	  "url" : "https://docs.xbim.net/",
 	  "author" : {
@@ -244,7 +244,7 @@ All these methods return <code>IEnumerable&lt;T&gt;</code> so you can chain it w
 <code>IEntityCollection</code> functions also use deferred execution so it fits very well with Linq concepts. You should only force it to enumerate if you are going to use
 the result more than once. You can do that by calling one of <code>ToList&lt;T&gt;()</code>, <code>ToArray&lt;T&gt;()</code>or <code>ToDictionary&lt;T&gt;()</code> methods.</p>
 
-<p>xBIM uses type of entities internally as the first level filter so you should always ask for the most specific type you can. 
+<p>Xbim uses type of entities internally as the first level filter so you should always ask for the most specific type you can. 
 Keep in mind that <code>IModel.Instances</code> contains <strong>all</strong> entities in the model which is typically hundreds of thousands of objects! 
 So you don't want to iterate over all of them to do anything. See following good and bad example which do the same but not quite the same:</p>
 
@@ -302,7 +302,7 @@ So you don't want to iterate over all of them to do anything. See following good
     
 
 	<div class="brands-container">
-	<p><small>Some of the companies using xBIM Toolkit:</small></p>
+	<p><small>Some of the companies using xbim toolkit:</small></p>
 		<a target="_blank" href="https://www.xbim.net"><img style="height:65px;" src="../img/xBim_parent_logo_white.svg" class="brand" alt="xbim ltd."></a>
 		<img src="../img/logos/northumbria_logo_gray.png" class="brand"/>
 		<img src="../img/logos/viewpoint_logo_gray.png" class="brand"/>

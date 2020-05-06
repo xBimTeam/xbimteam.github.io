@@ -1,15 +1,15 @@
 ﻿# Watch the log!
 
-xBIM is logging processing errors and warnings where exceptions are not appropriate.
-It is heavily used in xBIM Geometry Engine to log all geometry errors. It is also used in the parser to log any syntactic problems with the file. 
+Xbim is logging processing errors and warnings where exceptions are not appropriate.
+It is heavily used in Xbim Geometry Engine to log all geometry errors. It is also used in the parser to log any syntactic problems with the file. 
 If you have a file which doesn't look quite right you should always check the log first.
 
 As a library we don't want to force you to use any specific logging library. To stay agnostic of the logging framework we use 
 [Microsoft Logging Abstractions](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.abstractions?view=dotnet-plat-ext-3.1&viewFallbackFrom=netstandard-2.1).
 Most of the common logging frameworks have their implementation of logging providers for these abstractions, which makes it easy to 
-wire xBIM in your wider application logging.
+wire xbim in your wider application logging.
 
-Setup is pretty easy. Just initialize `XbimLogging.LoggerFactory` before you do anything with xBIM. We often use [Serilog](https://serilog.net/) in our examples,
+Setup is pretty easy. Just initialize `XbimLogging.LoggerFactory` before you do anything with xbim. We often use [Serilog](https://serilog.net/) in our examples,
 which looks like this:
 
 ```xml
@@ -18,25 +18,28 @@ which looks like this:
 ```
 
 ```cs
-// set up serilog
+// set up Serilog
 Log.Logger = new LoggerConfiguration()
    .Enrich.FromLogContext()
    .WriteTo.Console()
    .CreateLogger();
 
-// set up xBIM logging. It will use your providers.
+// set up xbim logging. It will use your providers.
 XbimLogging.LoggerFactory.AddSerilog();
 
-// do anything you want with xBIM
+// do anything you want with xbim
 using (var model = IfcStore.Open(fileName, null, -1))
 {
     // ...
 }
 ```
 
-## xBIM v4 and earlier
+## Xbim v4 and earlier
 
-xBIM used to use [Log4Net](https://logging.apache.org/log4net/). There are many possible configurations of Log4Net including logging to console, creating continuous or rolling log file and others.
+Xbim used to use [Log4Net](https://logging.apache.org/log4net/). If you want to use it with newer versions of xbim you can use 
+[Log4Net provider](https://github.com/huorswords/Microsoft.Extensions.Logging.Log4Net.AspNetCore) for Microsoft abstractions.
+
+There are many possible configurations of Log4Net including logging to console, creating continuous or rolling log file and others.
 Some examples can be found [here](https://logging.apache.org/log4net/release/config-examples.html). The most basic configuration which will write all colourful log 
 messages in console can look like this:
 
@@ -86,7 +89,7 @@ messages in console can look like this:
 </configuration>
 ```
 
-You can also use xBIM infrastructure to log your own messages like this:
+You can also use xbim infrastructure to log your own messages like this:
 
 ```cs
 using Xbim.Common.Logging;

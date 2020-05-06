@@ -35,9 +35,9 @@ namespace Xbim.SiteBuilder.Templates
     <meta http-equiv=""X-UA-Compatible"" content=""IE=edge"">
     <meta name=""viewport"" content=""width=device-width, initial-scale=1"">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name=""description"" content=""xBIM Toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format."">
-    <meta name=""author"" content=""xBIM Team"">
-	<meta name=""keywords"" content=""xBIM,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples"">
+    <meta name=""description"" content=""xbim toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format."">
+    <meta name=""author"" content=""xbim ltd."">
+	<meta name=""keywords"" content=""xbim,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples"">
 	<meta name=""google-site-verification"" content=""0uIEEP0H5QWrL3gUPIdxOhMzGT0ZArO6rdpj9TOeeEQ"" />
 
     <link rel=""icon"" href=""/img/favicon.ico"">
@@ -67,7 +67,7 @@ namespace Xbim.SiteBuilder.Templates
                     " \'auto\');\r\n\t\tga(\'send\', \'pageview\');\r\n\t</script>\r\n\r\n\t<!-- JSON-LD markup generat" +
                     "ed by Google Structured Data Markup Helper. -->\r\n\t<script type=\"application/ld+j" +
                     "son\">\r\n\t{\r\n\t  \"@context\" : \"http://schema.org\",\r\n\t  \"@type\" : \"SoftwareApplicati" +
-                    "on\",\r\n\t  \"name\" : \"xBIM Toolkit\",\r\n\t  \"image\" : \"https://docs.xbim.net/img/xBim_" +
+                    "on\",\r\n\t  \"name\" : \"xbim toolkit\",\r\n\t  \"image\" : \"https://docs.xbim.net/img/xBim_" +
                     "toolkit_logo.png\",\r\n\t  \"url\" : \"https://docs.xbim.net/\",\r\n\t  \"author\" : {\r\n\t    " +
                     "\"@type\" : \"Person\",\r\n\t    \"name\" : \"prof. Steve Lockley\"\r\n\t  },\r\n\t  \"application" +
                     "Category\" : \"BIM\",\r\n\t  \"downloadUrl\" : \"https://www.nuget.org/packages?q=xbim\",\r" +
@@ -151,7 +151,7 @@ namespace Xbim.SiteBuilder.Templates
     
 
 	<div class=""brands-container"">
-	<p><small>Some of the companies using xBIM Toolkit:</small></p>
+	<p><small>Some of the companies using xbim toolkit:</small></p>
 		<a href=""https://www.xbim.net""><img style=""height:65px;"" src=""/img/xBim_parent_logo_white.svg"" class=""brand"" alt=""xbim ltd.""></a>
 		<img src=""/img/logos/northumbria_logo_gray.png"" class=""brand""/>
 		<img src=""/img/logos/viewpoint_logo_gray.png"" class=""brand""/>

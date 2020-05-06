@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="xBIM Toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
-    <meta name="author" content="xBIM Team">
-	<meta name="keywords" content="xBIM,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
+    <meta name="description" content="xbim toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
+    <meta name="author" content="xbim ltd.">
+	<meta name="keywords" content="xbim,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
 	<meta name="google-site-verification" content="0uIEEP0H5QWrL3gUPIdxOhMzGT0ZArO6rdpj9TOeeEQ" />
 
     <link rel="icon" href="../img/favicon.ico">
@@ -48,7 +48,7 @@
 	{
 	  "@context" : "http://schema.org",
 	  "@type" : "SoftwareApplication",
-	  "name" : "xBIM Toolkit",
+	  "name" : "xbim toolkit",
 	  "image" : "https://docs.xbim.net../img/xBim_toolkit_logo.png",
 	  "url" : "https://docs.xbim.net/",
 	  "author" : {
@@ -219,7 +219,7 @@
 
 <p>This example will show you some of the concepts necessary to read data from IFC file. It uses IFC4 interfaces which will 
 work both for IFC2x3 and IFC4 models. To create Excel files we use <a target="_blank" href="https://www.nuget.org/packages/NPOI/">NPOI</a>. You will 
-just need <a target="_blank" href="https://www.nuget.org/packages/Xbim.Essentials/">xBIM Essentials</a> for this example because we are not going to
+just need <a target="_blank" href="https://www.nuget.org/packages/Xbim.Essentials/">Xbim Essentials</a> for this example because we are not going to
 use geometry here. All the code including sample data is available <a target="_blank" href="https://github.com/xBimTeam/XbimSamples/tree/master/ExcelReportExample">here</a>.</p>
 
 <p>The result from this example will look like this:
@@ -245,7 +245,7 @@ use geometry here. All the code including sample data is available <a target="_b
 <span class="comment">//Create nice numeric formats with units. Units would need a LOT MORE care in real world. </span>
 <span class="comment">//We just know that our current model has space areas in square meters and space volumes in cubic meters</span>
 <span class="comment">//Please note that the original data exported from Revit were wrong because volumes were 1000x bigger than they should be.</span>
-<span class="comment">//Data were fixed using xBIM for this example.</span>
+<span class="comment">//Data were fixed using xbim for this example.</span>
 
 <span class="keyword">var</span> areaFormat = workbook.CreateDataFormat();
 <span class="keyword">var</span> areaFormatId = areaFormat.GetFormat(<span class="string">&quot;# ##0.00 [$m&#178;]&quot;</span>);
@@ -431,7 +431,7 @@ get the value from quantities if they are defined. Property is a fallback in thi
     
 
 	<div class="brands-container">
-	<p><small>Some of the companies using xBIM Toolkit:</small></p>
+	<p><small>Some of the companies using xbim toolkit:</small></p>
 		<a target="_blank" href="https://www.xbim.net"><img style="height:65px;" src="../img/xBim_parent_logo_white.svg" class="brand" alt="xbim ltd."></a>
 		<img src="../img/logos/northumbria_logo_gray.png" class="brand"/>
 		<img src="../img/logos/viewpoint_logo_gray.png" class="brand"/>

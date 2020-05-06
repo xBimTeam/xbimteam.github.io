@@ -132,13 +132,13 @@ namespace HelloWall
             //first we need to set up some credentials for ownership of data in the new model
             var credentials = new XbimEditorCredentials
             {
-                ApplicationDevelopersName = "xBimTeam",
+                ApplicationDevelopersName = "xbim developer",
                 ApplicationFullName = "Hello Wall Application",
                 ApplicationIdentifier = "HelloWall.exe",
                 ApplicationVersion = "1.0",
                 EditorsFamilyName = "Team",
-                EditorsGivenName = "xBIM",
-                EditorsOrganisationName = "xBimTeam"
+                EditorsGivenName = "xbim",
+                EditorsOrganisationName = "xbim team"
             };
             //now we can create an IfcStore, it is in Ifc4 format and will be held in memory rather than in a database
             //database is normally better in performance terms if the model is large >50MB of Ifc or if robust transactions are required
@@ -602,10 +602,10 @@ ENDSEC;
 DATA;
 #1=IFCPROJECT('2MSHGQD897wuyjYHKVxtyf',#2,'HelloWall',$,$,$,$,(#20,#23),#8);
 #2=IFCOWNERHISTORY(#5,#6,$,.ADDED.,$,$,$,0);
-#3=IFCPERSON($,'Team','xBIM',$,$,$,$,$);
-#4=IFCORGANIZATION($,'xBimTeam',$,$,$);
+#3=IFCPERSON($,'Team','xbim',$,$,$,$,$);
+#4=IFCORGANIZATION($,'xbim team',$,$,$);
 #5=IFCPERSONANDORGANIZATION(#3,#4,$);
-#7=IFCORGANIZATION($,'xBimTeam',$,$,$);
+#7=IFCORGANIZATION($,'xbim team',$,$,$);
 #6=IFCAPPLICATION(#7,'1.0','Hello Wall Application','HelloWall.exe');
 #8=IFCUNITASSIGNMENT((#9,#10,#11,#12,#13,#14,#15,#16,#17));
 #9=IFCSIUNIT(*,.LENGTHUNIT.,.MILLI.,.METRE.);

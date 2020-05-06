@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="xBIM Toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
-    <meta name="author" content="xBIM Team">
-	<meta name="keywords" content="xBIM,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
+    <meta name="description" content="xbim toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
+    <meta name="author" content="xbim ltd.">
+	<meta name="keywords" content="xbim,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
 	<meta name="google-site-verification" content="0uIEEP0H5QWrL3gUPIdxOhMzGT0ZArO6rdpj9TOeeEQ" />
 
     <link rel="icon" href="img/favicon.ico">
@@ -48,7 +48,7 @@
 	{
 	  "@context" : "http://schema.org",
 	  "@type" : "SoftwareApplication",
-	  "name" : "xBIM Toolkit",
+	  "name" : "xbim toolkit",
 	  "image" : "https://docs.xbim.netimg/xBim_toolkit_logo.png",
 	  "url" : "https://docs.xbim.net/",
 	  "author" : {
@@ -217,9 +217,9 @@
 	<div class="container">
 	<h1>Quick Start</h1>
 
-<p>To get started the easiest way to get xBIM into your project is to use <a target="_blank" href="https://www.nuget.org/packages?q=xbim">NuGet</a>. To do anything you want with the data you only need 
-<a target="_blank" href="https://www.nuget.org/packages/Xbim.Essentials/">xBIM Essentials</a>. If you need anything to do with geometry (like visualization) you will also need 
-<a target="_blank" href="https://www.nuget.org/packages/Xbim.Geometry/">xBIM Geometry Engine</a>. There are many years of development behind xBIM and both these packages are mature and pretty much stable.</p>
+<p>To get started the easiest way to get xbim into your project is to use <a target="_blank" href="https://www.nuget.org/packages?q=xbim">NuGet</a>. To do anything you want with the data you only need 
+<a target="_blank" href="https://www.nuget.org/packages/Xbim.Essentials/">Xbim Essentials</a>. If you need anything to do with geometry (like visualization) you will also need 
+<a target="_blank" href="https://www.nuget.org/packages/Xbim.Geometry/">Xbim Geometry Engine</a>. There are many years of development behind xbim and both these packages are mature and pretty much stable.</p>
 
 <p>As the very first thing you should create credentials which will be used to keep <a target="_blank" href="http://www.buildingsmart-tech.org/ifc/IFC4/final/html/link/ifcownerhistory.htm">owner history</a> 
 of all entities right in IFC world. </p>
@@ -237,7 +237,7 @@ of all entities right in IFC world. </p>
 };
 </code></pre></div>
 
-<p>All implementations of <code>IModel</code> in xBIM are <code>IDisposable</code> so you should always use them inside of <code>using</code> statement like this:</p>
+<p>All implementations of <code>IModel</code> in xbim are <code>IDisposable</code> so you should always use them inside of <code>using</code> statement like this:</p>
 
 <div class="csharp"><pre><code><span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName, editor, <span class="keyword">true</span>))
 {
@@ -272,7 +272,7 @@ Transactions can't be nested so there has always be just one transaction at the 
 
 <p>All operations related to entities are accessible through <code>IModel.Instances</code>. That is your point of access to get, change and create new
 entities in the model. To create any new object you use this templated function. You always have to specify a non-abstract type to create. This is
-built in xBIM in a way where you get a compile time error if you don't. 
+built in xbim in a way where you get a compile time error if you don't. 
 Every model is schema specific so it is either IFC2x3 or IFC4 or other specific schema. <code>IfcStore</code> makes it easier because it can open both IFC versions 
 and will tell you what it is but when you want to create data make sure you don't mess up your <code>using</code> statements. If you try to create IFC4 entity
 with model initialized to IFC2x3 it will throw a runtime exception. </p>
@@ -345,7 +345,7 @@ on IFC2x3 entities</strong> which means you can query IFC2x3 and IFC4 with a <st
     
 
 	<div class="brands-container">
-	<p><small>Some of the companies using xBIM Toolkit:</small></p>
+	<p><small>Some of the companies using xbim toolkit:</small></p>
 		<a target="_blank" href="https://www.xbim.net"><img style="height:65px;" src="img/xBim_parent_logo_white.svg" class="brand" alt="xbim ltd."></a>
 		<img src="img/logos/northumbria_logo_gray.png" class="brand"/>
 		<img src="img/logos/viewpoint_logo_gray.png" class="brand"/>

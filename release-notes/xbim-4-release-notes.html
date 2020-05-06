@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="xBIM Toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
-    <meta name="author" content="xBIM Team">
-	<meta name="keywords" content="xBIM,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
+    <meta name="description" content="xbim toolkit is an Open Source toolkit for IFC and BIM. You can use it to do anything with IFC. It implements IFC2x3 and IFC4 and allows to develop SW agnostic to IFC version and file format.">
+    <meta name="author" content="xbim ltd.">
+	<meta name="keywords" content="xbim,BIM,C#,CSharp,NET,OpenBIM,IFC,buildingSMART,standard,documentation,examples">
 	<meta name="google-site-verification" content="0uIEEP0H5QWrL3gUPIdxOhMzGT0ZArO6rdpj9TOeeEQ" />
 
     <link rel="icon" href="../img/favicon.ico">
@@ -48,7 +48,7 @@
 	{
 	  "@context" : "http://schema.org",
 	  "@type" : "SoftwareApplication",
-	  "name" : "xBIM Toolkit",
+	  "name" : "xbim toolkit",
 	  "image" : "https://docs.xbim.net../img/xBim_toolkit_logo.png",
 	  "url" : "https://docs.xbim.net/",
 	  "author" : {
@@ -215,19 +215,19 @@
     </nav>
 
 	<div class="container">
-	<h1>xBIM 4 Release Notes</h1>
+	<h1>Xbim v4 Release Notes</h1>
 
-<p>You may have realized that xBIM Nuget packages on <a target="_blank" href="https://www.nuget.org/packages/Xbim.Essentials/">www.nuget.org</a> didn't change for a while (about a year) and than the new version appeared recently.
-Latest xBIM version 3 was released on 15 October 2015. Well, two minor versions were published in October 2016 but these were just minor fixes to put things in order before
-the major upgrade to version 4. xBIM 4 was first published on 13 October 2016 and it contains more than a year of very intensive development and refactoring.
-This document should help you to understand what has changed (and why it is good even if it breaks your old code). If you are new to xBIM you may also
-find this useful to learn about some of the features of xBIM and why it is solid, reliable and efficient for IFC2x3 and IFC4. It is also possible to program against 
+<p>You may have realized that xbim Nuget packages on <a target="_blank" href="https://www.nuget.org/packages/Xbim.Essentials/">www.nuget.org</a> didn't change for a while (about a year) and than the new version appeared recently.
+Latest xbim version 3 was released on 15 October 2015. Well, two minor versions were published in October 2016 but these were just minor fixes to put things in order before
+the major upgrade to version 4. xbim v4 was first published on 13 October 2016 and it contains more than a year of very intensive development and refactoring.
+This document should help you to understand what has changed (and why it is good even if it breaks your old code). If you are new to xbim you may also
+find this useful to learn about some of the features of xbim and why it is solid, reliable and efficient for IFC2x3 and IFC4. It is also possible to program against 
 both IFC schemas as if it was IFC4 which makes it <strong>easy to upgrade existing code to be schema agnostic</strong>. We don't know about any other open source toolkit which would
 allow you to do this. If you do we are happy to hear about it.</p>
 
 <h2>New approach</h2>
 
-<p>Up to v3 xBIM was completely handwritten implementation of IFC2x3 (also usable for IFC2x2). Just to give you an idea, complete implementation of IFC2x3 consisted of 980 files:</p>
+<p>Up to v3 xbim was completely handwritten implementation of IFC2x3 (also usable for IFC2x2). Just to give you an idea, complete implementation of IFC2x3 consisted of 980 files:</p>
 
 <ul>
 <li>117 Defined Types (implemented as structs)</li>
@@ -246,22 +246,22 @@ we started to think about how to implement it. We could start manual implementat
 <li>766 Entities</li>
 </ul>
 
-<p>but that would just more than double size of our core codebase and would make it unmaintainable with resources we have. Also all the code depending on xBIM 3 is 
+<p>but that would just more than double size of our core codebase and would make it unmaintainable with resources we have. Also all the code depending on xbim 3 is 
 written purely for IFC2x3. We could try to mix the schemas by extending the 2x3 classes but that would be a real mess because sometimes names of entities have changed 
 sometimes attribute names, order or data type have changed and there are completely new entities not just at the end of inheritance hierarchy but also injected
 in the middle. I'm sure you can see that this would lead to very nice spaghetti codebase. Just add two years of tweaking and adoption of IFC4 Add1 and IFC4 Add2 
-(released released in July 2016) and you wouldn't choose xBIM as a solid reliable toolkit for your BIM models.</p>
+(released released in July 2016) and you wouldn't choose xbim as a solid reliable toolkit for your BIM models.</p>
 
 <p>So we decided to go with code generation. IFC is well defined in EXPRESS language which we love and will fight for at any time against XSD. It is for very good
 reasons relating to complexity of product modelling. We also prefer Step21 files against XML representation for the very same reasons. It is a lot more clear and conscious.
 If we have enough time we will write an article about why EXPRESS/STEP is a lot better than XSD/XML for product modelling (no doubt XML is perfect for many scenarios but 
-for product modelling like IFC it is not). Saying so, <strong>xBIM supports both STEP and XML file format completely</strong>. </p>
+for product modelling like IFC it is not). Saying so, <strong>xbim supports both STEP and XML file format completely</strong>. </p>
 
 <p>Because EXPRESS is not as widely spread as XSD there are not many tools for code generation and we certainly didn't find one for .NET which could be used to 
 generate the source code using design patterns which proved to be right over several years. So we developed our own code generation utility using <a target="_blank" href="https://gppg.codeplex.com/">GPPG/GPLEX</a>
 parser generator and <a target="_blank" href="https://msdn.microsoft.com/en-us/library/bb126445.aspx">T4 templates</a>. It was developed in a way where it can process any EXPRESS schema
 and generate code in a very uniform way. We generated IFC2x3 first to check it that the generated code works fine and than we generated IFC4. While doing so 
-we started to make some substantial changes to make most of the parts of xBIM Toolkit schema agnostic so that it can be used with any schema implementation. So we moved 
+we started to make some substantial changes to make most of the parts of xbim Toolkit schema agnostic so that it can be used with any schema implementation. So we moved 
 some of the code between DLLs and namespaces and changed names to make it more neutral where objects are not IFC specific.</p>
 
 <p>From what you've read so far you have surely gathered that some of the changes are code braking (I’m sorry but I think it is for very good reasons worth it). However, basic approach 
@@ -278,7 +278,7 @@ futureproof. This has some downsides but we believe none of them is critical.
   which includes temporal storage of this kind of data. But these properties are only in memory and <em>won't be persisted</em>. There is a work to do to indicate that you have made a change which is 
   not compatible with the underlying schema. It will than be possible to store resulting model as IFC4 but we are not there yet as well. We know it is doable with all the infrastructure we put in place
   but we didn't have enough resources to finish this.
-  - If you use xBIM to create new models or new data in existing models this is more tricky because <code>model.Instances.New&lt;IPersistEntity&gt;()</code> can only create an instance of non-abstract class. To make this easier
+  - If you use xbim to create new models or new data in existing models this is more tricky because <code>model.Instances.New&lt;IPersistEntity&gt;()</code> can only create an instance of non-abstract class. To make this easier
   we implemented <code>Xbim.Ifc4.Interfaces.Create</code> helper class which has functions like <code>create.Wall()</code> for all non-abstract entities which exist in both schemas.</p>
 
 <p>Despite of these concerns we upgraded almost all the code we wrote in past to IFC4 interfaces and all works well. If you just want to go with IFC4 you don't need to worry about none of the concerns above at all. 
@@ -295,7 +295,7 @@ use memory optimization where objects are not kept in any local collection and  
 new copy of it. This is great when you read it from database in one long read and you want to keep the memory footprint low. To keep things right we implement equality comparers which are not
 based on the object reference but it'd owning model and ID.</p>
 
-<p>No class has a public constructor. It is no longer possible to create <code>IPersistEntity</code> instance outside of the model which was possible in xBIM 3. There is a single class called EntityFactory 
+<p>No class has a public constructor. It is no longer possible to create <code>IPersistEntity</code> instance outside of the model which was possible in xbim 3. There is a single class called EntityFactory 
 in every schema module which can create new objects and it will always set entity label and model to it. This is the only point where this is possible and it is designed to be <em>only called from 
 <code>IModel.Instances.New&lt;IPersistEntity&gt;()</code></em> function. You should never ever call this from your custom code. Always use IModel to create new instances. Instantiable classes implement <code>IInstantiableEntity</code> interface so 
 <code>IModel.Instances.New&lt;&gt;()</code> function is constrained only to non-abstract types. This doesn’t change any API behaviour but it is more hard to write wrong code.</p>
@@ -316,24 +316,24 @@ It is also best in case you will load most of the model for processing anyway (l
 </tbody>
 </table>
 
-<p>There was only <code>XbimModel</code> in xBIM 3 which was based on what is EsentModel now and it implemented IFC2x3 specific functionality (like ownership maintenance). XbimModel is still in xBIM 4 but it
+<p>There was only <code>XbimModel</code> in xbim v3 which was based on what is EsentModel now and it implemented IFC2x3 specific functionality (like ownership maintenance). XbimModel is still in xbim 4 but it
 has been moved to <code>Xbim.Ifc2x3.IO</code>. It works as it used to do but we <strong>strongly encourage you to move to IfcStore</strong> which is IFC schema agnostic and can be backed both by <code>EsentModel</code> and by <code>MemoryModel</code>.
 You can either specify the behaviour yourself or you can let <code>IfcStore</code> to decide based on the size of the model. It provides single access to complete matrix of IFC2x3 &amp; IFC4 data schemas, <code>EsentModel</code> and <code>MemoryModel</code>
 storage mechanisms and STEP &amp; XML data formats. Did we mention that IFC4 XML is completely different from IFC2x3 schema in it's structure? Any processing tool using XSLT transformations is in a real trouble now.
-If you use xBIM you won't even notice.</p>
+If you use xbim you won't even notice.</p>
 
-<p>IFC has a concept of optional and mandatory collections. In xBIM 3 we implemented this in a way where mandatory collections were always initialized so when serialized they appeared as empty but not null. You could obviously do anything
+<p>IFC has a concept of optional and mandatory collections. In xbim v3 we implemented this in a way where mandatory collections were always initialized so when serialized they appeared as empty but not null. You could obviously do anything
 with these collections without a risk of <code>NullReferenceException</code> Optional collections were not initialized and doing something like <code>items.Add(item)</code> was causing null reference exception. Because these collections 
 are tightly bound to their owning entities to keep the model complete and consistent it was necessary to call special functions like <code>CreateHasPropertySets()</code> to initialize these collections. 
 This is not the case anymore because we introduced new class inheriting from <code>IOptionalItemSet</code> which has a flag <code>IsInitialized</code>.
 So you can initialize it and keep it empty so it will serialize as an empty collection or if you just add anything to the collection it will change its state automatically. This provides more consistent and convenient
-API for all collections in xBIM schema implementations. So all collections in xBIM are safe to be used without checking for null as they are never null.</p>
+API for all collections in xbim schema implementations. So all collections in xbim are safe to be used without checking for null as they are never null.</p>
 
 <h2>Lost Features</h2>
 
 <p><em>* UPDATE: May 2017 <code>WHERE</code> rules have been restored in the develop branch *</em></p>
 
-<p>Everything comes with a price. In this case using code generation we could painlessly extend xBIM with complete IFC4 implementation in 1000+ files but it wasn't viable
+<p>Everything comes with a price. In this case using code generation we could painlessly extend xbim with complete IFC4 implementation in 1000+ files but it wasn't viable
 to generate <code>WHERE</code> rules from the schema. Where translation of data-related concepts from EXPRESS to C# is relatively straightforward translating EXPRESS functions
 into C# functions is completely different ball game. If you are not familiar with <code>WHERE</code> rules in IFC these are functional constrains on the data model. These might be something 
 like:</p>
@@ -350,7 +350,7 @@ which the geometric representation items of the IfcProductDefinitionShape are fo
 </code></pre>
 
 <p>If the data model doesn't validate against <em>all</em> where rules in the schema it is not a valid model. However, it is still perfectly possible to save it and read it because these 
-are functional checks. To round it up: xBIM 4 doesn't support where rules validation. It is possible to use code generation to generate list of rules to implement but we didn't 
+are functional checks. To round it up: xbim v4 doesn't support where rules validation. It is possible to use code generation to generate list of rules to implement but we didn't 
 do it. If somebody in the community wanted to do it it would be very welcome contribution.</p>
 
 <p>Second feature is not lost but is deprecated in fact and that is <code>Xbim.Ifc.Extensions.dll</code>. This was completely written for IFC2x3 and it become quite messy as we created extensions 
@@ -362,7 +362,7 @@ code if you need it.</p>
     
 
 	<div class="brands-container">
-	<p><small>Some of the companies using xBIM Toolkit:</small></p>
+	<p><small>Some of the companies using xbim toolkit:</small></p>
 		<a target="_blank" href="https://www.xbim.net"><img style="height:65px;" src="../img/xBim_parent_logo_white.svg" class="brand" alt="xbim ltd."></a>
 		<img src="../img/logos/northumbria_logo_gray.png" class="brand"/>
 		<img src="../img/logos/viewpoint_logo_gray.png" class="brand"/>
