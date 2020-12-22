@@ -179,6 +179,8 @@ namespace Xbim.SiteBuilder.Structure
                         cc.Colorize(codeContent, Languages.Step, new HtmlClassFormatter(), StyleSheets.Default, writer);
                     else if (lang.Equals("xml", StringComparison.InvariantCultureIgnoreCase))
                         cc.Colorize(codeContent, Languages.Xml, new HtmlClassFormatter(), StyleSheets.Default, writer);
+                    else if (lang.Equals("html", StringComparison.InvariantCultureIgnoreCase))
+                        cc.Colorize(codeContent, Languages.Html, new HtmlClassFormatter(), StyleSheets.Default, writer);
                     else
                     {
                         codeContent = $"<pre><code>{codeContent}</code></pre>";

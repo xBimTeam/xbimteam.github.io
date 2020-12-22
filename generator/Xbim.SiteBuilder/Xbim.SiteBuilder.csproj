@@ -101,7 +101,17 @@
     <Content Include="Data\[03] Release notes\Fast Upgrade Track.md.txt" />
     <Content Include="Data\[07] Cloud.md.txt" />
     <Content Include="Resources\css\codestyles.css" />
+    <Content Include="Data\[02] Examples\[03-Web UI - 01] Hello Building.md.txt" />
+    <Content Include="Data\[02] Examples\[03-Web UI - 02] Safe Hello Building.md.txt" />
+    <Content Include="Data\[02] Examples\[03-Web UI - 03] Eventful Building.md.txt" />
+    <Content Include="Data\[02] Examples\[03-Web UI - 04] Building Seen from Everywhere.md.txt" />
+    <Content Include="Data\[02] Examples\[03-Web UI - 05] Colourful Building.md.txt" />
+    <None Include="Resources\data\SampleHouse.wexbim" />
     <None Include="Resources\data\XbimEssentials.bib" />
+    <Content Include="Resources\examples\1_Hello_building.live.html" />
+    <Content Include="Resources\examples\3_Eventful_building.live.html" />
+    <Content Include="Resources\examples\4_Building_seen_from_everywhere.live.html" />
+    <Content Include="Resources\examples\5_Colourful_building.live.html" />
     <Content Include="Resources\img\logos\bim_academy_logo_gray.png" />
     <Content Include="Resources\img\logos\di5_logo_gray.png" />
     <Content Include="Resources\img\logos\nbs_logo_gray.png" />
@@ -119,8 +129,8 @@
     <Content Include="Resources\img\xBim_parent_logo_white.svg" />
     <Content Include="Resources\img\xBim_toolkit_logo.png" />
     <Content Include="Resources\img\xBim_toolkit_logo_white.png" />
-    <Content Include="Resources\js\sample-house.js" />
     <Content Include="Resources\js\xbim-viewer.js" />
+    <Content Include="Resources\js\sample-house.js" />
     <Content Include="Resources\robots.txt" />
     <Content Include="Templates\Navigation.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

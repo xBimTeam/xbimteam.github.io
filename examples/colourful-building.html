@@ -12,7 +12,7 @@
 
     <link rel="icon" href="../img/favicon.ico">
 
-    <title>Change Log Creation</title>
+    <title>Colourful Building</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -133,7 +133,8 @@
         <li>
 			<a href="../examples/insert-copy-function.html">Insert Copy Function</a>
 		</li>
-        <li class="active">
+		
+        <li>
 			<a href="../examples/change-log-creation.html">Change Log Creation</a>
 		</li>
 		<li role="separator" class="group-divider">Downloads </li>
@@ -158,8 +159,7 @@
         <li>
 			<a href="../examples/building-seen-from-everywhere.html">Building Seen from Everywhere</a>
 		</li>
-		
-        <li>
+        <li class="active">
 			<a href="../examples/colourful-building.html">Colourful Building</a>
 		</li>
     </ul>
@@ -236,98 +236,82 @@
     </nav>
 
 	<div class="container">
-	<h1>Change Log Creation</h1>
+	<blockquote>
+  <p>Warning: We have just published new version of the viewer, so this tutorial migh not be 100% right</p>
+</blockquote>
 
-<p>This is one of the interesting aspects of xbim. It is in a core of our design that every change happening in the model is
-a part of a transaction. All transactions are created by an implementation of <code>IModel</code> and are weakly referenced from there
-so when you use <code>using</code> statement model only keeps reference to the the transaction as long as you keep it. This means that 
-there is a single point where all changes are happening and we can do something with them.</p>
+<h2>Live example <a href="5_Colourful_building.live.html">here</a></h2>
 
-<p>One obvious thing to do is to record all changes, previous states and next states. Combining all this together you can create 
-either back-log or forward-log. To simplify this task we implemented a <code>Xbim.IO.Delta.TransactionLog</code> class. In the following example
-we will have a look on how to use it.</p>
+<p>This tutorial will focus on colour presentation of the model. As you have noticed models have a sensible graphical representation
+by default. This is taken from IFC model to it should look about the same in all the tools and it should look the same as in your
+or your user's authoring environment. But it is important to be able to chenge this representation sometimes to report some kind
+of results to the user (classification, error reporting, clash detection etc.). This will be covered in this short tutorial. You can have 
+a look on full sample demo <a href="5_Colourful_building.live.html">here</a>.</p>
 
-<div class="csharp"><pre><code><span class="keyword">using</span> <span class="type">System</span>;
-<span class="keyword">using</span> <span class="type">Xbim</span>.Common;
-<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc;
-<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.Interfaces;
-<span class="keyword">using</span> <span class="type">Xbim</span>.IO.Delta;
-<span class="keyword">using</span> <span class="type">Xbim</span>.IO.Step21;
-</code></pre></div>
+<p>I'll use ugly obtrusive code with javascript functions defined in <em>onclick</em> attributes of HTML elements. This is not the right practise
+but I've done it this way for the sake of clarity and simplicity. You are ancouraged to follow 
+<a target="_blank" href="http://www.w3.org/wiki/The_principles_of_unobtrusive_JavaScript">these guidlines</a> to write sustainable
+and clear web applications.</p>
 
-<div class="csharp"><pre><code><span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
-{
-    ApplicationDevelopersName = <span class="string">&quot;You&quot;</span>,
-    ApplicationFullName = <span class="string">&quot;Your app&quot;</span>,
-    ApplicationIdentifier = <span class="string">&quot;Your app ID&quot;</span>,
-    ApplicationVersion = <span class="string">&quot;4.0&quot;</span>,
-    <span class="comment">//your user</span>
-    EditorsFamilyName = <span class="string">&quot;Santini Aichel&quot;</span>,
-    EditorsGivenName = <span class="string">&quot;Johann Blasius&quot;</span>,
-    EditorsOrganisationName = <span class="string">&quot;Independent Architecture&quot;</span>
-};
+<p>First of all it is necessary to define your styles. There is simple function {@link Viewer#defineStyle defineStyle()} to do that.
+You can define up to 224 styles. Because I don't have any results to show let's make it random. We'll define new colour for every
+product type in the following code:</p>
 
-<span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(<span class="string">&quot;SampleHouse.ifc&quot;</span>, editor, <span class="keyword">true</span>))
-{
-    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Modification&quot;</span>))
-    {
-        <span class="keyword">using</span> (<span class="keyword">var</span> log = <span class="keyword">new</span> TransactionLog(txn))
-        {
-            <span class="comment">//change to existing wall</span>
-            <span class="keyword">var</span> wall = model.Instances.FirstOrDefault&lt;<span class="type">IIfcWall</span>&gt;();
-            wall.Name = <span class="string">&quot;Unexpected name&quot;</span>;
-            wall.GlobalId = <span class="type">Guid</span>.NewGuid().ToPart21();
-            wall.Description = <span class="string">&quot;New and more descriptive description&quot;</span>;
-
-            <span class="comment">//print all changes caused by this</span>
-            PrintChanges(log);
-            txn.Commit();
+<pre><code>&lt;button onclick="Recolour()"&gt;Recolour by type&lt;/button&gt;
+&lt;button onclick="if (viewer) viewer.resetStyles();"&gt;Reset styles&lt;/button&gt;
+&lt;script type="text/javascript"&gt;
+    function Recolour() {
+        if (!viewer) return;
+        var index = 0;
+        for (var i in ProductType) {
+            var type = ProductType[i];
+            if (!/^[0-9]+$/.test(type)) {
+                continue;
+            }
+            var colour = [Math.random() * 255, Math.random() * 255, Math.random() * 255, 255];
+            viewer.defineStyle(index, colour);
+            viewer.setStyle(index, type);
+            index++;
         }
-        <span class="type">Console</span>.WriteLine();
-    }
-}
-</code></pre></div>
+    };
+&lt;/script&gt;
+</code></pre>
 
-<p>Previous code uses this simple function to report changes on the objects:</p>
+<p>This is it. You can extend this example as you wish. Just define 0 - 224 colour styles and set them as an overlay style to product
+or to type of products. If you want to reset styles to their default use {@link Viewer#resetStyles resetStyles()} function.</p>
 
-<div class="csharp"><pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> PrintChanges(<span class="type">TransactionLog</span> log)
-{
-    <span class="keyword">foreach</span> (<span class="keyword">var</span> change <span class="keyword">in</span> log.Changes)
-    {
-        <span class="keyword">switch</span> (change.ChangeType)
-        {
-            <span class="keyword">case</span> <span class="type">ChangeType</span>.New:
-                <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;New entity: {0}&quot;</span>, change.CurrentEntity);
-                <span class="keyword">break</span>;
-            <span class="keyword">case</span> <span class="type">ChangeType</span>.Deleted:
-                <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Deleted entity: {0}&quot;</span>, change.OriginalEntity);
-                <span class="keyword">break</span>;
-            <span class="keyword">case</span> <span class="type">ChangeType</span>.Modified:
-                <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Changed Entity: #{0}={1}&quot;</span>, change.Entity.EntityLabel, change.Entity.ExpressType.ExpressNameUpper);
-                <span class="keyword">foreach</span> (<span class="keyword">var</span> prop <span class="keyword">in</span> change.ChangedProperties)
-                    <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;        Property &#39;{0}&#39; changed from {1} to {2}&quot;</span>, prop.Name, prop.OriginalValue, prop.CurrentValue);
-                <span class="keyword">break</span>;
-            <span class="keyword">default</span>:
-                <span class="keyword">break</span>;
-        }
-    }
-}
-</code></pre></div>
+<p>There is one more visual feature of the viewer and that is highlighting. You can think about it as a selection but it is not that
+clever. It leaves all the eventual selection logic up to you. This is just a visual representation. It is hence ruther <em>state</em> than <em>style</em>.
+You can use it exactly the same way as you did in the last tutorial '{@tutorial 4<em>Building</em>seen<em>from</em>everywhere}':</p>
 
-<p>Resulting change log will look like this. It contains more changes because xbim handles owner history automatically for you when you change or create any <code>IFCROOT</code> entity.</p>
+<pre><code>&lt;select id="cmbSelection"&gt;
+    &lt;option value="noAction"&gt;No action&lt;/option&gt;
+    &lt;option value="select"&gt;Select&lt;/option&gt;
+&lt;/select&gt;
+&lt;button onclick="if (viewer) viewer.resetStates()"&gt;Reset&lt;/button&gt;
+&lt;script type="text/javascript"&gt;
+    function initHighlighting() {
+        viewer.on('pick', function (args) {
+            var cmb = document.getElementById('cmbSelection');
+            var option = cmb.value;
+            switch (option) {
+                case 'select':
+                    viewer.setState(State.HIGHLIGHTED, [args.id]);
+                    break;
+                case 'hide':
+                    viewer.setState(State.HIDDEN, [args.id]);
+                    break;
+                default:
+                    break;
+            }
+        });
+    };
+&lt;/script&gt;
+</code></pre>
 
-<div class="step"><pre><code>Changed Entity: <span class="number">#1229</span>=<span class="type">IFCWALL</span>
-        Property <span class="string">&#39;Name&#39;</span> changed from <span class="string">&#39;Basic Wall:Wall-Ext_102Bwk-75Ins-100LBlk-12P:285330&#39;</span> to <span class="string">&#39;Unexpected name&#39;</span>
-        Property <span class="string">&#39;OwnerHistory&#39;</span> changed from <span class="number">#42</span> to <span class="number">#83873</span>
-        Property <span class="string">&#39;GlobalId&#39;</span> changed from <span class="string">&#39;3cUkl32yn9qRSPvBJVyWw5&#39;</span> to <span class="string">&#39;0zxW3$9z95n8U_H9YOcyiE&#39;</span>
-        Property <span class="string">&#39;Description&#39;</span> changed from $ to <span class="string">&#39;New and more descriptive description&#39;</span>
-New entity: <span class="number">#83873</span>=<span class="type">IFCOWNERHISTORY</span>(<span class="number">#83876</span>,<span class="number">#83877</span>,$,.MODIFIED.,$,$,$,0);
-New entity: <span class="number">#83874</span>=<span class="type">IFCPERSON</span>($,<span class="string">&#39;Santini Aichel&#39;</span>,<span class="string">&#39;Johann Blasius&#39;</span>,$,$,$,$,$);
-New entity: <span class="number">#83875</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;Independent Architecture&#39;</span>,$,$,$);
-New entity: <span class="number">#83876</span>=<span class="type">IFCPERSONANDORGANIZATION</span>(<span class="number">#83874</span>,<span class="number">#83875</span>,$);
-New entity: <span class="number">#83878</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;You&#39;</span>,$,$,$);
-New entity: <span class="number">#83877</span>=<span class="type">IFCAPPLICATION</span>(<span class="number">#83878</span>,$,<span class="string">&#39;Your app&#39;</span>,<span class="string">&#39;Your app ID&#39;</span>);
-</code></pre></div>
+<p>Nice feature of this approach is that highlighting is separated from alternative visual appearance. You can't have a product highlighted and
+hidden at the same time but that makes a sense. Important thing is that you can show results of the analyses and do selection at the same time.
+And if you discard selection you still have a valid results representation. You can generally combine <em>styles</em> and <em>states</em> in any way.</p>
 
     </div>
     

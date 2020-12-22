@@ -12,7 +12,7 @@
 
     <link rel="icon" href="../img/favicon.ico">
 
-    <title>Change Log Creation</title>
+    <title>Safe Hello Building</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -133,7 +133,8 @@
         <li>
 			<a href="../examples/insert-copy-function.html">Insert Copy Function</a>
 		</li>
-        <li class="active">
+		
+        <li>
 			<a href="../examples/change-log-creation.html">Change Log Creation</a>
 		</li>
 		<li role="separator" class="group-divider">Downloads </li>
@@ -146,8 +147,7 @@
         <li>
 			<a href="../examples/hello-building.html">Hello Building</a>
 		</li>
-		
-        <li>
+        <li class="active">
 			<a href="../examples/safe-hello-building.html">Safe Hello Building</a>
 		</li>
 		
@@ -236,98 +236,72 @@
     </nav>
 
 	<div class="container">
-	<h1>Change Log Creation</h1>
+	<blockquote>
+  <p>Warning: We have just published new version of the viewer, so this tutorial migh not be 100% right</p>
+</blockquote>
 
-<p>This is one of the interesting aspects of xbim. It is in a core of our design that every change happening in the model is
-a part of a transaction. All transactions are created by an implementation of <code>IModel</code> and are weakly referenced from there
-so when you use <code>using</code> statement model only keeps reference to the the transaction as long as you keep it. This means that 
-there is a single point where all changes are happening and we can do something with them.</p>
+<h2>Live example <a href="1_Hello_building.live.html">here</a></h2>
 
-<p>One obvious thing to do is to record all changes, previous states and next states. Combining all this together you can create 
-either back-log or forward-log. To simplify this task we implemented a <code>Xbim.IO.Delta.TransactionLog</code> class. In the following example
-we will have a look on how to use it.</p>
+<p>In the previous tutorial {@tutorial 1<em>Hello</em>building} I've mentioned that the viewer won't run on all devices with all browsers. That's right. We have decided to use the latest technologies
+for the sake of efficiency and simplicity. There are several prerequisites browser should fulfil to be able to run the viewer. Don't give up 
+at this point please! It will run on several years old PCs with Chrome or Mozilla and it will run on tablets and mobile devices. The main restriction
+is about IE which doesn't support WebGL until IE11. To make your life easier, Viewer has a static function to check it's requirements.</p>
 
-<div class="csharp"><pre><code><span class="keyword">using</span> <span class="type">System</span>;
-<span class="keyword">using</span> <span class="type">Xbim</span>.Common;
-<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc;
-<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.Interfaces;
-<span class="keyword">using</span> <span class="type">Xbim</span>.IO.Delta;
-<span class="keyword">using</span> <span class="type">Xbim</span>.IO.Step21;
+<div class="javascript"><pre><code><span class="keyword">var</span> check = Viewer.check();
+<span class="keyword">if</span> (check.noErrors)
+{
+    ...
+}
 </code></pre></div>
 
-<div class="csharp"><pre><code><span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
-{
-    ApplicationDevelopersName = <span class="string">&quot;You&quot;</span>,
-    ApplicationFullName = <span class="string">&quot;Your app&quot;</span>,
-    ApplicationIdentifier = <span class="string">&quot;Your app ID&quot;</span>,
-    ApplicationVersion = <span class="string">&quot;4.0&quot;</span>,
-    <span class="comment">//your user</span>
-    EditorsFamilyName = <span class="string">&quot;Santini Aichel&quot;</span>,
-    EditorsGivenName = <span class="string">&quot;Johann Blasius&quot;</span>,
-    EditorsOrganisationName = <span class="string">&quot;Independent Architecture&quot;</span>
-};
+<p>Easy! Just run this static function and it will report you any errors or warnings (sure, you won't get any most of the time).
+Result of this function contains list of warnings and list of errors you can use to report to unfortunate user why is his old 
+and non-standard-compliant browser not supported. So, if we update our example from above we get the safe version here:</p>
 
-<span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(<span class="string">&quot;SampleHouse.ifc&quot;</span>, editor, <span class="keyword">true</span>))
+<div class="html"><pre><code><span class="htmlTagDelimiter">&lt;!</span><span class="htmlElementName">DOCTYPE</span> <span class="htmlAttributeName">html</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">html</span> <span class="htmlAttributeName">xmlns</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">head</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">title</span><span class="htmlTagDelimiter">&gt;</span>Hello building!<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">title</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">link</span> <span class="htmlAttributeName">href</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;css/layout.css&quot;</span> <span class="htmlAttributeName">rel</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;stylesheet&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">script</span> <span class="htmlAttributeName">src</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;js/xbim.bundle.js&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">script</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">head</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">body</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">div</span> <span class="htmlAttributeName">id</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;content&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">canvas</span> <span class="htmlAttributeName">id</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;viewer&quot;</span> <span class="htmlAttributeName">width</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;500&quot;</span> <span class="htmlAttributeName">height</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;300&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">canvas</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">script</span> <span class="htmlAttributeName">type</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;text/javascript&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="keyword">var</span> check = Viewer.check();
+            <span class="keyword">if</span> (check.noErrors)
+            {
+                <span class="keyword">var</span> viewer = <span class="keyword">new</span> Viewer(<span class="string">&#39;viewer&#39;</span>);
+                viewer.load(<span class="string">&#39;data/SampleHouse.wexbim&#39;</span>);
+                viewer.start();
+            }
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">script</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">div</span><span class="htmlTagDelimiter">&gt;</span>    
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">body</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">html</span><span class="htmlTagDelimiter">&gt;</span>
+</code></pre></div>    
+
+<p>Right, we might want to add some reporting to user now which could look like this:</p>
+
+<div class="javascript"><pre><code><span class="keyword">var</span> check = Viewer.check();
+<span class="keyword">if</span> (check.noErrors)
 {
-    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Modification&quot;</span>))
+    <span class="comment">//start animation, listen to events and do all the funny stuff</span>
+}
+<span class="keyword">else</span>
+{
+    <span class="keyword">var</span> msg = document.getElementById(<span class="string">&#39;msg&#39;</span>);
+    msg.innerHTML = <span class="string">&#39;&#39;</span>;
+    <span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> check.errors)
     {
-        <span class="keyword">using</span> (<span class="keyword">var</span> log = <span class="keyword">new</span> TransactionLog(txn))
-        {
-            <span class="comment">//change to existing wall</span>
-            <span class="keyword">var</span> wall = model.Instances.FirstOrDefault&lt;<span class="type">IIfcWall</span>&gt;();
-            wall.Name = <span class="string">&quot;Unexpected name&quot;</span>;
-            wall.GlobalId = <span class="type">Guid</span>.NewGuid().ToPart21();
-            wall.Description = <span class="string">&quot;New and more descriptive description&quot;</span>;
-
-            <span class="comment">//print all changes caused by this</span>
-            PrintChanges(log);
-            txn.Commit();
-        }
-        <span class="type">Console</span>.WriteLine();
+        <span class="keyword">var</span> error = check.errors[i];
+        msg.innerHTML += <span class="string">&quot;&lt;div style=&#39;color: red;&#39;&gt;&quot;</span> + error + <span class="string">&quot;&lt;/div&gt;&quot;</span>;
     }
 }
 </code></pre></div>
 
-<p>Previous code uses this simple function to report changes on the objects:</p>
-
-<div class="csharp"><pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> PrintChanges(<span class="type">TransactionLog</span> log)
-{
-    <span class="keyword">foreach</span> (<span class="keyword">var</span> change <span class="keyword">in</span> log.Changes)
-    {
-        <span class="keyword">switch</span> (change.ChangeType)
-        {
-            <span class="keyword">case</span> <span class="type">ChangeType</span>.New:
-                <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;New entity: {0}&quot;</span>, change.CurrentEntity);
-                <span class="keyword">break</span>;
-            <span class="keyword">case</span> <span class="type">ChangeType</span>.Deleted:
-                <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Deleted entity: {0}&quot;</span>, change.OriginalEntity);
-                <span class="keyword">break</span>;
-            <span class="keyword">case</span> <span class="type">ChangeType</span>.Modified:
-                <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Changed Entity: #{0}={1}&quot;</span>, change.Entity.EntityLabel, change.Entity.ExpressType.ExpressNameUpper);
-                <span class="keyword">foreach</span> (<span class="keyword">var</span> prop <span class="keyword">in</span> change.ChangedProperties)
-                    <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;        Property &#39;{0}&#39; changed from {1} to {2}&quot;</span>, prop.Name, prop.OriginalValue, prop.CurrentValue);
-                <span class="keyword">break</span>;
-            <span class="keyword">default</span>:
-                <span class="keyword">break</span>;
-        }
-    }
-}
-</code></pre></div>
-
-<p>Resulting change log will look like this. It contains more changes because xbim handles owner history automatically for you when you change or create any <code>IFCROOT</code> entity.</p>
-
-<div class="step"><pre><code>Changed Entity: <span class="number">#1229</span>=<span class="type">IFCWALL</span>
-        Property <span class="string">&#39;Name&#39;</span> changed from <span class="string">&#39;Basic Wall:Wall-Ext_102Bwk-75Ins-100LBlk-12P:285330&#39;</span> to <span class="string">&#39;Unexpected name&#39;</span>
-        Property <span class="string">&#39;OwnerHistory&#39;</span> changed from <span class="number">#42</span> to <span class="number">#83873</span>
-        Property <span class="string">&#39;GlobalId&#39;</span> changed from <span class="string">&#39;3cUkl32yn9qRSPvBJVyWw5&#39;</span> to <span class="string">&#39;0zxW3$9z95n8U_H9YOcyiE&#39;</span>
-        Property <span class="string">&#39;Description&#39;</span> changed from $ to <span class="string">&#39;New and more descriptive description&#39;</span>
-New entity: <span class="number">#83873</span>=<span class="type">IFCOWNERHISTORY</span>(<span class="number">#83876</span>,<span class="number">#83877</span>,$,.MODIFIED.,$,$,$,0);
-New entity: <span class="number">#83874</span>=<span class="type">IFCPERSON</span>($,<span class="string">&#39;Santini Aichel&#39;</span>,<span class="string">&#39;Johann Blasius&#39;</span>,$,$,$,$,$);
-New entity: <span class="number">#83875</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;Independent Architecture&#39;</span>,$,$,$);
-New entity: <span class="number">#83876</span>=<span class="type">IFCPERSONANDORGANIZATION</span>(<span class="number">#83874</span>,<span class="number">#83875</span>,$);
-New entity: <span class="number">#83878</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;You&#39;</span>,$,$,$);
-New entity: <span class="number">#83877</span>=<span class="type">IFCAPPLICATION</span>(<span class="number">#83878</span>,$,<span class="string">&#39;Your app&#39;</span>,<span class="string">&#39;Your app ID&#39;</span>);
-</code></pre></div>
+<p>And that is all again. We are safe now. We won't try to do anything with obsolete browsers.</p>
 
     </div>
     

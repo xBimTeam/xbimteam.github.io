@@ -12,7 +12,7 @@
 
     <link rel="icon" href="../img/favicon.ico">
 
-    <title>Change Log Creation</title>
+    <title>Hello Building</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -133,7 +133,8 @@
         <li>
 			<a href="../examples/insert-copy-function.html">Insert Copy Function</a>
 		</li>
-        <li class="active">
+		
+        <li>
 			<a href="../examples/change-log-creation.html">Change Log Creation</a>
 		</li>
 		<li role="separator" class="group-divider">Downloads </li>
@@ -142,8 +143,7 @@
 			<a href="../examples/xbimxplorer.html">XbimXplorer</a>
 		</li>
 		<li role="separator" class="group-divider">Web UI  </li>
-		
-        <li>
+        <li class="active">
 			<a href="../examples/hello-building.html">Hello Building</a>
 		</li>
 		
@@ -236,98 +236,59 @@
     </nav>
 
 	<div class="container">
-	<h1>Change Log Creation</h1>
+	<blockquote>
+  <p>Warning: We have just published new version of the viewer, so this tutorial migh not be 100% right</p>
+</blockquote>
 
-<p>This is one of the interesting aspects of xbim. It is in a core of our design that every change happening in the model is
-a part of a transaction. All transactions are created by an implementation of <code>IModel</code> and are weakly referenced from there
-so when you use <code>using</code> statement model only keeps reference to the the transaction as long as you keep it. This means that 
-there is a single point where all changes are happening and we can do something with them.</p>
+<h2>Live example <a href="1_Hello_building.live.html">here</a></h2>
 
-<p>One obvious thing to do is to record all changes, previous states and next states. Combining all this together you can create 
-either back-log or forward-log. To simplify this task we implemented a <code>Xbim.IO.Delta.TransactionLog</code> class. In the following example
-we will have a look on how to use it.</p>
+<p>In this tutorial you will learn how to create the most basic and straightforward viewer. 
+It won't do anything except showing the building. It will only use the built-in navigation
+of the viewer and will not respond to any events. You can have a look <a href="1_Hello_building.live.html">here</a> for live example.</p>
 
-<div class="csharp"><pre><code><span class="keyword">using</span> <span class="type">System</span>;
-<span class="keyword">using</span> <span class="type">Xbim</span>.Common;
-<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc;
-<span class="keyword">using</span> <span class="type">Xbim</span>.Ifc4.Interfaces;
-<span class="keyword">using</span> <span class="type">Xbim</span>.IO.Delta;
-<span class="keyword">using</span> <span class="type">Xbim</span>.IO.Step21;
+<p>The simplest way to bring our viewer into your project is to use NPM package</p>
+
+<pre><code>npm install @xbim/viewer
+</code></pre>
+
+<p>Now, let's dig into the code:</p>
+
+<div class="html"><pre><code><span class="htmlTagDelimiter">&lt;!</span><span class="htmlElementName">DOCTYPE</span> <span class="htmlAttributeName">html</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">html</span> <span class="htmlAttributeName">xmlns</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">head</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">title</span><span class="htmlTagDelimiter">&gt;</span>Hello building!<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">title</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">script</span> <span class="htmlAttributeName">src</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;dist/xbim-viewer.js&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">script</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">head</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">body</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">canvas</span> <span class="htmlAttributeName">id</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;viewer&quot;</span> <span class="htmlAttributeName">width</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;500&quot;</span> <span class="htmlAttributeName">height</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;300&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">canvas</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">script</span> <span class="htmlAttributeName">type</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;text/javascript&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="keyword">var</span> viewer = <span class="keyword">new</span> Viewer(<span class="string">&#39;viewer&#39;</span>);
+        viewer.on(<span class="string">&#39;loaded&#39;</span>, () =&gt; {
+            viewer.show(ViewType.DEFAULT);
+        });
+        viewer.load(<span class="string">&#39;../data/SampleHouse.wexbim&#39;</span>);
+        viewer.start();
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">script</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">body</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">html</span><span class="htmlTagDelimiter">&gt;</span>
 </code></pre></div>
 
-<div class="csharp"><pre><code><span class="keyword">var</span> editor = <span class="keyword">new</span> <span class="type">XbimEditorCredentials</span>
-{
-    ApplicationDevelopersName = <span class="string">&quot;You&quot;</span>,
-    ApplicationFullName = <span class="string">&quot;Your app&quot;</span>,
-    ApplicationIdentifier = <span class="string">&quot;Your app ID&quot;</span>,
-    ApplicationVersion = <span class="string">&quot;4.0&quot;</span>,
-    <span class="comment">//your user</span>
-    EditorsFamilyName = <span class="string">&quot;Santini Aichel&quot;</span>,
-    EditorsGivenName = <span class="string">&quot;Johann Blasius&quot;</span>,
-    EditorsOrganisationName = <span class="string">&quot;Independent Architecture&quot;</span>
-};
+<p>Well, this was pretty easy wasn't it? We just referenced the <em>xbim.browser.bundle.js</em> library, create {@link Viewer Viewer} object
+passing id of <code>&lt;canvas&gt;</code> element and start animation. This is it! Just make sure you are running from web server, not just 
+as a local file because Viewer uses AJAX to fetch the wexBIM data and some browsers impose CORS restrictions even on local
+HTML files. Also make sure you don't use IE less than 11 because you need to have support for WebGL. You will learn how to 
+check prerequisites at the end of this tutorial. If it still doesn't work check your webserver is serving wexBIM file as a
+static content. If you don't want to install webserver only because of this but you have Python installed,
+you can just run <code>python -m SimpleHTTPServer 9000</code> in the folder. It will serve all the files as a static content which is all you need for this tutorial.</p>
 
-<span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(<span class="string">&quot;SampleHouse.ifc&quot;</span>, editor, <span class="keyword">true</span>))
-{
-    <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Modification&quot;</span>))
-    {
-        <span class="keyword">using</span> (<span class="keyword">var</span> log = <span class="keyword">new</span> TransactionLog(txn))
-        {
-            <span class="comment">//change to existing wall</span>
-            <span class="keyword">var</span> wall = model.Instances.FirstOrDefault&lt;<span class="type">IIfcWall</span>&gt;();
-            wall.Name = <span class="string">&quot;Unexpected name&quot;</span>;
-            wall.GlobalId = <span class="type">Guid</span>.NewGuid().ToPart21();
-            wall.Description = <span class="string">&quot;New and more descriptive description&quot;</span>;
-
-            <span class="comment">//print all changes caused by this</span>
-            PrintChanges(log);
-            txn.Commit();
-        }
-        <span class="type">Console</span>.WriteLine();
-    }
-}
+<div class="html"><pre><code><span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">script</span> <span class="htmlAttributeName">src</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;dist/xbim-viewer.js&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">script</span><span class="htmlTagDelimiter">&gt;</span>
 </code></pre></div>
 
-<p>Previous code uses this simple function to report changes on the objects:</p>
+<p>Library is compiled as an UMD package, so you can use it directly or as a module</p>
 
-<div class="csharp"><pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> PrintChanges(<span class="type">TransactionLog</span> log)
-{
-    <span class="keyword">foreach</span> (<span class="keyword">var</span> change <span class="keyword">in</span> log.Changes)
-    {
-        <span class="keyword">switch</span> (change.ChangeType)
-        {
-            <span class="keyword">case</span> <span class="type">ChangeType</span>.New:
-                <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;New entity: {0}&quot;</span>, change.CurrentEntity);
-                <span class="keyword">break</span>;
-            <span class="keyword">case</span> <span class="type">ChangeType</span>.Deleted:
-                <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Deleted entity: {0}&quot;</span>, change.OriginalEntity);
-                <span class="keyword">break</span>;
-            <span class="keyword">case</span> <span class="type">ChangeType</span>.Modified:
-                <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;Changed Entity: #{0}={1}&quot;</span>, change.Entity.EntityLabel, change.Entity.ExpressType.ExpressNameUpper);
-                <span class="keyword">foreach</span> (<span class="keyword">var</span> prop <span class="keyword">in</span> change.ChangedProperties)
-                    <span class="type">Console</span>.WriteLine(<span class="stringCSharpVerbatim">@&quot;        Property &#39;{0}&#39; changed from {1} to {2}&quot;</span>, prop.Name, prop.OriginalValue, prop.CurrentValue);
-                <span class="keyword">break</span>;
-            <span class="keyword">default</span>:
-                <span class="keyword">break</span>;
-        }
-    }
-}
-</code></pre></div>
-
-<p>Resulting change log will look like this. It contains more changes because xbim handles owner history automatically for you when you change or create any <code>IFCROOT</code> entity.</p>
-
-<div class="step"><pre><code>Changed Entity: <span class="number">#1229</span>=<span class="type">IFCWALL</span>
-        Property <span class="string">&#39;Name&#39;</span> changed from <span class="string">&#39;Basic Wall:Wall-Ext_102Bwk-75Ins-100LBlk-12P:285330&#39;</span> to <span class="string">&#39;Unexpected name&#39;</span>
-        Property <span class="string">&#39;OwnerHistory&#39;</span> changed from <span class="number">#42</span> to <span class="number">#83873</span>
-        Property <span class="string">&#39;GlobalId&#39;</span> changed from <span class="string">&#39;3cUkl32yn9qRSPvBJVyWw5&#39;</span> to <span class="string">&#39;0zxW3$9z95n8U_H9YOcyiE&#39;</span>
-        Property <span class="string">&#39;Description&#39;</span> changed from $ to <span class="string">&#39;New and more descriptive description&#39;</span>
-New entity: <span class="number">#83873</span>=<span class="type">IFCOWNERHISTORY</span>(<span class="number">#83876</span>,<span class="number">#83877</span>,$,.MODIFIED.,$,$,$,0);
-New entity: <span class="number">#83874</span>=<span class="type">IFCPERSON</span>($,<span class="string">&#39;Santini Aichel&#39;</span>,<span class="string">&#39;Johann Blasius&#39;</span>,$,$,$,$,$);
-New entity: <span class="number">#83875</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;Independent Architecture&#39;</span>,$,$,$);
-New entity: <span class="number">#83876</span>=<span class="type">IFCPERSONANDORGANIZATION</span>(<span class="number">#83874</span>,<span class="number">#83875</span>,$);
-New entity: <span class="number">#83878</span>=<span class="type">IFCORGANIZATION</span>($,<span class="string">&#39;You&#39;</span>,$,$,$);
-New entity: <span class="number">#83877</span>=<span class="type">IFCAPPLICATION</span>(<span class="number">#83878</span>,$,<span class="string">&#39;Your app&#39;</span>,<span class="string">&#39;Your app ID&#39;</span>);
-</code></pre></div>
+<p>Right, this is about enough for the first tutorial. So if you feel fresh you can jump right into the next one where you will learn 
+how to check that the browser is actually <a href="safe-hello-building.html">able to render the model</a>. It'll look the same as this example so you can have a look on <a href="1_Hello_building.live.html">live
+show here</a></p>
 
     </div>
     

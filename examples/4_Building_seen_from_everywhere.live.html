@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Building seen from everywhere</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="../css/site.css" rel="stylesheet" />
+    <script src="../js/xbim-viewer.js"></script>
+</head>
+<body>
+    <div id="main">
+            <div id="viewer-controls">
+                <div class="viewer-control">
+                    Set left mouse button to 
+                    <button onclick="if (viewer) viewer.navigationMode = 'orbit';">Orbit</button>
+                    <button onclick="if (viewer) viewer.navigationMode = 'free-orbit';">Free orbit</button>
+                    <button onclick="if (viewer) viewer.navigationMode = 'pan';">Pan</button>
+                    <button onclick="if (viewer) viewer.navigationMode = 'zoom';">Zoom</button>
+                    <br />
+                    <button onclick="if (viewer) viewer.navigationMode = 'none';">Disable default navigation completely</button>
+                </div>
+                <div class="viewer-control" title="Click to empty space of model to show default view of full extent.">
+                    Default views on picked element:
+                    <button onclick="if (viewer) viewer.show(ViewType.FRONT);">Front</button>
+                    <button onclick="if (viewer) viewer.show(ViewType.BACK);">Back</button>
+                    <button onclick="if (viewer) viewer.show(ViewType.TOP);">Top</button>
+                    <button onclick="if (viewer) viewer.show(ViewType.BOTTOM);">Bottom</button>
+                    <button onclick="if (viewer) viewer.show(ViewType.LEFT);">Left</button>
+                    <button onclick="if (viewer) viewer.show(ViewType.RIGHT);">Right</button>
+                </div>
+                <div class="viewer-control">
+                    Zoom to:
+                    <button onclick="if (viewer) viewer.zoomTo(pickedId)">Picked element</button>
+                    <button onclick="if (viewer) viewer.zoomTo()">Full extent</button>
+                </div>
+                <div class="viewer-control">
+                    <p>
+                        Clip by defined origin and direction:
+                        <br />
+                        Origin:
+                        <input type="text" id="clipOrigX" value="0" />
+                        <input type="text" id="clipOrigY" value="0" />
+                        <input type="text" id="clipOrigZ" value="0" />
+                        <br />
+                        Direction:
+                        <input type="text" id="clipNormX" value="-1" />
+                        <input type="text" id="clipNormY" value="0" />
+                        <input type="text" id="clipNormZ" value="0" />
+                        <br />
+                        <button onclick="Clip()">Clip</button>
+                        <button onclick="if (viewer) viewer.unclip();">Unclip</button>
+                        <script type="text/javascript">
+                            function Clip() {
+                                var oX = document.getElementById('clipOrigX').value;
+                                var oY = document.getElementById('clipOrigY').value;
+                                var oZ = document.getElementById('clipOrigZ').value;
+
+                                var nX = document.getElementById('clipNormX').value;
+                                var nY = document.getElementById('clipNormY').value;
+                                var nZ = document.getElementById('clipNormZ').value;
+
+                                if (viewer)
+                                    viewer.clip([oX, oY, oZ], [nX, nY, nZ]);
+                            }
+                        </script>
+                    </p>
+                </div>
+                <div class="viewer-control">
+                    Click action: 
+                    <select id="cmbHide">
+                        <option value="noAction">No action</option>
+                        <option value="hideProduct">Hide product</option>
+                        <option value="hideType">Hide type</option>
+                        <option value="highlight">Highlight</option>
+                    </select>
+                    <button onclick="if (viewer) viewer.resetState()">Show all</button>
+                    <script type="text/javascript">
+                        function initHiding() {
+                            viewer.on('pick', function (args) {
+                                var cmb = document.getElementById('cmbHide');
+                                var option = cmb.value;
+                                switch (option) {
+                                    case 'hideProduct':
+                                        viewer.setState(State.HIDDEN, [args.id]);
+                                        break;
+                                    case 'hideType':
+                                        var type = viewer.getProductType(args.id);
+                                        viewer.setState(State.HIDDEN, type);
+                                        break;
+                                    case 'highlight':
+                                        viewer.setState(State.HIGHLIGHTED, [args.id]);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            });
+                        };
+                    </script>
+                </div>
+                <div class="viewer-control">
+                    Rendering mode
+                    <label>
+                        <input type="radio" name="rRenderingMode" checked="checked" onchange="if (viewer) viewer.renderingMode = RenderingMode.NORMAL;"/> Normal
+                    </label>
+                    <label>
+                        <input type="radio" name="rRenderingMode" onchange="if (viewer) viewer.renderingMode = RenderingMode.XRAY_ULTRA;" /> X-Ray
+                    </label>
+                </div>
+            </div>
+            <canvas id="viewer" width="500" height="300"></canvas>
+            <div>
+                You have picked a product: <span id="productId">model</span>. It is a center of orbiting now.
+            </div>
+            <div id="errors"></div>
+
+
+            <script type="text/javascript">
+
+                var check = Viewer.check();
+                var viewer = null;
+                var pickedId = null;
+                if (check.noErrors) {
+                    viewer = new Viewer('viewer');
+                    viewer.on('pick', function (args) {
+                        var id = args.id;
+                        viewer.setCameraTarget(id);
+                        pickedId = id;
+                    });
+
+                    viewer.on('loaded', function () {
+                        initHiding();
+                        viewer.start();
+                        viewer.show(ViewType.DEFAULT);
+                    });
+
+                    viewer.on('error', function (arg) {
+                        var container = document.getElementById('errors');
+                        if (container) {
+                            //preppend error report
+                            container.innerHTML = "<pre style='color:red;'>" + arg.message + "</pre> <br />" + container.innerHTML;
+                        }
+                    });
+
+                    viewer.on('pick', function (args) {
+                        var id = args.id;
+                        var span = document.getElementById('productId');
+                        if (span) {
+                            span.innerHTML = id ? id : 'model';
+                        }
+
+                    });
+                    viewer.load('../data/SampleHouse.wexbim');
+                }
+                else {
+                    var msg = document.getElementById('errors');
+                    for (var i in check.errors) {
+                        var error = check.errors[i];
+                        msg.innerHTML += "<pre style='color: red;'>" + error + "</pre> <br />";
+                    }
+                }
+            </script>
+
+            <br />
+            <br />
+            <div>
+                <a href="building-seen-from-everywhere.html">Back to tutorial</a>
+            </div>
+    </div>
+</body>
+</html>
