@@ -236,16 +236,15 @@
     </nav>
 
 	<div class="container">
-	<blockquote>
-  <p>Warning: We have just published new version of the viewer, so this tutorial migh not be 100% right</p>
-</blockquote>
+	<h1>Safe Hello Building</h1>
 
-<h2>Live example <a href="1_Hello_building.live.html">here</a></h2>
+<p>Live example <a href="1_Hello_building.live.html">here</a></p>
 
-<p>In the previous tutorial {@tutorial 1<em>Hello</em>building} I've mentioned that the viewer won't run on all devices with all browsers. That's right. We have decided to use the latest technologies
+<p>In the <a href="hello-building.html">previous tutorial</a> I've mentioned that the viewer won't run on all devices with all browsers. That's right. We have decided to use the latest technologies
 for the sake of efficiency and simplicity. There are several prerequisites browser should fulfil to be able to run the viewer. Don't give up 
 at this point please! It will run on several years old PCs with Chrome or Mozilla and it will run on tablets and mobile devices. The main restriction
-is about IE which doesn't support WebGL until IE11. To make your life easier, Viewer has a static function to check it's requirements.</p>
+is about IE which doesn't support WebGL until IE11. Newer versions will work as well as Edge (which is actually using Chrome in the latest versions). 
+To make your life easier, Viewer has a static function to check it's requirements.</p>
 
 <div class="javascript"><pre><code><span class="keyword">var</span> check = Viewer.check();
 <span class="keyword">if</span> (check.noErrors)
@@ -258,43 +257,19 @@ is about IE which doesn't support WebGL until IE11. To make your life easier, Vi
 Result of this function contains list of warnings and list of errors you can use to report to unfortunate user why is his old 
 and non-standard-compliant browser not supported. So, if we update our example from above we get the safe version here:</p>
 
-<div class="html"><pre><code><span class="htmlTagDelimiter">&lt;!</span><span class="htmlElementName">DOCTYPE</span> <span class="htmlAttributeName">html</span><span class="htmlTagDelimiter">&gt;</span>
-<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">html</span> <span class="htmlAttributeName">xmlns</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">head</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">title</span><span class="htmlTagDelimiter">&gt;</span>Hello building!<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">title</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">link</span> <span class="htmlAttributeName">href</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;css/layout.css&quot;</span> <span class="htmlAttributeName">rel</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;stylesheet&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">script</span> <span class="htmlAttributeName">src</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;js/xbim.bundle.js&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">script</span><span class="htmlTagDelimiter">&gt;</span>
-<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">head</span><span class="htmlTagDelimiter">&gt;</span>
-<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">body</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">div</span> <span class="htmlAttributeName">id</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;content&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">canvas</span> <span class="htmlAttributeName">id</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;viewer&quot;</span> <span class="htmlAttributeName">width</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;500&quot;</span> <span class="htmlAttributeName">height</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;300&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">canvas</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">script</span> <span class="htmlAttributeName">type</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;text/javascript&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="keyword">var</span> check = Viewer.check();
-            <span class="keyword">if</span> (check.noErrors)
-            {
-                <span class="keyword">var</span> viewer = <span class="keyword">new</span> Viewer(<span class="string">&#39;viewer&#39;</span>);
-                viewer.load(<span class="string">&#39;data/SampleHouse.wexbim&#39;</span>);
-                viewer.start();
-            }
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">script</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">div</span><span class="htmlTagDelimiter">&gt;</span>    
-<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">body</span><span class="htmlTagDelimiter">&gt;</span>
-<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">html</span><span class="htmlTagDelimiter">&gt;</span>
-</code></pre></div>    
-
-<p>Right, we might want to add some reporting to user now which could look like this:</p>
-
 <div class="javascript"><pre><code><span class="keyword">var</span> check = Viewer.check();
-<span class="keyword">if</span> (check.noErrors)
-{
-    <span class="comment">//start animation, listen to events and do all the funny stuff</span>
+<span class="keyword">if</span> (check.noErrors) {
+    <span class="keyword">var</span> viewer = <span class="keyword">new</span> Viewer(<span class="string">&#39;viewer&#39;</span>);
+    viewer.on(<span class="string">&#39;loaded&#39;</span>, () =&gt; {
+        viewer.show(ViewType.DEFAULT);
+    });
+    viewer.load(<span class="string">&#39;../data/SampleHouse.wexbim&#39;</span>);
+    viewer.start();
 }
-<span class="keyword">else</span>
-{
+<span class="keyword">else</span> {
     <span class="keyword">var</span> msg = document.getElementById(<span class="string">&#39;msg&#39;</span>);
     msg.innerHTML = <span class="string">&#39;&#39;</span>;
-    <span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> check.errors)
-    {
+    <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> check.errors) {
         <span class="keyword">var</span> error = check.errors[i];
         msg.innerHTML += <span class="string">&quot;&lt;div style=&#39;color: red;&#39;&gt;&quot;</span> + error + <span class="string">&quot;&lt;/div&gt;&quot;</span>;
     }

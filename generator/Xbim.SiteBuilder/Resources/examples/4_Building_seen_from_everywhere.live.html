@@ -123,7 +123,6 @@
                     viewer = new Viewer('viewer');
                     viewer.on('pick', function (args) {
                         var id = args.id;
-                        viewer.setCameraTarget(id);
                         pickedId = id;
                     });
 

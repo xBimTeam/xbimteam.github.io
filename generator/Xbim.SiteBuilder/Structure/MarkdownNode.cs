@@ -120,22 +120,20 @@ namespace Xbim.SiteBuilder.Structure
                     }
                 }
 
-
-                //end of table
-                if (nextLine == null || !nextLine.StartsWith("|"))
-                {
-                    writer.WriteLine("</tbody>");
-                    writer.WriteLine("</table>");
-                    line = nextLine;
-                    continue;
-                }
-
                 //write normal table row
                 line = line.Trim('|', ' ');
                 line = "<tr><td>" + 
                     string.Join("</td><td>", line.Split('|').Select(col => md.Transform(col))) + 
                     "</td></tr>";
                 writer.WriteLine(line);
+                
+                //end of table
+                if (nextLine == null || !nextLine.StartsWith("|"))
+                {
+                    writer.WriteLine("</tbody>");
+                    writer.WriteLine("</table>");
+                }
+
                 line = nextLine;
             }
 

@@ -15,7 +15,7 @@
                 Frames per second: <span id="fps">0</span>
             </div>
             <div>
-                You have picked product <strong><span id="productId"></span></strong>
+                You have picked product <strong><span id="productId"></span></strong> from model <strong><span id="modelId"></span></strong> at <span id="coordsId"></span>
             </div>
             <div id="errors"></div>
 
@@ -25,7 +25,7 @@
                 if (check.noErrors) {
                     var viewer = new Viewer('viewer');
                     viewer.on('loaded', function () {
-                        //Hide any loaders you have used to keep your user excited 
+                        //Hide any loaders you have used to keep your user excited
                         //while their precious models are being processed and loaded
                         //and start the animation.
                         viewer.start();
@@ -46,27 +46,28 @@
                             span.innerHTML = fps;
                         }
                     });
-                    
-                    var timer = 0;
-                    viewer.on('pick', function (args) {
-                        var id = args.id;
 
-                        var span = document.getElementById('productId');
-                        if (span) {
-                            span.innerHTML = id;
+                    viewer.on('pick', function (args) {
+                        if (args == null || args.id == null) {
+                            return;
                         }
 
-                        //you can use ID for funny things like hiding or 
+                        //you can use ID for funny things like hiding or
                         //recolouring which will be covered in one of the next tutorials
+                        var id = args.id;
+                        var modelId = args.model;
+                        var coords = `[${Array.from(args.xyz).map(c => c.toFixed(2))}]`;
 
-                        var time = (new Date()).getTime();
-                        if (time - timer < 200)
-                            viewer.zoomTo(id);
-                        timer = time;
-                     
+                        document.getElementById('productId').innerHTML = id;
+                        document.getElementById('modelId').innerHTML = modelId;
+                        document.getElementById('coordsId').innerHTML = coords;
                     });
-                    viewer.on('mouseDown', function (args) {
-                        viewer.setCameraTarget(args.id);
+
+                    viewer.on('dblclick', function(args) {
+                        if(args == null || args.id == null) {
+                            return;
+                        }
+                        viewer.zoomTo(args.id);
                     });
                     viewer.load('../data/SampleHouse.wexbim');
                 }

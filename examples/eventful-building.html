@@ -236,159 +236,151 @@
     </nav>
 
 	<div class="container">
-	<blockquote>
-  <p>Warning: We have just published new version of the viewer, so this tutorial migh not be 100% right</p>
-</blockquote>
+	<h1>Eventful Building</h1>
 
-<h2>Live example <a href="3_Eventful_building.live.html">here</a></h2>
+<p>Live example <a href="3_Eventful_building.live.html">here</a>.</p>
 
 <p>In this tutorial we'll have a look on events fired by the viewer on different occasions. 
-All of them are documented in {@link Viewer Viewer}. You can see full live example <a href="3_Eventful_building.live.html">here</a> 
-if you are running this tutorial from web server. Alsso make sure your webserver is set up to serve wexBIM files as
-a static content. If you don't want to set up any complex webserver I recommend <a target="_blank" href="https://code.google.com/p/mongoose/">Mongoose</a>. 
-Just run the executable in the executable in Docs folder and browse to tutorial or the live example.</p>
+You can see full live example <a href="3_Eventful_building.live.html">here</a> 
+if you are running this tutorial from web server. Also, make sure your webserver is set up to serve wexBIM files as
+a static content.</p>
 
 <p>I'll use ugly obtrusive code with javascript functions defined in <em>onclick</em> attributes of HTML elements. This is not the right practise
-but I've done it this way for the sake of clarity and simplicity. You are ancouraged to follow 
+but I've done it this way for the sake of clarity and simplicity. You are encouraged to follow 
 <a target="_blank" href="http://www.w3.org/wiki/The_principles_of_unobtrusive_JavaScript">these guidlines</a> to write sustainable
 and clear web applications.</p>
 
 <p>And now, let's dig into the code. It is pretty easy to register your handler with the following function:</p>
 
-<pre><code>viewer.on('event_name', callback); //see documentation {@link Viewer#on here}.
-</code></pre>
-
-<p>You can also remove handler with similar code if you are not interested in it any more:</p>
-
-<pre><code>viewer.off('event_name', callback); //see documentation {@link Viewer#off here}.
-</code></pre>
+<pre><code>viewer.on('event_name', callback); //see documentation
+</code></pre>   
 
 <p>We will show some of the most useful events you might want to watch in the following example. 
-It is based on the previous tutorial {@tutorial 2<em>Safe</em>Hello_building} so we won't list full
+It is based on the <a href="safe-hello-building.html">previous tutorial</a> so we won't list full
 page code but rather code snippets. To see a complete example have a look on the code of 
 <a href="3_Eventful_building.live.html">live example</a>.</p>
 
 <p>I'll show you complete listing of the new code now. It is pretty much self explaining but I'll cover 
 every event in the following text.</p>
 
-<pre><code>viewer.on('loaded', function () {
-    //Hide any loaders you have used to keep your user excited 
-    //while their precious models are being processed and loaded
-    //and start the animation.
+<div class="javascript"><pre><code>viewer.on(<span class="string">&#39;loaded&#39;</span>, <span class="keyword">function</span> () {
+    <span class="comment">//Hide any loaders you have used to keep your user excited </span>
+    <span class="comment">//while their precious models are being processed and loaded</span>
+    <span class="comment">//and start the animation.</span>
     viewer.start();
+    viewer.show(ViewType.DEFAULT);
 });
 
-viewer.on('error', function (arg) {
-    var container = document.getElementById('errors');
-    if (container) {
-        //preppend error report
-        container.innerHTML = "&lt;pre style='color:red;'&gt;" + arg.message + "&lt;/pre&gt; &lt;br /&gt;" + container.innerHTML;
+viewer.on(<span class="string">&#39;error&#39;</span>, <span class="keyword">function</span> (arg) {
+    <span class="keyword">var</span> container = document.getElementById(<span class="string">&#39;errors&#39;</span>);
+    <span class="keyword">if</span> (container) {
+        <span class="comment">//preppend error report</span>
+        container.innerHTML = <span class="string">&quot;&lt;pre style=&#39;color:red;&#39;&gt;&quot;</span> + arg.message + <span class="string">&quot;&lt;/pre&gt; &lt;br /&gt;&quot;</span> + container.innerHTML;
     }
 });
 
-viewer.on('fps', function (fps) {
-    var span = document.getElementById('fps');
-    if (span) {
+viewer.on(<span class="string">&#39;fps&#39;</span>, <span class="keyword">function</span> (fps) {
+    <span class="keyword">var</span> span = document.getElementById(<span class="string">&#39;fps&#39;</span>);
+    <span class="keyword">if</span> (span) {
         span.innerHTML = fps;
     }
 });
 
-var timer = 0;
-viewer.on('pick', function (args) {
-    var id = args.id;
+viewer.on(<span class="string">&#39;pick&#39;</span>, <span class="keyword">function</span> (args) {
+    <span class="keyword">if</span> (args == <span class="keyword">null</span> || args.id == <span class="keyword">null</span>) {```
+        <span class="keyword">return</span>;
+    }You can inspect full code <span class="keyword">in</span> [live example](3_Eventful_building.live.html).
 
-    var span = document.getElementById('productId');
-    if (span) {
-        span.innerHTML = id;
+    <span class="comment">//you can use ID for funny things like hiding or</span>
+    <span class="comment">//recolouring which will be covered in one of the next tutorials</span>
+    <span class="keyword">var</span> id = args.id;
+    <span class="keyword">var</span> modelId = args.model;
+    <span class="keyword">var</span> coords = `[${Array.from(args.xyz).map(c =&gt; c.toFixed(2))}]`;
+
+    document.getElementById(<span class="string">&#39;productId&#39;</span>).innerHTML = id;
+    document.getElementById(<span class="string">&#39;modelId&#39;</span>).innerHTML = modelId;
+    document.getElementById(<span class="string">&#39;coordsId&#39;</span>).innerHTML = coords;
+});
+
+viewer.on(<span class="string">&#39;dblclick&#39;</span>, <span class="keyword">function</span>(args) {
+    <span class="keyword">if</span>(args == <span class="keyword">null</span> || args.id == <span class="keyword">null</span>) {
+        <span class="keyword">return</span>;
     }
-
-    //you can use ID for funny things like hiding or 
-    //recolouring which will be covered in one of the next tutorials
-
-    var time = (new Date()).getTime();
-    if (time - timer &lt; 200)
-        viewer.zoomTo(id);
-    timer = time;
-
+    viewer.zoomTo(args.id);
 });
-viewer.on('mouseDown', function (args) {
-    viewer.setCameraTarget(args.id);
-});
-</code></pre>
+</code></pre></div>
 
-<p>So, let's have a look on the {@link Viewer#event:loaded loaded} event. It is the first one to occur 
+<p>So, let's have a look on the <code>loaded</code> event. It is the first one to occur 
 and you are likely to use it to hide any loader images you may have used to keep users attention.
 It is also better to start animation when model is loaded already. However, viewer won't crash
-if you start it at any time. </p>
+if you start it at any time. You should also set up the default view (left, right, top, bottom, etc.)</p>
 
-<pre><code>viewer.on('loaded', function () {
-    //Hide any loaders you have used to keep your user excited 
-    //while their precious models are being processed and loaded
-    //and start the animation.
+<div class="javascript"><pre><code>viewer.on(<span class="string">&#39;loaded&#39;</span>, <span class="keyword">function</span> () {
+    <span class="comment">//Hide any loaders you have used to keep your user excited </span>
+    <span class="comment">//while their precious models are being processed and loaded</span>
+    <span class="comment">//and start the animation.</span>
     viewer.start();
+    viewer.show(ViewType.DEFAULT);
 });
-</code></pre>
+</code></pre></div>
 
-<p>{@link Viewer#event:error Error} is very important event to listen to and you should listen to it 
+<p><code>Error</code> is a very important event to listen to and you should listen to it 
 all the time. You should still use try-catch statements but this might report some useful
 information. It's up to you if you expose messages to user but you should watch it carefully.</p>
 
-<pre><code>viewer.on('error', function (arg) {
-    var container = document.getElementById('errors');
-    if (container) {
-        //preppend error report
-        container.innerHTML = "&lt;pre style='color:red;'&gt;" + arg.message + "&lt;/pre&gt; &lt;br /&gt;" + container.innerHTML;
+<div class="javascript"><pre><code>viewer.on(<span class="string">&#39;error&#39;</span>, <span class="keyword">function</span> (arg) {
+    <span class="keyword">var</span> container = document.getElementById(<span class="string">&#39;errors&#39;</span>);
+    <span class="keyword">if</span> (container) {
+        <span class="comment">//preppend error report</span>
+        container.innerHTML = <span class="string">&quot;&lt;pre style=&#39;color:red;&#39;&gt;&quot;</span> + arg.message + <span class="string">&quot;&lt;/pre&gt; &lt;br /&gt;&quot;</span> + container.innerHTML;
     }
 });
-</code></pre>
+</code></pre></div>
 
-<p>{@link Viewer#event:fps FPS} stands for 'frames per second'. This event is fired every 30<sup>th</sup> frame.
-It is one of the performance indicators. Viewer's animation loop it bound to refresh of the browser screen
-so it won't usually exceed 60fps. If you get bellow about 15fps user experience starts to be a bit sluggish.</p>
+<p><code>FPS</code> stands for 'frames per second'. This event is fired approximately every 0.5 second.
+It is one of the most useful performance indicators. Viewer's animation loop it bound to refresh of the browser screen
+so it won't usually exceed 60fps. If you get bellow about 15fps user experience starts to be a bit 'sluggish'.
+This depends mainly on the size and complexity of the model and specific GPU capabilities of the client.</p>
 
-<pre><code>viewer.on('fps', function (fps) {
-    var span = document.getElementById('fps');
-    if (span) {
+<div class="javascript"><pre><code>viewer.on(<span class="string">&#39;fps&#39;</span>, <span class="keyword">function</span> (fps) {
+    <span class="keyword">var</span> span = document.getElementById(<span class="string">&#39;fps&#39;</span>);
+    <span class="keyword">if</span> (span) {
         span.innerHTML = fps;
     }
 });
-</code></pre>
+</code></pre></div>
 
-<p>{@link Viewer#event:pick Pick} is probably the most important user interaction event. It happens every time
+<p><code>Pick</code> is probably the most important user interaction event. It happens every time
 when user clicks on the area of <code>&lt;canvas&gt;</code>. It's argument contains product ID which you can use for things
-like selection, restyling and other interactive operations. This example also implements simple double click
-handler which zooms to picked product. If user clicks out of the model ID is null.</p>
+like selection, restyling and other interactive operations. If user clicks out of the model ID is null. 
+This event also contains information about 3D position of the interaction.</p>
 
-<pre><code>var timer = 0;
-viewer.on('pick', function (args) {
-    var id = args.id;
+<p>Appart from <code>pick</code>, you can use any standard canvas event and you will get our wrapper with product ID, model ID,
+XYZ of the event in model space and the original event.</p>
 
-    var span = document.getElementById('productId');
-    if (span) {
-        span.innerHTML = id;
+<div class="javascript"><pre><code>viewer.on(<span class="string">&#39;pick&#39;</span>, <span class="keyword">function</span> (args) {
+    <span class="keyword">if</span> (args == <span class="keyword">null</span> || args.id == <span class="keyword">null</span>) {```
+        <span class="keyword">return</span>;
+    }You can inspect full code <span class="keyword">in</span> [live example](3_Eventful_building.live.html).
+
+    <span class="comment">//you can use ID for funny things like hiding or</span>
+    <span class="comment">//recolouring which will be covered in one of the next tutorials</span>
+    <span class="keyword">var</span> id = args.id;
+    <span class="keyword">var</span> modelId = args.model;
+    <span class="keyword">var</span> coords = `[${Array.from(args.xyz).map(c =&gt; c.toFixed(2))}]`;
+
+    document.getElementById(<span class="string">&#39;productId&#39;</span>).innerHTML = id;
+    document.getElementById(<span class="string">&#39;modelId&#39;</span>).innerHTML = modelId;
+    document.getElementById(<span class="string">&#39;coordsId&#39;</span>).innerHTML = coords;
+});
+
+viewer.on(<span class="string">&#39;dblclick&#39;</span>, <span class="keyword">function</span>(args) {
+    <span class="keyword">if</span>(args == <span class="keyword">null</span> || args.id == <span class="keyword">null</span>) {
+        <span class="keyword">return</span>;
     }
-
-    //you can use ID for funny things like hiding or 
-    //recolouring which will be covered in one of the next tutorials
-
-    var time = (new Date()).getTime();
-    if (time - timer &lt; 200)
-        viewer.zoomTo(id);
-    timer = time;
-
+    viewer.zoomTo(args.id);
 });
-</code></pre>
-
-<p>{@link Viewer#event:mousedown Mouse down} is another user interaction event. It happens every time when mouseDown event
-happens in <code>&lt;canvas&gt;</code>. It contains the same argument as {@link Viewer#event:pick pick} event which is product ID or null 
-if user clicks to empty space.</p>
-
-<pre><code>viewer.on('mouseDown', function (args) {
-    viewer.setCameraTarget(args.id);
-});
-</code></pre>
-
-<p>You can inspect full code in <a href="3_Eventful_building.live.html">live example</a>.</p>
+</code></pre></div>
 
     </div>
     

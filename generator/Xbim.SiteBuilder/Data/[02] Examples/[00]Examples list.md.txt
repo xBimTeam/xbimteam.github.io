@@ -16,14 +16,14 @@ See <a href="https://github.com/xBimTeam/XbimEssentials">Xbim.Essentials</a> lib
 | <a href="/examples/step-to-xml-and-back-again.html">STEP to XML and Back Again</a>                    | Converting between formats supported by the library. |
 | <a href="/examples/using-linq-for-optimal-performance.html">Using LINQ for Optimal Query Performance</a>                    | Depending on the syntax you use the code might be faster or slower. |
 | <a href="/examples/excel-space-report-from-ifc.html">Data extraction</a>                    | This example shows how to extract data for your analytical purposes. |
-| | | <!-- the last line of the table is lost in the conversion -->
+
 
 ### Advanced
 
 | Example               | Description                                                    |
 |-----------------------|----------------------------------------------------------------|
 | <a href="/examples/insert-copy-function.html">Insert Copy Function</a>                    | Merging and deleting entities in IFC models is a non-trivial task because IFC is not a hierarchical structure. It is a complex structure with potential cyclic relations an bi-directional navigation. |
-| | | <!-- the last line of the table is lost in the conversion -->
+
 
 ## Xbim.Geometry
 
@@ -34,7 +34,16 @@ See <a href="https://github.com/xBimTeam/XbimGeometry">Xbim.Geometry</a> library
 | Example               | Description                                                    |
 |-----------------------|----------------------------------------------------------------|
 | <a href="/examples/creating-wexbim-file.html">Creating WexBIM File</a>                    | Preparing a file for export to the web viewer for IFC. |
-| | | <!-- the last line of the table is lost in the conversion -->
+
+
+## Web UI
+|     Example																	|  Description                      |
+|-------------------------------------------------------------------------------|-----------------------------------|
+|[Hello Building](/examples/hello-building.html)								| Basic setup of the 3D web viewer  |
+|[Safe Hello Building](/examples/safe-hello-building.html)						| Checking browser capabilities		|
+|[Eventful Building](/examples/eventful-building.html)							| Listening to viewer events		|
+|[Building Seen from Everywhere](/examples/building-seen-from-everywhere.html)	| Zooming and camera				|
+|[Colourful Building](/examples/colourful-building.html)						| Changing visual styling and state |
 
 ## Contribute more examples
 

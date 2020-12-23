@@ -236,17 +236,16 @@
     </nav>
 
 	<div class="container">
-	<blockquote>
-  <p>Warning: We have just published new version of the viewer, so this tutorial migh not be 100% right</p>
-</blockquote>
+	<h1>Hello building</h1>
 
-<h2>Live example <a href="1_Hello_building.live.html">here</a></h2>
+<p>Live example <a href="1_Hello_building.live.html">here</a>.</p>
 
 <p>In this tutorial you will learn how to create the most basic and straightforward viewer. 
 It won't do anything except showing the building. It will only use the built-in navigation
 of the viewer and will not respond to any events. You can have a look <a href="1_Hello_building.live.html">here</a> for live example.</p>
 
-<p>The simplest way to bring our viewer into your project is to use NPM package</p>
+<p>The simplest way to bring our viewer into your project is to use NPM package. Library is compiled as an UMD package, so you can use it directly or as a module.
+Following examples will just reference it as a global object.</p>
 
 <pre><code>npm install @xbim/viewer
 </code></pre>
@@ -257,7 +256,7 @@ of the viewer and will not respond to any events. You can have a look <a href="1
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">html</span> <span class="htmlAttributeName">xmlns</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">head</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">title</span><span class="htmlTagDelimiter">&gt;</span>Hello building!<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">title</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">script</span> <span class="htmlAttributeName">src</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;dist/xbim-viewer.js&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">script</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">script</span> <span class="htmlAttributeName">src</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;../js/xbim-viewer.js&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">script</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">head</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">body</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">canvas</span> <span class="htmlAttributeName">id</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;viewer&quot;</span> <span class="htmlAttributeName">width</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;500&quot;</span> <span class="htmlAttributeName">height</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;300&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">canvas</span><span class="htmlTagDelimiter">&gt;</span>
@@ -273,18 +272,13 @@ of the viewer and will not respond to any events. You can have a look <a href="1
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">html</span><span class="htmlTagDelimiter">&gt;</span>
 </code></pre></div>
 
-<p>Well, this was pretty easy wasn't it? We just referenced the <em>xbim.browser.bundle.js</em> library, create {@link Viewer Viewer} object
+<p>Well, this was pretty easy wasn't it? We just referenced the <em>xbim-viewer.js</em> library, create the <code>Viewer</code> object
 passing id of <code>&lt;canvas&gt;</code> element and start animation. This is it! Just make sure you are running from web server, not just 
-as a local file because Viewer uses AJAX to fetch the wexBIM data and some browsers impose CORS restrictions even on local
+as a local file because Viewer uses AJAX to fetch the wexBIM data and most of the browsers impose CORS restrictions even on local
 HTML files. Also make sure you don't use IE less than 11 because you need to have support for WebGL. You will learn how to 
 check prerequisites at the end of this tutorial. If it still doesn't work check your webserver is serving wexBIM file as a
 static content. If you don't want to install webserver only because of this but you have Python installed,
 you can just run <code>python -m SimpleHTTPServer 9000</code> in the folder. It will serve all the files as a static content which is all you need for this tutorial.</p>
-
-<div class="html"><pre><code><span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">script</span> <span class="htmlAttributeName">src</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;dist/xbim-viewer.js&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">script</span><span class="htmlTagDelimiter">&gt;</span>
-</code></pre></div>
-
-<p>Library is compiled as an UMD package, so you can use it directly or as a module</p>
 
 <p>Right, this is about enough for the first tutorial. So if you feel fresh you can jump right into the next one where you will learn 
 how to check that the browser is actually <a href="safe-hello-building.html">able to render the model</a>. It'll look the same as this example so you can have a look on <a href="1_Hello_building.live.html">live

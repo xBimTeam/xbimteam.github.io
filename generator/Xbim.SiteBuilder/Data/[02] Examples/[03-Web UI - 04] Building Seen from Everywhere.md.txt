@@ -1,7 +1,7 @@
-> Warning: We have just published new version of the viewer, so this tutorial migh not be 100% right
+Building Seen from Everywhere
+=============================
 
-Live example [here](4_Building_seen_from_everywhere.live.html)
-------------
+Live example [here](4_Building_seen_from_everywhere.live.html).
 
 In this tutorial we will explore Viewer's navigation, clipping and hiding. This should be enough to enable user
 to inspect the building inside out with all the zooming, panning, orbiting and hiding of possible obstacles. 
@@ -12,44 +12,20 @@ but I've done it this way for the sake of clarity and simplicity. You are encour
 [these guidlines](http://www.w3.org/wiki/The_principles_of_unobtrusive_JavaScript) to write sustainable
 and clear web applications.
 
-### Camera position and target
+### Zooming
 
-It is easy to set a camera target based on product ID. Probably the most common way to do that is to
-set a target based on user action idicated by either {@link Viewer#event:pick pick} or {@link Viewer#event:mousedown mouse down} events.
-This would be a good example:
-
-```js
-viewer.on('pick', function (args) {
-    var id = args.id;
-    viewer.setCameraTarget(id);
-    pickedId = id;
-});
-```
-
-It is also easy to set a camera position with the {@link Viewer#setCameraPosition setCameraPosition()} method.
-Following example uses HTML input to set the values but you will surely use some smart logic for intuitive and
-fluent user experiance.
+You will often need to focus on a specific element. The easiest option is just to call `zoomTo()`:
 
 ```html
-<input type="text" id="camX" value="-15000" />
-<input type="text" id="camY" value="-15000" />
-<input type="text" id="camZ" value="15000" />
-<button onclick="SetCamera()">Set camera</button>
-<script type="text/javascript">
-	function SetCamera() {
-	    if (viewer) {
-	        var iX = document.getElementById('camX');
-	        var iY = document.getElementById('camY');
-	        var iZ = document.getElementById('camZ');
-	        viewer.setCameraPosition([iX.value, iY.value, iZ.value]);
-	    }
-	}
-</script>
+<div class="viewer-control">
+    Zoom to:
+    <button onclick="if (viewer) viewer.zoomTo(pickedId)">Picked element</button>
+    <button onclick="if (viewer) viewer.zoomTo()">Full extent</button>
+</div>
 ```
 
 It is always important to be able to show default axis aligned views to the model or it's parts. This is built-in
-functionality of the Viewer. It always operates on the origin and distance set by {@link Viewer#setCameraTarget setCameraTarget()} method.
-In the example camera target is set every time user picks an element as listed above. 
+functionality of the `Viewer`.
 
 ```html
 <button onclick="if (viewer) viewer.show('front');">Front</button>
@@ -61,7 +37,7 @@ In the example camera target is set every time user picks an element as listed a
 ```
 
 Since the first tutorial we were only using default navigation features of the viewer which are orbiting on left mouse
-button, panning on middle button and zooming on scroll button. This should be intuitive. Just note that the best practise 
+button, panning on middle (or right) button and zooming on scroll button. This should be intuitive. Just note that the best practise 
 for the viewer is to have it on a single page with no vertical scroll bar. Zooming is hard otherwise because it zooms the model
 and scrolls the site at the same time. It is possible to change the default behavior of the left button with the following code
 should you wish to do that:
@@ -77,19 +53,18 @@ should you wish to do that:
 
 Default orbit mode is fixed orbit when model rotates around it's Z axis. You can also use free orbit which
 rotates model around actual axes and is therefore more free. You can use this to have a look on the model
-from unusual angles. Just as a hint - draw circles to adjust a horizont if necessary.
+from unusual angles.
 
 You can also disable the default navigation completely as you can see on the last line of the example 
-and implement different navigation yourself. Friendly API is not prepared for that now but it is planned 
-in the very next release.
+and implement different navigation yourself. 
 
 ### Clipping
 
 It happens quite often that user wants to see something deep inside the building. Navigation inside of the building might
 get complicated quite easily but if you can cut the building and see inside it makes user's life much easier. This is also built in
-the viewer by default. You can either set the clipping plane yourself with {@link Viewer#clip clip()} method if you 
-pass point on the plane and normal of the plane to the method or you can let user to define clipping plane interactively
-if you call the method with no arguments. Use {@link Viewer#unclip unclip()} method than to discard clipping entirely.
+the viewer by default. You can set the clipping plane with `clip()` method if you 
+pass point on the plane and normal of the plane. There is also a plugin which makes it possible to define the free clipping plane interactively.
+Use `unclip()` method to discard any clipping entirely.
 
 ```html
     <input type="text" id="clipOrigX" value="0" />
@@ -121,7 +96,7 @@ if you call the method with no arguments. Use {@link Viewer#unclip unclip()} met
 
 Right, so we can clip the model and see it's internals. That's impressive isn't it? But sometimes you also need
 to hide only one element or one type of elements, let's say all walls. This is possible by setting state of the 
-product with {@link Viewer#setState setState()} method. Use {@link Viewer#resetStates resetStates()} method
+product with `setState()` method. Use `resetState()` method
 to reset all states to default. This method has an optional parameter which you can use to also show spaces. These
 are hidden by default unless you show them manualy.
 
@@ -132,7 +107,7 @@ are hidden by default unless you show them manualy.
        <option value="hideType">Hide type</option>
        <option value="highlight">Highlight</option>
    </select>
-   <button onclick="if (viewer) viewer.resetStates()">Show all</button>
+   <button onclick="if (viewer) viewer.resetState()">Show all</button>
    <script type="text/javascript">
        function initHiding() {
            viewer.on('pick', function (args) {
@@ -140,14 +115,14 @@ are hidden by default unless you show them manualy.
                var option = cmb.value;
                switch (option) {
                    case 'hideProduct':
-                       viewer.setState(xState.HIDDEN, [args.id]);
+                       viewer.setState(State.HIDDEN, [args.id]);
                        break;
                    case 'hideType':
                        var type = viewer.getProductType(args.id);
-                       viewer.setState(xState.HIDDEN, type);
+                       viewer.setState(State.HIDDEN, type);
                        break;
 				case 'highlight':
-                       viewer.setState(xState.HIGHLIGHTED, [args.id]);
+                       viewer.setState(State.HIGHLIGHTED, [args.id]);
                        break;
                    default:
                        break;
@@ -170,12 +145,12 @@ between normal and x-ray rendering mode just set `renderingMode` property of the
 	Rendering mode
 	<label>
 	    <input type="radio" name="rRenderingMode" checked="checked" 
-			onchange="if (viewer) viewer.renderingMode = 'normal';"/> 
+			onchange="if (viewer) viewer.renderingMode = RenderingMode.NORMAL;"/> 
 		Normal
 	</label>
 	<label>
 	    <input type="radio" name="rRenderingMode" 
-			onchange="if (viewer) viewer.renderingMode = 'x-ray';" /> 
+			onchange="if (viewer) viewer.renderingMode = RenderingMode.XRAY_ULTRA;;" /> 
 		X-Ray
 	</label>
 </div>

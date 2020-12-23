@@ -236,11 +236,9 @@
     </nav>
 
 	<div class="container">
-	<blockquote>
-  <p>Warning: We have just published new version of the viewer, so this tutorial migh not be 100% right</p>
-</blockquote>
+	<h1>Colourful Building</h1>
 
-<h2>Live example <a href="5_Colourful_building.live.html">here</a></h2>
+<p>Live example <a href="5_Colourful_building.live.html">here</a>.</p>
 
 <p>This tutorial will focus on colour presentation of the model. As you have noticed models have a sensible graphical representation
 by default. This is taken from IFC model to it should look about the same in all the tools and it should look the same as in your
@@ -253,61 +251,61 @@ but I've done it this way for the sake of clarity and simplicity. You are ancour
 <a target="_blank" href="http://www.w3.org/wiki/The_principles_of_unobtrusive_JavaScript">these guidlines</a> to write sustainable
 and clear web applications.</p>
 
-<p>First of all it is necessary to define your styles. There is simple function {@link Viewer#defineStyle defineStyle()} to do that.
+<p>First of all it is necessary to define your styles. There is simple function <code>defineStyle()</code> to do that.
 You can define up to 224 styles. Because I don't have any results to show let's make it random. We'll define new colour for every
 product type in the following code:</p>
 
-<pre><code>&lt;button onclick="Recolour()"&gt;Recolour by type&lt;/button&gt;
-&lt;button onclick="if (viewer) viewer.resetStyles();"&gt;Reset styles&lt;/button&gt;
-&lt;script type="text/javascript"&gt;
-    function Recolour() {
-        if (!viewer) return;
-        var index = 0;
-        for (var i in ProductType) {
-            var type = ProductType[i];
-            if (!/^[0-9]+$/.test(type)) {
-                continue;
+<div class="html"><pre><code><span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">button</span> <span class="htmlAttributeName">onclick</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;Recolour()&quot;</span><span class="htmlTagDelimiter">&gt;</span>Recolour by type<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">button</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">button</span> <span class="htmlAttributeName">onclick</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;if (viewer) viewer.resetStyles();&quot;</span><span class="htmlTagDelimiter">&gt;</span>Reset styles<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">button</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">script</span> <span class="htmlAttributeName">type</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;text/javascript&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="keyword">function</span> Recolour() {
+        <span class="keyword">if</span> (!viewer) <span class="keyword">return</span>;
+        <span class="keyword">var</span> index = 0;
+        <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> ProductType) {
+            <span class="keyword">var</span> type = ProductType[i];
+            <span class="keyword">if</span> (!/^[0-9]+$/.test(type)) {
+                <span class="keyword">continue</span>;
             }
-            var colour = [Math.random() * 255, Math.random() * 255, Math.random() * 255, 255];
+            <span class="keyword">var</span> colour = [Math.random() * 255, Math.random() * 255, Math.random() * 255, 255];
             viewer.defineStyle(index, colour);
             viewer.setStyle(index, type);
             index++;
         }
     };
-&lt;/script&gt;
-</code></pre>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">script</span><span class="htmlTagDelimiter">&gt;</span>
+</code></pre></div>
 
 <p>This is it. You can extend this example as you wish. Just define 0 - 224 colour styles and set them as an overlay style to product
-or to type of products. If you want to reset styles to their default use {@link Viewer#resetStyles resetStyles()} function.</p>
+or to type of products. If you want to reset styles to their default use <code>resetStyles()</code> function.</p>
 
 <p>There is one more visual feature of the viewer and that is highlighting. You can think about it as a selection but it is not that
 clever. It leaves all the eventual selection logic up to you. This is just a visual representation. It is hence ruther <em>state</em> than <em>style</em>.
-You can use it exactly the same way as you did in the last tutorial '{@tutorial 4<em>Building</em>seen<em>from</em>everywhere}':</p>
+You can use it exactly the same way as you did in the <a href="building-seen-from-everywhere.html">last tutorial</a>:</p>
 
-<pre><code>&lt;select id="cmbSelection"&gt;
-    &lt;option value="noAction"&gt;No action&lt;/option&gt;
-    &lt;option value="select"&gt;Select&lt;/option&gt;
-&lt;/select&gt;
-&lt;button onclick="if (viewer) viewer.resetStates()"&gt;Reset&lt;/button&gt;
-&lt;script type="text/javascript"&gt;
-    function initHighlighting() {
-        viewer.on('pick', function (args) {
-            var cmb = document.getElementById('cmbSelection');
-            var option = cmb.value;
-            switch (option) {
-                case 'select':
+<div class="html"><pre><code><span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">select</span> <span class="htmlAttributeName">id</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;cmbSelection&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">option</span> <span class="htmlAttributeName">value</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;noAction&quot;</span><span class="htmlTagDelimiter">&gt;</span>No action<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">option</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">option</span> <span class="htmlAttributeName">value</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;select&quot;</span><span class="htmlTagDelimiter">&gt;</span>Select<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">option</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">select</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">button</span> <span class="htmlAttributeName">onclick</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;if (viewer) viewer.resetState()&quot;</span><span class="htmlTagDelimiter">&gt;</span>Reset<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">button</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">script</span> <span class="htmlAttributeName">type</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;text/javascript&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="keyword">function</span> initHighlighting() {
+        viewer.on(<span class="string">&#39;pick&#39;</span>, <span class="keyword">function</span> (args) {
+            <span class="keyword">var</span> cmb = document.getElementById(<span class="string">&#39;cmbSelection&#39;</span>);
+            <span class="keyword">var</span> option = cmb.value;
+            <span class="keyword">switch</span> (option) {
+                <span class="keyword">case</span> <span class="string">&#39;select&#39;</span>:
                     viewer.setState(State.HIGHLIGHTED, [args.id]);
-                    break;
-                case 'hide':
+                    <span class="keyword">break</span>;
+                <span class="keyword">case</span> <span class="string">&#39;hide&#39;</span>:
                     viewer.setState(State.HIDDEN, [args.id]);
-                    break;
-                default:
-                    break;
+                    <span class="keyword">break</span>;
+                <span class="keyword">default</span>:
+                    <span class="keyword">break</span>;
             }
         });
     };
-&lt;/script&gt;
-</code></pre>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">script</span><span class="htmlTagDelimiter">&gt;</span>
+</code></pre></div>
 
 <p>Nice feature of this approach is that highlighting is separated from alternative visual appearance. You can't have a product highlighted and
 hidden at the same time but that makes a sense. Important thing is that you can show results of the analyses and do selection at the same time.
