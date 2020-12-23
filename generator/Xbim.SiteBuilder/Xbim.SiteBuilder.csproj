@@ -80,32 +80,33 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\[02] Examples\[-1] images\excel-report.png" />
-    <Content Include="Data\[02] Examples\[00]Examples list.md.txt" />
-    <Content Include="Data\[02] Examples\[01-Basic-02] Watch the log!.md.txt" />
-    <Content Include="Data\[04] Research\[02]How to reference.md.txt" />
-    <Content Include="Data\[04] Research\[03]Ifc2X3 Test Harness.md.txt" />
-    <Content Include="Data\[04] Research\[01]History.md.txt" />
-    <Content Include="Data\[05] Downloads\XbimXplorer.md.txt" />
-    <Content Include="Data\[02] Examples\[01-Basic-08] Spatial hierarchy.md.txt" />
-    <Content Include="Data\[02] Examples\[01-Basic-07] Excel Space Report from IFC.md.txt" />
-    <Content Include="Data\[02] Examples\[02-Advanced-01] Federating Models.md.txt" />
-    <Content Include="Data\[02] Examples\[01-Basic-03] Proper Wall in 3D.md.txt" />
-    <Content Include="Data\[02] Examples\[01-Basic-04] STEP to XML and Back Again.md.txt" />
-    <Content Include="Data\[02] Examples\[01-Basic-06] Using LINQ for Optimal Performance.md.txt" />
-    <Content Include="Data\[06] License\Third Party Licenses.md.txt" />
-    <Content Include="Data\[06] License\License.md.txt" />
-    <Content Include="Data\[02] Examples\[02-Advanced-03] Change Log Creation.md.txt" />
-    <Content Include="Data\[02] Examples\[02-Advanced-02] Insert Copy Function.md.txt" />
-    <Content Include="Data\[02] Examples\[01-Basic-01] Basic Model Operations.md.txt" />
-    <Content Include="Data\[03] Release notes\Fast Upgrade Track.md.txt" />
+    <Content Include="Data\[02] Docs.md.txt" />
+    <Content Include="Data\[03] Examples\[-1] images\excel-report.png" />
+    <Content Include="Data\[03] Examples\[00]Examples list.md.txt" />
+    <Content Include="Data\[03] Examples\[01-Basic-02] Watch the log!.md.txt" />
+    <Content Include="Data\[05] Research\[02]How to reference.md.txt" />
+    <Content Include="Data\[05] Research\[03]Ifc2X3 Test Harness.md.txt" />
+    <Content Include="Data\[05] Research\[01]History.md.txt" />
+    <Content Include="Data\[06] Downloads\XbimXplorer.md.txt" />
+    <Content Include="Data\[03] Examples\[01-Basic-08] Spatial hierarchy.md.txt" />
+    <Content Include="Data\[03] Examples\[01-Basic-07] Excel Space Report from IFC.md.txt" />
+    <Content Include="Data\[03] Examples\[02-Advanced-01] Federating Models.md.txt" />
+    <Content Include="Data\[03] Examples\[01-Basic-03] Proper Wall in 3D.md.txt" />
+    <Content Include="Data\[03] Examples\[01-Basic-04] STEP to XML and Back Again.md.txt" />
+    <Content Include="Data\[03] Examples\[01-Basic-06] Using LINQ for Optimal Performance.md.txt" />
+    <Content Include="Data\[07] License\Third Party Licenses.md.txt" />
+    <Content Include="Data\[07] License\License.md.txt" />
+    <Content Include="Data\[03] Examples\[02-Advanced-03] Change Log Creation.md.txt" />
+    <Content Include="Data\[03] Examples\[02-Advanced-02] Insert Copy Function.md.txt" />
+    <Content Include="Data\[03] Examples\[01-Basic-01] Basic Model Operations.md.txt" />
+    <Content Include="Data\[04] Release notes\Fast Upgrade Track.md.txt" />
     <Content Include="Data\[07] Cloud.md.txt" />
     <Content Include="Resources\css\codestyles.css" />
-    <Content Include="Data\[02] Examples\[03-Web UI - 01] Hello Building.md.txt" />
-    <Content Include="Data\[02] Examples\[03-Web UI - 02] Safe Hello Building.md.txt" />
-    <Content Include="Data\[02] Examples\[03-Web UI - 03] Eventful Building.md.txt" />
-    <Content Include="Data\[02] Examples\[03-Web UI - 04] Building Seen from Everywhere.md.txt" />
-    <Content Include="Data\[02] Examples\[03-Web UI - 05] Colourful Building.md.txt" />
+    <Content Include="Data\[03] Examples\[03-Web UI - 01] Hello Building.md.txt" />
+    <Content Include="Data\[03] Examples\[03-Web UI - 02] Safe Hello Building.md.txt" />
+    <Content Include="Data\[03] Examples\[03-Web UI - 03] Eventful Building.md.txt" />
+    <Content Include="Data\[03] Examples\[03-Web UI - 04] Building Seen from Everywhere.md.txt" />
+    <Content Include="Data\[03] Examples\[03-Web UI - 05] Colourful Building.md.txt" />
     <None Include="Resources\data\SampleHouse.wexbim" />
     <None Include="Resources\data\XbimEssentials.bib" />
     <Content Include="Resources\examples\1_Hello_building.live.html" />
@@ -138,7 +139,7 @@
     </Content>
     <None Include="App.config" />
     <Content Include="Data\index.md.txt" />
-    <Content Include="Data\[03] Release notes\xBIM 4 Release Notes.md.txt" />
+    <Content Include="Data\[04] Release notes\xBIM 4 Release Notes.md.txt" />
     <None Include="bootstrap.config" />
     <None Include="packages.config" />
     <None Include="Resources\fonts\glyphicons-halflings-regular.eot" />
@@ -155,7 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\[01] Quick Start.md.txt" />
-    <Content Include="Data\[02] Examples\[01-Basic-05] Creating wexBIM file.md.txt" />
+    <Content Include="Data\[03] Examples\[01-Basic-05] Creating wexBIM file.md.txt" />
     <Content Include="Resources\css\bootstrap-theme.css" />
     <Content Include="Resources\css\bootstrap-theme.min.css" />
     <Content Include="Resources\css\bootstrap.css" />
