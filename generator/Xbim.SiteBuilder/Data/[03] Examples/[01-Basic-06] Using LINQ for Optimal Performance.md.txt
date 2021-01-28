@@ -85,3 +85,89 @@ public static void SelectionWithoutLinqIsSLOW()
 }
 ```
 
+## Inverse attributes search
+
+IFC has a concept of inverse attributes which is used to access object relations bi-directionally. Common example is 
+[IfcObject.IsDefinedBy](https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/link/ifcobject.htm). When you access this 
+(read-only) property, xbim has to run this query internally: `model.Instances.Where<IfcRelDefinesByProperties>(r => r.RelatedObjects.Contains(this))`. 
+So, this has to go through **all** instances of `IfcRelDefinesByProperties` in the model and compare objects in `RelatedObjects` list with the current entity. 
+This is fine is you do it once, but is computing-expensive if you do it repeatedly. Because you are searching in a list of lists, it is actually exponential. 
+One option is to restructure your code so that it doesn't use inverse attributes at all and is maintaining own lookups for performance. `model.BeginInverseCaching()` 
+is doing this for you. So, once you access `IfcObject.IsDefinedBy` it creates lookup dictionary for all `IfcRelDefinesByProperties`. 
+You pay some cost with the first call, but all subsequent calls on any instance of `IfcObject.IsDefinedBy` are almost instant. 
+You can run a simple test on some large model:
+
+```cs
+private static void RunInverseSearch(IModel model)
+{
+
+    void usingInverseAttributes()
+    {
+        var noObjects = 0;
+        var noRelations = 0;
+        foreach (var obj in model.Instances.OfType<IIfcObject>())
+        {
+            var relCount = obj.IsDefinedBy.Count();
+            if (relCount > 0)
+            {
+                noObjects++;
+                noRelations += relCount;
+            }
+        }
+        Log.Information($"Number of IfcObject instances with properties: {noObjects}");
+    }
+
+    void notUsingInverseAttributes()
+    {
+        var result = new HashSet<int>();
+        foreach (var rel in model.Instances.OfType<IIfcRelDefinesByProperties>())
+        {
+            foreach (var obj in rel.RelatedObjects.OfType<IIfcObject>())
+            {
+                result.Add(obj.EntityLabel);
+            }
+        }
+        Log.Information($"Number of IfcObject instances with properties: {result.Count}");
+    }
+
+    var w = Stopwatch.StartNew();
+    using (var cache = model.BeginInverseCaching())
+    {
+        usingInverseAttributes();
+        w.Stop();
+        Log.Information($"Task duration WITH inverse caching, using inverse attributes: {w.ElapsedMilliseconds}ms");
+    }
+
+    using (var cache = model.BeginInverseCaching())
+    {
+        w.Restart();
+        notUsingInverseAttributes();
+        w.Stop();
+        Log.Information($"Task duration WITH inverse caching, NOT using inverse attributes: {w.ElapsedMilliseconds}ms");
+    }
+
+    w.Restart();
+    usingInverseAttributes();
+    w.Stop();
+    Log.Information($"Task duration WITHOUT caching, using inverse attributes: {w.ElapsedMilliseconds}ms");
+
+    w.Restart();
+    notUsingInverseAttributes();
+    w.Stop();
+    Log.Information($"Task duration WITHOUT caching, NOT using inverse attributes: {w.ElapsedMilliseconds}ms");
+
+}
+```
+
+```
+[09:19:05 INF] File size: 104.06MB
+[09:19:13 INF] Number of IfcObject instances with properties: 968
+[09:19:13 INF] Task duration WITH inverse caching, USING inverse attributes: 35ms
+[09:19:13 INF] Task duration WITH inverse caching, NOT using inverse attributes: 14ms
+[09:19:17 INF] Task duration WITHOUT caching, USING inverse attributes: 3609ms
+[09:19:17 INF] Task duration WITHOUT caching, NOT using inverse attributes: 5ms
+```
+
+This kind of caching is obviously mutually exclusive with transactions. And it has a cost on the initial call and consumes memory. 
+If you design your code not to use inverse attributes, you don't need it at all. That is why you have to decide based on your 
+use case and use it explicitly as and when needed.
