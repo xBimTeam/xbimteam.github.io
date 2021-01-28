@@ -82,7 +82,7 @@
   <ItemGroup>
     <Content Include="Data\[02] Docs.md.txt" />
     <Content Include="Data\[03] Examples\[-1] images\excel-report.png" />
-    <Content Include="Data\[03] Examples\[-1] images\Inverse-search-performance.png" />
+    <Content Include="Data\[03] Examples\[-1] images\inverse-search-performance.png" />
     <Content Include="Data\[03] Examples\[00]Examples list.md.txt" />
     <Content Include="Data\[03] Examples\[01-Basic-02] Watch the log!.md.txt" />
     <Content Include="Data\[05] Research\[02]How to reference.md.txt" />

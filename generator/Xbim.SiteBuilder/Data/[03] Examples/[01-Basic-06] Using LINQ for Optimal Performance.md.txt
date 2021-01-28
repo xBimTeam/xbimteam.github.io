@@ -174,4 +174,4 @@ use case and use it explicitly as and when needed.
 
 Following charts show performance for models with 100, 200, 500, 1000 and 2000 objects, each having 50 property sets:
 
-![Inverse attributes search performance](images/Inverse-search-performance.png)
+![Inverse attributes search performance](images/inverse-search-performance.png)
