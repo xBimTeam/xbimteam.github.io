@@ -140,11 +140,6 @@
         <li>
 			<a href="../examples/change-log-creation.html">Change Log Creation</a>
 		</li>
-		<li role="separator" class="group-divider">Downloads </li>
-		
-        <li>
-			<a href="../examples/xbimxplorer.html">XbimXplorer</a>
-		</li>
 		<li role="separator" class="group-divider">Web UI  </li>
 		
         <li>
@@ -322,6 +317,91 @@ So you don't want to iterate over all of them to do anything. See following good
     }
 }
 </code></pre></div>
+
+<h2>Inverse attributes search</h2>
+
+<p>IFC has a concept of inverse attributes which is used to access object relations bi-directionally. Common example is 
+<a target="_blank" href="https://standards.buildingsmart.org/IFC/RELEASE/IFC4/ADD2_TC1/HTML/link/ifcobject.htm">IfcObject.IsDefinedBy</a>. When you access this 
+(read-only) property, xbim has to run this query internally: <code>model.Instances.Where&lt;IfcRelDefinesByProperties&gt;(r =&gt; r.RelatedObjects.Contains(this))</code>. 
+So, this has to go through <strong>all</strong> instances of <code>IfcRelDefinesByProperties</code> in the model and compare objects in <code>RelatedObjects</code> list with the current entity. 
+This is fine is you do it once, but is computing-expensive if you do it repeatedly. Because you are searching in a list of lists, it is actually exponential. 
+One option is to restructure your code so that it doesn't use inverse attributes at all and is maintaining own lookups for performance. <code>model.BeginInverseCaching()</code> 
+is doing this for you. So, once you access <code>IfcObject.IsDefinedBy</code> it creates lookup dictionary for all <code>IfcRelDefinesByProperties</code>. 
+You pay some cost with the first call, but all subsequent calls on any instance of <code>IfcObject.IsDefinedBy</code> are almost instant. 
+You can run a simple test on some large model:</p>
+
+<div class="csharp"><pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> RunInverseSearch(<span class="type">IModel</span> model)
+{
+
+    <span class="keyword">void</span> usingInverseAttributes()
+    {
+        <span class="keyword">var</span> noObjects = 0;
+        <span class="keyword">var</span> noRelations = 0;
+        <span class="keyword">foreach</span> (<span class="keyword">var</span> obj <span class="keyword">in</span> model.Instances.OfType&lt;<span class="type">IIfcObject</span>&gt;())
+        {
+            <span class="keyword">var</span> relCount = obj.IsDefinedBy.Count();
+            <span class="keyword">if</span> (relCount &gt; 0)
+            {
+                noObjects++;
+                noRelations += relCount;
+            }
+        }
+        <span class="type">Log</span>.Information($<span class="string">&quot;Number of IfcObject instances with properties: {noObjects}&quot;</span>);
+    }
+
+    <span class="keyword">void</span> notUsingInverseAttributes()
+    {
+        <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="type">HashSet</span>&lt;<span class="keyword">int</span>&gt;();
+        <span class="keyword">foreach</span> (<span class="keyword">var</span> rel <span class="keyword">in</span> model.Instances.OfType&lt;<span class="type">IIfcRelDefinesByProperties</span>&gt;())
+        {
+            <span class="keyword">foreach</span> (<span class="keyword">var</span> obj <span class="keyword">in</span> rel.RelatedObjects.OfType&lt;<span class="type">IIfcObject</span>&gt;())
+            {
+                result.Add(obj.EntityLabel);
+            }
+        }
+        <span class="type">Log</span>.Information($<span class="string">&quot;Number of IfcObject instances with properties: {result.Count}&quot;</span>);
+    }
+
+    <span class="keyword">var</span> w = <span class="type">Stopwatch</span>.StartNew();
+    <span class="keyword">using</span> (<span class="keyword">var</span> cache = model.BeginInverseCaching())
+    {
+        usingInverseAttributes();
+        w.Stop();
+        <span class="type">Log</span>.Information($<span class="string">&quot;Task duration WITH inverse caching, using inverse attributes: {w.ElapsedMilliseconds}ms&quot;</span>);
+    }
+
+    <span class="keyword">using</span> (<span class="keyword">var</span> cache = model.BeginInverseCaching())
+    {
+        w.Restart();
+        notUsingInverseAttributes();
+        w.Stop();
+        <span class="type">Log</span>.Information($<span class="string">&quot;Task duration WITH inverse caching, NOT using inverse attributes: {w.ElapsedMilliseconds}ms&quot;</span>);
+    }
+
+    w.Restart();
+    usingInverseAttributes();
+    w.Stop();
+    <span class="type">Log</span>.Information($<span class="string">&quot;Task duration WITHOUT caching, using inverse attributes: {w.ElapsedMilliseconds}ms&quot;</span>);
+
+    w.Restart();
+    notUsingInverseAttributes();
+    w.Stop();
+    <span class="type">Log</span>.Information($<span class="string">&quot;Task duration WITHOUT caching, NOT using inverse attributes: {w.ElapsedMilliseconds}ms&quot;</span>);
+
+}
+</code></pre></div>
+
+<pre><code>[09:19:05 INF] File size: 104.06MB
+[09:19:13 INF] Number of IfcObject instances with properties: 968
+[09:19:13 INF] Task duration WITH inverse caching, USING inverse attributes: 35ms
+[09:19:13 INF] Task duration WITH inverse caching, NOT using inverse attributes: 14ms
+[09:19:17 INF] Task duration WITHOUT caching, USING inverse attributes: 3609ms
+[09:19:17 INF] Task duration WITHOUT caching, NOT using inverse attributes: 5ms
+</code></pre>
+
+<p>This kind of caching is obviously mutually exclusive with transactions. And it has a cost on the initial call and consumes memory. 
+If you design your code not to use inverse attributes, you don't need it at all. That is why you have to decide based on your 
+use case and use it explicitly as and when needed.</p>
 
     </div>
     
