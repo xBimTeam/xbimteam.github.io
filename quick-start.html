@@ -336,7 +336,7 @@ on IFC2x3 entities</strong> which means you can query IFC2x3 and IFC4 with a <st
                 EditorsGivenName = <span class="string">&quot;Johann Blasius&quot;</span>,
                 EditorsOrganisationName = <span class="string">&quot;Independent Architecture&quot;</span>
             };
-            <span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName, editor, <span class="keyword">true</span>))
+            <span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName, editor))
             {
                 <span class="keyword">using</span> (<span class="keyword">var</span> txn = model.BeginTransaction(<span class="string">&quot;Quick start transaction&quot;</span>))
                 {
