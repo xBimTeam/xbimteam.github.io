@@ -36,6 +36,11 @@ demonstrate its capabilities:
 
 Please note: all the applications except for [Xbim WebUI](https://github.com/xBimTeam/XbimWebUI) are provided to demonstrate how to use the xbim toolkit components, they are not intended for use in uncontrolled production environments.
 
+# Stay in touch
+
+Xbim Ltd occasionally send a newsletter with tips and tricks for the Toolkit, as well as information about the latest developments. 
+[Sign up](https://share.hsforms.com/1IQizWxh-SGCOQ0CQnikEJw3myli) if you want to stay updated. 
+
 # Current versions
 
 |Toolkit Component| Latest Myget (develop) | Latest Myget (master) | Latest Nuget |
