@@ -259,7 +259,7 @@ of all entities right in IFC world. </p>
 
 <p>All implementations of <code>IModel</code> in xbim are <code>IDisposable</code> so you should always use them inside of <code>using</code> statement like this:</p>
 
-<div class="csharp"><pre><code><span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName, editor, <span class="keyword">true</span>))
+<div class="csharp"><pre><code><span class="keyword">using</span> (<span class="keyword">var</span> model = <span class="type">IfcStore</span>.Open(fileName, editor))
 {
     <span class="comment">//...do something with the model</span>
 }

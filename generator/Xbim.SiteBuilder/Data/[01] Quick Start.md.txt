@@ -25,7 +25,7 @@ var editor = new XbimEditorCredentials
 All implementations of `IModel` in xbim are `IDisposable` so you should always use them inside of `using` statement like this:
 
 ```cs
-using (var model = IfcStore.Open(fileName, editor, true))
+using (var model = IfcStore.Open(fileName, editor))
 {
     //...do something with the model
 }
