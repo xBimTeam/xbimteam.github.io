@@ -6,9 +6,9 @@ This application is one one of the demonstrators of the [xbim toolkit](/).
 
 It's a .NET Windows application running on WPF that demonstrates how to use some of the APIs of the toolkit.
 
-You can download the code as part of the [Xbim WindowsUI repository](https://github.com/xBimTeam/XbimWindowsUI) or download a [precompiled installer](http://www.overarching.it/dload/XbimXplorer/Setup.exe).
+You can download the code as part of the [Xbim WindowsUI repository](https://github.com/xBimTeam/XbimWindowsUI) or download a [digitally signed precompiled installer](https://downloads.xbim.net/xbimToolkit/xbimXplorer/Setup.exe).
 
-<a title="XbimXplorer installer" href="http://www.overarching.it/dload/XbimXplorer/Setup.exe"><button class='btn btn-primary icon icon-cloud-download inline-block-tight'>Download installer</button></a>
+<a title="XbimXplorer installer" href="https://downloads.xbim.net/xbimToolkit/xbimXplorer/Setup.exe"><button class='btn btn-primary icon icon-cloud-download inline-block-tight'>Download installer</button></a>
 
 The precompiled installer uses a [slighly modified version](https://github.com/CBenghi/Squirrel.Windows) of [Squirrel.Windows](https://github.com/Squirrel/Squirrel.Windows) to keep the version on your computer up to date when you launch it, so once installed you don't have to worry about new releases.
 
