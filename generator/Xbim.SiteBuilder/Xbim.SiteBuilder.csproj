@@ -131,8 +131,8 @@
     <Content Include="Resources\img\xBim_parent_logo_white.svg" />
     <Content Include="Resources\img\xBim_toolkit_logo.png" />
     <Content Include="Resources\img\xBim_toolkit_logo_white.png" />
-    <Content Include="Resources\js\invitation.js" />
     <Content Include="Resources\js\xbim-viewer.js" />
+    <Content Include="Resources\js\invitation.js" />
     <Content Include="Resources\js\sample-house.js" />
     <Content Include="Resources\robots.txt" />
     <Content Include="Templates\Navigation.tt">
