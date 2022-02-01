@@ -9,7 +9,7 @@ to get the 2D placement on the screen. Also, WebGL uses different conventions fo
 We have done all this work for you, so you can just listen to user interaction events and use them to get values directly
 applicable for HTML placement.
 
-Lets say we have some HTML we want to place on top of a product in the 3D view. It may contain semantic date you
+Lets say we have some HTML we want to place on top of a product in the 3D view. It may contain semantic data you
 brought from xbim powered web server or any other data source.
 
 ```html
@@ -18,33 +18,26 @@ brought from xbim powered web server or any other data source.
 </div>
 ```
 
-And you listen to the user interaction events to get information about the objects:
+And you want to keep your HTML on top of the element at all the times, so you will stay in sync with 
+browser screen frames:
 
 ```js
-viewer.on('pick', args => { }); 
-viewer.on('mousemove', args => { });
+window.requestAnimationFrame(() => showFloat());
 ```
 
 The main function you can use to get the coordinates is `getHTMLPositionOfProductCentroid()`. 
-Here is the core code which is also highlighting the object to build a visual clue between the 
-information and the object in question.
+Here is the core code which will keep your HTML on top of the 3D element
 
 ```js
-let showFloat = (args) => {
-let div = document.getElementById('float');
-viewer.resetStyles();
-    
-    if (args.id == null) {
-        div.style.display = 'none';
-        return;
-    }
-    viewer.setStyle(0, [args.id]);
-    let position = viewer.getHTMLPositionOfProductCentroid(args.id, args.model);
-    div.style.display = 'block';
+let showFloat = () => {
+    let div = document.getElementById('float');
+    let position = viewer.getHTMLPositionOfProductCentroid(36339, 1);
     div.style.left = (position[0] - div.clientWidth / 2) + 'px';
     div.style.top = (position[1] - div.clientHeight / 2) + 'px';
+    window.requestAnimationFrame(() => showFloat());
 }
-viewer.defineStyle(0, [0,255,0,255]);
-viewer.on('pick', showFloat); 
-viewer.on('mousemove', showFloat);
+viewer.on('loaded', () => {
+    // ...
+    window.requestAnimationFrame(() => showFloat());
+})
 ```

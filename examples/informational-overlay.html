@@ -253,7 +253,7 @@ to get the 2D placement on the screen. Also, WebGL uses different conventions fo
 We have done all this work for you, so you can just listen to user interaction events and use them to get values directly
 applicable for HTML placement.</p>
 
-<p>Lets say we have some HTML we want to place on top of a product in the 3D view. It may contain semantic date you
+<p>Lets say we have some HTML we want to place on top of a product in the 3D view. It may contain semantic data you
 brought from xbim powered web server or any other data source.</p>
 
 <div class="html"><pre><code><span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">div</span> <span class="htmlAttributeName">id</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;float&quot;</span><span class="htmlTagDelimiter">&gt;</span>
@@ -261,33 +261,26 @@ brought from xbim powered web server or any other data source.</p>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">div</span><span class="htmlTagDelimiter">&gt;</span>
 </code></pre></div>
 
-<p>And you listen to the user interaction events to get information about the objects:</p>
+<p>And you want to keep your HTML on top of the element at all the times, so you will stay in sync with 
+browser screen frames:</p>
 
-<div class="javascript"><pre><code>viewer.on(<span class="string">&#39;pick&#39;</span>, args =&gt; { }); 
-viewer.on(<span class="string">&#39;mousemove&#39;</span>, args =&gt; { });
+<div class="javascript"><pre><code>window.requestAnimationFrame(() =&gt; showFloat());
 </code></pre></div>
 
 <p>The main function you can use to get the coordinates is <code>getHTMLPositionOfProductCentroid()</code>. 
-Here is the core code which is also highlighting the object to build a visual clue between the 
-information and the object in question.</p>
+Here is the core code which will keep your HTML on top of the 3D element</p>
 
-<div class="javascript"><pre><code>let showFloat = (args) =&gt; {
-let div = document.getElementById(<span class="string">&#39;float&#39;</span>);
-viewer.resetStyles();
-
-    <span class="keyword">if</span> (args.id == <span class="keyword">null</span>) {
-        div.style.display = <span class="string">&#39;none&#39;</span>;
-        <span class="keyword">return</span>;
-    }
-    viewer.setStyle(0, [args.id]);
-    let position = viewer.getHTMLPositionOfProductCentroid(args.id, args.model);
-    div.style.display = <span class="string">&#39;block&#39;</span>;
+<div class="javascript"><pre><code>let showFloat = () =&gt; {
+    let div = document.getElementById(<span class="string">&#39;float&#39;</span>);
+    let position = viewer.getHTMLPositionOfProductCentroid(36339, 1);
     div.style.left = (position[0] - div.clientWidth / 2) + <span class="string">&#39;px&#39;</span>;
     div.style.top = (position[1] - div.clientHeight / 2) + <span class="string">&#39;px&#39;</span>;
+    window.requestAnimationFrame(() =&gt; showFloat());
 }
-viewer.defineStyle(0, [0,255,0,255]);
-viewer.on(<span class="string">&#39;pick&#39;</span>, showFloat); 
-viewer.on(<span class="string">&#39;mousemove&#39;</span>, showFloat);
+viewer.on(<span class="string">&#39;loaded&#39;</span>, () =&gt; {
+    <span class="comment">// ...</span>
+    window.requestAnimationFrame(() =&gt; showFloat());
+})
 </code></pre></div>
 
     </div>

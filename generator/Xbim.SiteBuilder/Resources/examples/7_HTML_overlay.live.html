@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+    <meta charset="UTF-8">
     <title>Pinpoint the origin</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../css/bootstrap-theme.min.css" rel="stylesheet" />
@@ -55,8 +56,8 @@
         }
 
         #float {
-            display: none;
             position: absolute;
+            display: none;
             top: 0;
             left: 0;
             background: white;
@@ -72,7 +73,7 @@
     <canvas id="viewer"></canvas>
 
     <div id="float">
-        This can contain any arbitrary data you have or get for the element <span id="productId"></span>
+        This can contain any arbitrary data you have or get for the window 36339
     </div>
 
     <script type="text/javascript">
@@ -85,27 +86,23 @@
             viewer.load('../data/SampleHouse.wexbim');
             viewer.start();
 
-            let showFloat = (args) => {
+            let showFloat = () => {
                 let div = document.getElementById('float');
-                let pid = document.getElementById('productId');
-                viewer.resetStyles();
 
-                if (args.id == null) {
-                    div.style.display = 'none';
-                    return;
-                }
-
-                viewer.setStyle(0, [args.id]);
-                let position = viewer.getHTMLPositionOfProductCentroid(args.id, args.model);
-                div.style.display = 'block';
+                let position = viewer.getHTMLPositionOfProductCentroid(36339, 1);
                 div.style.left = (position[0] - div.clientWidth / 2) + 'px';
                 div.style.top = (position[1] - div.clientHeight / 2) + 'px';
-                pid.innerText = args.id;
+
+                window.requestAnimationFrame(() => showFloat());
             }
 
-            viewer.defineStyle(0, [0, 255, 0, 255]);
-            viewer.on('pick', showFloat);
-            viewer.on('mousemove', showFloat);
+            viewer.on('loaded', () => {
+                viewer.defineStyle(0, [0, 255, 0, 255]);
+                viewer.setStyle(0, [36339]);
+                viewer.zoomTo(36339, 1);
+                document.getElementById('float').style.display = 'block';
+                window.requestAnimationFrame(() => showFloat());
+            })
         }
         else {
             for (var i in check.errors) {
