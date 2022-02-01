@@ -74,6 +74,7 @@
         if (check.noErrors) {
             var viewer = new Viewer('viewer');
             viewer.on('loaded', () => {
+                viewer.adaptivePerformanceOn = false;
                 viewer.show(ViewType.DEFAULT);
             });
             viewer.load('../data/SampleHouse.wexbim');
@@ -87,7 +88,7 @@
         }
 
         lockOrbit = () => {
-            viewer.zoomTo(72002);
+            viewer.zoomTo(72002, 1, true, false);
             viewer.navigationMode = 'locked-orbit'
             viewer.setLockedOrbitOrigin(72002, 1);
         }
