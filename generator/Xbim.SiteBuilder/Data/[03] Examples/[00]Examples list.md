@@ -44,6 +44,8 @@ See <a href="https://github.com/xBimTeam/XbimGeometry">Xbim.Geometry</a> library
 |[Eventful Building](/examples/eventful-building.html)							| Listening to viewer events		|
 |[Building Seen from Everywhere](/examples/building-seen-from-everywhere.html)	| Zooming and camera				|
 |[Colourful Building](/examples/colourful-building.html)						| Changing visual styling and state |
+|[Pinpoint the View](/examples/pinpoint-the-view.html)						    | Fix rotation origin to a product  |
+|[Informational Overlay](/examples/informational-overlay.html)					| How to place additional HTML info |
 
 ## Contribute more examples
 
