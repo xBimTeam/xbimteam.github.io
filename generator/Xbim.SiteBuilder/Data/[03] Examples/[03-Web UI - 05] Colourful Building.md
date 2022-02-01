@@ -10,7 +10,7 @@ of results to the user (classification, error reporting, clash detection etc.). 
 a look on full sample demo [here](5_Colourful_building.live.html).
 
 I'll use ugly obtrusive code with javascript functions defined in *onclick* attributes of HTML elements. This is not the right practise
-but I've done it this way for the sake of clarity and simplicity. You are ancouraged to follow 
+but I've done it this way for the sake of clarity and simplicity. You are encouraged to follow 
 [these guidlines](http://www.w3.org/wiki/The_principles_of_unobtrusive_JavaScript) to write sustainable
 and clear web applications.
 

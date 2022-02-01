@@ -12,7 +12,7 @@
 
     <link rel="icon" href="../img/favicon.ico">
 
-    <title>Safe Hello Building</title>
+    <title>Informational Overlay</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -146,7 +146,8 @@
         <li>
 			<a href="../examples/hello-building.html">Hello Building</a>
 		</li>
-        <li class="active">
+		
+        <li>
 			<a href="../examples/safe-hello-building.html">Safe Hello Building</a>
 		</li>
 		
@@ -165,8 +166,7 @@
         <li>
 			<a href="../examples/pinpoint-the-view.html">Pinpoint the View</a>
 		</li>
-		
-        <li>
+        <li class="active">
 			<a href="../examples/informational-overlay.html">Informational Overlay</a>
 		</li>
     </ul>
@@ -243,47 +243,52 @@
     </nav>
 
 	<div class="container">
-	<h1>Safe Hello Building</h1>
+	<h1>Informational Overlay</h1>
 
-<p>Live example <a href="1_Hello_building.live.html">here</a></p>
+<p>Live example <a href="7_HTML_overlay.live.html">here</a>.</p>
 
-<p>In the <a href="hello-building.html">previous tutorial</a> I've mentioned that the viewer won't run on all devices with all browsers. That's right. We have decided to use the latest technologies
-for the sake of efficiency and simplicity. There are several prerequisites browser should fulfil to be able to run the viewer. Don't give up 
-at this point please! It will run on several years old PCs with Chrome or Mozilla and it will run on tablets and mobile devices. The main restriction
-is about IE which doesn't support WebGL until IE11. Newer versions will work as well as Edge (which is actually using Chrome in the latest versions). 
-To make your life easier, Viewer has a static function to check it's requirements.</p>
+<p>It is a common requirement to show additional data on top of the 3D view. While it may seem straightforward, you
+actually need get the placement of the object in real world first and then revert the complete chain of transformations
+to get the 2D placement on the screen. Also, WebGL uses different conventions for the coordinate system axes directions.
+We have done all this work for you, so you can just listen to user interaction events and use them to get values directly
+applicable for HTML placement.</p>
 
-<div class="javascript"><pre><code><span class="keyword">var</span> check = Viewer.check();
-<span class="keyword">if</span> (check.noErrors)
-{
-    ...
-}
+<p>Lets say we have some HTML we want to place on top of a product in the 3D view. It may contain semantic date you
+brought from xbim powered web server or any other data source.</p>
+
+<div class="html"><pre><code><span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">div</span> <span class="htmlAttributeName">id</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&quot;float&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    This can contain any arbitrary data you have or get for the element
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">div</span><span class="htmlTagDelimiter">&gt;</span>
 </code></pre></div>
 
-<p>Easy! Just run this static function and it will report you any errors or warnings (sure, you won't get any most of the time).
-Result of this function contains list of warnings and list of errors you can use to report to unfortunate user why is his old 
-and non-standard-compliant browser not supported. So, if we update our example from above we get the safe version here:</p>
+<p>And you listen to the user interaction events to get information about the objects:</p>
 
-<div class="javascript"><pre><code><span class="keyword">var</span> check = Viewer.check();
-<span class="keyword">if</span> (check.noErrors) {
-    <span class="keyword">var</span> viewer = <span class="keyword">new</span> Viewer(<span class="string">&#39;viewer&#39;</span>);
-    viewer.on(<span class="string">&#39;loaded&#39;</span>, () =&gt; {
-        viewer.show(ViewType.DEFAULT);
-    });
-    viewer.load(<span class="string">&#39;../data/SampleHouse.wexbim&#39;</span>);
-    viewer.start();
-}
-<span class="keyword">else</span> {
-    <span class="keyword">var</span> msg = document.getElementById(<span class="string">&#39;msg&#39;</span>);
-    msg.innerHTML = <span class="string">&#39;&#39;</span>;
-    <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> check.errors) {
-        <span class="keyword">var</span> error = check.errors[i];
-        msg.innerHTML += <span class="string">&quot;&lt;div style=&#39;color: red;&#39;&gt;&quot;</span> + error + <span class="string">&quot;&lt;/div&gt;&quot;</span>;
+<div class="javascript"><pre><code>viewer.on(<span class="string">&#39;pick&#39;</span>, args =&gt; { }); 
+viewer.on(<span class="string">&#39;mousemove&#39;</span>, args =&gt; { });
+</code></pre></div>
+
+<p>The main function you can use to get the coordinates is <code>getHTMLPositionOfProductCentroid()</code>. 
+Here is the core code which is also highlighting the object to build a visual clue between the 
+information and the object in question.</p>
+
+<div class="javascript"><pre><code>let showFloat = (args) =&gt; {
+let div = document.getElementById(<span class="string">&#39;float&#39;</span>);
+viewer.resetStyles();
+
+    <span class="keyword">if</span> (args.id == <span class="keyword">null</span>) {
+        div.style.display = <span class="string">&#39;none&#39;</span>;
+        <span class="keyword">return</span>;
     }
+    viewer.setStyle(0, [args.id]);
+    let position = viewer.getHTMLPositionOfProductCentroid(args.id, args.model);
+    div.style.display = <span class="string">&#39;block&#39;</span>;
+    div.style.left = (position[0] - div.clientWidth / 2) + <span class="string">&#39;px&#39;</span>;
+    div.style.top = (position[1] - div.clientHeight / 2) + <span class="string">&#39;px&#39;</span>;
 }
+viewer.defineStyle(0, [0,255,0,255]);
+viewer.on(<span class="string">&#39;pick&#39;</span>, showFloat); 
+viewer.on(<span class="string">&#39;mousemove&#39;</span>, showFloat);
 </code></pre></div>
-
-<p>And that is all again. We are safe now. We won't try to do anything with obsolete browsers.</p>
 
     </div>
     <div id="invitation" class="container collapse">
