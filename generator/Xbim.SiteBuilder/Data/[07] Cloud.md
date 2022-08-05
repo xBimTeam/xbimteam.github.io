@@ -36,3 +36,7 @@ you can download our Revit  Add-in for free and see how the platform works at [w
 Web application for communication around models:
 
 ![xbim flex comms](/img/tugendhat.jpg)
+
+**This needs changing!**
+
+**NOW**

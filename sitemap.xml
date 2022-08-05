@@ -2,193 +2,193 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://docs.xbim.net/</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/index.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/quick-start.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/docs.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/cloud.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/examples-list.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/basic-model-operations.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/watch-the-log.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/proper-wall-in-3d.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/step-to-xml-and-back-again.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/creating-wexbim-file.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/using-linq-for-optimal-performance.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/excel-space-report-from-ifc.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/spatial-hierarchy.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/federating-models.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/insert-copy-function.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/change-log-creation.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/hello-building.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/safe-hello-building.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/eventful-building.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/building-seen-from-everywhere.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/colourful-building.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/pinpoint-the-view.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/examples/informational-overlay.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/release-notes/fast-upgrade-track.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/release-notes/xbim-4-release-notes.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/research/history.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/research/how-to-reference.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/research/ifc2x3-test-harness.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/downloads/xbimxplorer.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/license/license.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.xbim.net/license/third-party-licenses.html</loc>
-    <lastmod>2022-02-01</lastmod>
+    <lastmod>2022-08-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
