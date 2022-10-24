@@ -125,6 +125,7 @@
     <Content Include="Resources\img\logos\SEMA_logo_gray.png" />
     <Content Include="Resources\img\favicon.ico" />
     <Content Include="Resources\img\tugendhat.jpg" />
+    <Content Include="Resources\img\visualization_pipeline.png" />
     <Content Include="Resources\img\xbim.png" />
     <Content Include="Resources\img\xBim_flex_logo.svg" />
     <Content Include="Resources\img\xBim_flex_logo_white.svg" />

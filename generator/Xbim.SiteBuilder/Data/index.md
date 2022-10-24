@@ -18,6 +18,8 @@ Xbim allows .NET developers to read, create and view [Building Information (BIM)
 There is full support for geometric, topological operations and visualisation. In addition xbim supports 
 bi-directional translation between IFC and COBie formats. Core libraries for data manipulation are all written in C#, core of geometry engine is written in C++.
 
+![visualization with Toolkit](img/visualization_pipeline.png)
+
 # Getting Started
 
 Our main distribution channel is [NuGet](https://www.nuget.org/packages?q=xbim). Versions published there are assumed to be stable and safe. 
