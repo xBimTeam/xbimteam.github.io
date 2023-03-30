@@ -138,3 +138,16 @@ ul.nav.navbar-nav {
     border-radius: 10px;
     box-shadow: 0 0 50px black;
 }
+
+.flex-add {
+    padding: 0.2em;
+    background-color: #2f6cf4;
+    color: white;
+    text-align: center;
+}
+
+.flex-add a {
+    color: white;
+    text-decoration: underline;
+    font-weight: bold;
+}
